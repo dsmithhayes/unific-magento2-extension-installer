@@ -1,0 +1,24 @@
+{
+  "name": "unific/extension",
+  "description": "Unific Magento 2 Extension",
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "license": [
+    "OSL-3.0"
+  ],
+  "authors": [
+    {
+      "name": " Team Unific",
+      "email": "info@unific.nl",
+      "homepage": "https://www.unific.com",
+      "role": "CEO"
+    }
+  ],
+  "require": {
+    "php": "~5.5.0|~5.6.0|~7.0.0"
+  },
+  "autoload": {
+    "psr-4": { "Unific\\Extension\\": "" },
+    "files": [ "registration.php" ]
+  }
+}

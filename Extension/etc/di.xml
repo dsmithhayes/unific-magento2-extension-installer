@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../vendor/magento/framework/ObjectManager/etc/config.xsd">
+    <type name="Unific\Extension\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Unific\Extension\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">ExtensionLog</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Unific\Extension\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Unific\Extension\Model\GroupInterface" type="Unific\Extension\Model\Group" />
+    <preference for="Unific\Extension\Model\RequestInterface" type="Unific\Extension\Model\Request" />
+    <preference for="Unific\Extension\Model\MappingInterface" type="Unific\Extension\Model\Mapping" />
+    <preference for="Unific\Extension\Model\ResponseMappingInterface" type="Unific\Extension\Model\ResponseMapping" />
+    <preference for="Unific\Extension\Model\ConditionInterface" type="Unific\Extension\Model\Condition" />
+    <preference for="Unific\Extension\Model\ResponseConditionInterface" type="Unific\Extension\Model\ResponseCondition" />
+
+    <type name="Unific\Extension\Model\Request">
+        <plugin name="after_load_request" type="Unific\Extension\Plugin\AfterLoad" sortOrder="1" />
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="extension_group_listing_data_source" xsi:type="string">Unific\Extension\Model\ResourceModel\Group\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <type name="Unific\Extension\Model\ResourceModel\Group\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">unific_extension_group</argument>
+            <argument name="eventPrefix" xsi:type="string">extension_group_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">extension_group_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Unific\Extension\Model\ResourceModel\Group</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="extension_request_listing_data_source" xsi:type="string">Unific\Extension\Model\ResourceModel\Request\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Unific\Extension\Model\ResourceModel\Request\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">unific_extension_request</argument>
+            <argument name="eventPrefix" xsi:type="string">extension_request_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">extension_request_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Unific\Extension\Model\ResourceModel\Request</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="extension_request_mapping_listing_data_source" xsi:type="string">Unific\Extension\Model\ResourceModel\Mapping\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Unific\Extension\Model\ResourceModel\Mapping\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">unific_extension_request_mapping</argument>
+            <argument name="eventPrefix" xsi:type="string">extension_request_mapping_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">extension_request_mapping_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Unific\Extension\Model\ResourceModel\Mapping</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="extension_response_mapping_listing_data_source" xsi:type="string">Unific\Extension\Model\ResourceModel\ResponseMapping\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Unific\Extension\Model\ResourceModel\ResponseMapping\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">unific_extension_response_mapping</argument>
+            <argument name="eventPrefix" xsi:type="string">extension_response_mapping_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">extension_response_mapping_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Unific\Extension\Model\ResourceModel\ResponseMapping</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="extension_request_condition_listing_data_source" xsi:type="string">Unific\Extension\Model\ResourceModel\Condition\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Unific\Extension\Model\ResourceModel\Condition\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">unific_extension_request_condition</argument>
+            <argument name="eventPrefix" xsi:type="string">extension_request_condition_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">extension_request_condition_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Unific\Extension\Model\ResourceModel\Condition</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="extension_response_condition_listing_data_source" xsi:type="string">Unific\Extension\Model\ResourceModel\ResponseCondition\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Unific\Extension\Model\ResourceModel\ResponseCondition\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">unific_extension_response_condition</argument>
+            <argument name="eventPrefix" xsi:type="string">extension_response_condition_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">extension_response_condition_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Unific\Extension\Model\ResourceModel\ResponseCondition</argument>
+        </arguments>
+    </type>
+</config>

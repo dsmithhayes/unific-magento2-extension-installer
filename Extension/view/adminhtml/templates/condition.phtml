@@ -1,0 +1,175 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Unific\Extension\Block\Adminhtml\Request\Edit\Tab\Condition */
+
+?>
+
+<script>
+    var requestConditionsWebsites = <?php echo json_encode($this->getWebsites()) ?>;
+    var requestConditionsStores = <?php echo json_encode($this->getStores()) ?>;
+</script>
+<fieldset class="fieldset">
+    <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Manage Conditions') ?></span></legend>
+    <div id="manage-request-conditions-panel" data-index="request_conditions_select_container">
+        <table class="admin__control-table" data-index="request_conditions_select">
+            <thead>
+            <tr id="request-conditions-table">
+                <th class="col-draggable"></th>
+                <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Conditional Flow') ?></span></th>
+                <th class="col-delete">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody data-role="request-conditions-options-container" class="ignore-validate"></tbody>
+            <tfoot>
+            <tr>
+                <th colspan="2" class="validation">
+                    <input type="hidden" class="required-dropdown-attribute-entry" name="dropdown_attribute_validation"/>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="4" class="col-actions-add">
+                    <button id="add_new_request_condition_button" data-action="add_new_row" title="<?php /* @escapeNotVerified */ echo __('Add Condition'); ?>"
+                            type="button" class="action- scalable add">
+                        <span><?php /* @escapeNotVerified */ echo __('Add Condition'); ?></span>
+                    </button>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+        <input type="hidden" id="option-count-check-request-conditions" value="" />
+    </div>
+    <script id="row-template-request-conditions" type="text/x-magento-template">
+        <tr>
+            <td class="col-draggable" style="border-right: 1px solid #fff;">
+                <div data-role="draggable-handle" class="draggable-handle" title="<?php /* @escapeNotVerified */ echo __('Sort Condition'); ?>"></div>
+                <input data-role="request-conditions-order" type="hidden" name="request_condition[order][<%- data.id %>]"  value="<%- data.sort_order %>" />
+            </td>
+            <td class="col-<%- data.id %>">
+                <table class="condition-table">
+                    <thead>
+                        <tr>
+                            <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Condition') ?></span></th>
+                            <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Comparison') ?></span></th>
+                            <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Value') ?></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="width: 300px">
+                                <select name="request_condition[value][<%- data.id %>][type]" class="required-option request_condition_type" data-role="request_condition_type" data-inputs="request_condition_value_<%- data.id %>" id="request_condition_type_<%- data.id %>">
+                                    <option id="request_condition_mapping" data-type="input" data-has-values="true" data-input-type="input" data-source=".request-mapping-internal"  data-target="#request_condition_type_<%- data.id %>_value" value="mapping">Value of Mapping</option>
+                                    <option id="request_condition_website" data-type="json" data-has-values="false" data-input-type="select" data-source="requestConditionsWebsites" data-target="#request_condition_value_<%- data.id %>_select" value="website">Website</option>
+                                    <option id="request_condition_storeview" data-type="json" data-has-values="false" data-input-type="select" data-source="requestConditionsStores" data-target="#request_condition_value_<%- data.id %>_select" value="storeview">Storeview</option>
+                                </select>
+                                <select name="request_condition[value][<%- data.id %>][type]" class="required-option" style="display: none;" id="request_condition_type_<%- data.id %>_value">
+                                </select>
+                            </td>
+                            <td>
+                                <select name="request_condition[value][<%- data.id %>][comparison]" id="request_condition_comparison_<%- data.id %>" class="required-option">
+                                    <option value="eq">is equal to</option>
+                                    <option value="neq">is not equal to</option>
+                                    <option value="contains">contains</option>
+                                    <option value="notcontains">does not contain</option>
+                                </select>
+                            </td>
+                            <td id="request_condition_value_<%- data.id %>">
+                                <select id="request_condition_value_<%- data.id %>_select" name="request_condition[value][<%- data.id %>][select_value]" style="display:none;">
+                                    <option>Please select your option...</option>
+                                </select>
+                                <input id="request_condition_value_<%- data.id %>_input" value="<%- data.condition_value %>" type="text" name="request_condition[value][<%- data.id %>][value]" class="input-text" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="condition-table">
+                    <thead>
+                    <tr>
+                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Action') ?></span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <select name="request_condition[value][<%- data.id %>][action]" id="request_condition_action_<%- data.id %>" class="required-option">
+                                <option value="nothing">do nothing</option>
+                                <option value="continue">continue with next condition</option>
+                                <option value="error">display error</option>
+                                <option value="request">do webrequest</option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table id="request_condition_action_<%- data.id %>-table-error" class="request_condition_action_<%- data.id %>-table" style="display:none;">
+                    <thead>
+                    <tr>
+                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Error') ?></span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input name="request_condition[value][<%- data.id %>][action_params][error]" value="<%- data.action_params.value %>"  class="input-text action-error" type="text" placeholder="The user will see this error" style="width: 500px;" />
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table id="request_condition_action_<%- data.id %>-table-request" class="request_condition_action_<%- data.id %>-table" style="display:none;">
+                    <thead>
+                    <tr>
+                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Request') ?></span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <select name="request_condition[value][<%- data.id %>][action_params][protocol]" id="action-request-<%- data.id %>" class="required-option">
+                                <option value="soap">SOAP Request</option>
+                                <option value="rest">REST Request</option>
+                            </select>
+
+                            <input name="request_condition[value][<%- data.id %>][action_params][request_url]" value="<%- data.action_params.request_url %>" class="input-text" style="width: 500px;" type="text" placeholder="Enter the request URL" />
+
+                            <select name="request_condition[value][<%- data.id %>][action_params][method]" class="required-option action-request-<%- data.id %> action-request-<%- data.id %>-rest" style="display: none;">
+                                <option value="get">GET</option>
+                                <option value="post">POST</option>
+                                <option value="put">PUT</option>
+                                <option value="delete">DELETE</option>
+                            </select>
+
+                            <input name="request_condition[value][<%- data.id %>][action_params][soap_method]" type="text" value="<%- data.action_params.soap_method %>" class="input-text action-request-<%- data.id %> action-request-<%- data.id %>-soap" placeholder="Enter the SOAP method" style="display: none;" />
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td id="delete_button_container_request_condition_<%- data.id %>" class="col-delete">
+                <input type="hidden" class="delete-flag" name="request_condition[delete][<%- data.id %>]" value="" />
+                <button id="delete_button_<%- data.id %>" title="<?php /* @escapeNotVerified */ echo __('Delete') ?>" type="button"
+                        class="action- scalable delete delete-option"
+                >
+                    <span><?php /* @escapeNotVerified */ echo __('Delete') ?></span>
+                </button>
+            </td>
+        </tr>
+    </script>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Unific_Extension/js/condition": {
+                    "attributesData": <?php /* @noEscape */ echo json_encode($block->getModel()->getRequestConditions(), JSON_HEX_QUOT); ?>,
+                    "isSortable":  1,
+                    "isReadOnly": 0,
+                    "prefix": "request"
+                }
+            }
+        }
+    </script>
+</fieldset>

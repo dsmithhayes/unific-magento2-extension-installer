@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsdd" layout="admin-2columns-left">
+    <head>
+        <css src="Unific_Extension::css/request.css"/>
+    </head>
+    <body>
+        <referenceContainer name="left">
+            <block class="Unific\Extension\Block\Adminhtml\Request\Edit\Tabs" name="unific_extension_request.edit.tabs"/>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Unific\Extension\Block\Adminhtml\Request\Edit" name="unific_extension_request.edit"/>
+        </referenceContainer>
+    </body>
+</page>

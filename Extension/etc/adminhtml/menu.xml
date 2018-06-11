@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Unific_Extension::unific" title="Unific" module="Unific_Extension" sortOrder="10" action="extension/group" resource="Unific_Extension::group" />
+        <add id="Unific_Extension::group" title="Groups" module="Unific_Extension" parent="Unific_Extension::unific" sortOrder="10" action="extension/group" resource="Unific_Extension::group" />
+    </menu>
+</config>

@@ -1,0 +1,76 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Unific\Extension\Block\Adminhtml\Response\Edit\Tab\Info */
+
+?>
+<fieldset class="fieldset">
+    <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Manage Response Mappings') ?></span></legend>
+    <div id="manage-response-mappings-panel" data-index="response_mappings_select_container">
+        <table class="admin__control-table" data-index="response_mappings_select">
+            <thead>
+            <tr id="response-mappings-table">
+                <th class="col-draggable"></th>
+                <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('External Field') ?></span></th>
+                <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Magento Field') ?></span></th>
+                <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Add From') ?></span></th>
+                <th class="col-delete">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody data-role="response-mappings-options-container" class="ignore-validate"></tbody>
+            <tfoot>
+            <tr>
+                <th colspan="3" class="validation">
+                    <input type="hidden" class="required-dropdown-attribute-entry" name="dropdown_attribute_validation"/>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="5" class="col-actions-add">
+                    <button id="add_new_response_mapping_button" data-action="add_new_row" title="<?php /* @escapeNotVerified */ echo __('Add Response Mapping'); ?>"
+                            type="button" class="action- scalable add">
+                        <span><?php /* @escapeNotVerified */ echo __('Add Response Mapping'); ?></span>
+                    </button>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+        <input type="hidden" id="option-count-check-response-mappings" value="" />
+    </div>
+    <script id="row-template-response-mappings" type="text/x-magento-template">
+        <tr>
+            <td class="col-draggable">
+                <div data-role="draggable-handle" class="draggable-handle" title="<?php /* @escapeNotVerified */ echo __('Sort Mapping'); ?>"></div>
+                <input data-role="response-mappings-order" type="hidden" name="response_mapping[order][<%- data.id %>]"  value="<%- data.sort_order %>" />
+            </td>
+            <td class="col-<%- data.id %>"><input name="response_mapping[value][<%- data.id %>][external]" value="<%- data.external %>" class="input-text required-option response-mapping-external" type="text" /></td>
+            <td class="col-<%- data.id %>"><select id="response_mapping_internal_type_<%- data.id %>" value="<%- data.internal_type %>" class="input-text required-option response-mapping-internal"><option>Select type</option></select> <input name="response_mapping[value][<%- data.id %>][internal]" value="<%- data.internal %>" id="response_mapping_internal_<%- data.id %>" class="input-text required-option response-mapping-internal" style="display: none;" type="text" /><select name="response_mapping[value][<%- data.id %>][internal_select]" id="response_mapping_internal_<%- data.id %>_select" value="<%- data.internal %>" class="input-text required-option response-mapping-internal"><option>Select a field</option></select></td>
+            <td class="col-<%- data.id %>"><select name="response_mapping[value][<%- data.id %>][location]" id="response_mapping_internal_location_<%- data.id %>" class="input-text required-option response-mapping-type"><option value="header">Header</option><option value="body">Body</option><option value="arguments">Arguments</option></select></td>
+            <td id="delete_button_container_response_mapping_<%- data.id %>" class="col-delete">
+                <input type="hidden" class="delete-flag" name="response_mapping[delete][<%- data.id %>]" value="" />
+                <button id="delete_button_<%- data.id %>" title="<?php /* @escapeNotVerified */ echo __('Delete') ?>" type="button"
+                        class="action- scalable delete delete-option"
+                >
+                    <span><?php /* @escapeNotVerified */ echo __('Delete') ?></span>
+                </button>
+            </td>
+        </tr>
+    </script>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Unific_Extension/js/mapping": {
+                    "attributesData": <?php /* @noEscape */ echo json_encode($block->getModel()->getResponseMappings(), JSON_HEX_QUOT); ?>,
+                    "eavAttributes": <?php /* @noEscape */ echo json_encode($block->getEavAttributes(), JSON_HEX_QUOT); ?>,
+                    "isSortable":  1,
+                    "isReadOnly": 0,
+                    "prefix": "response"
+                }
+            }
+        }
+    </script>
+</fieldset>
