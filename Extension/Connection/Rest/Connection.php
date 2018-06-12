@@ -14,7 +14,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
     {
         parent::setup();
 
-        $this->connection = $this->getObjectManager()->create('Zend_Soap_Client');
+        $this->connection = $this->getObjectManager()->create('Zend_Rest_Client');
 
         return $this;
     }

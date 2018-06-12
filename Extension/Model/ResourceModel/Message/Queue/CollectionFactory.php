@@ -24,7 +24,7 @@ class CollectionFactory
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param string $instanceName
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $instanceName = '\\Unific\\Extension\\Model\\ResourceModel\\Audit\\Log\\Collection')
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $instanceName = '\\Unific\\Extension\\Model\\ResourceModel\\Message\\Queue\\Collection')
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -34,7 +34,7 @@ class CollectionFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Unific\Extension\Model\ResourceModel\Audit\Log\Collection
+     * @return \Unific\Extension\Model\ResourceModel\Message\Queue\Collection
      */
     public function create(array $data = array())
     {

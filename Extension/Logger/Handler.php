@@ -13,5 +13,5 @@ class Handler extends \Magento\Framework\Logger\Handler\Base
      * File name
      * @var string
      */
-    protected $fileName = '/var/log/extension.log';
+    protected $fileName = '/var/log/unific.log';
 }
