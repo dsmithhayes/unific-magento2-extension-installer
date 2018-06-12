@@ -16,19 +16,25 @@ class InstallSchema implements InstallSchemaInterface
         $installer->startSetup();
 
         /**
-         * Create the table for the grouping of requests/responses
+         * The MySQL Table to implement the AMQP behaviour
          */
         $table = $installer->getConnection()->newTable($installer->getTable('unific_extension_message_queue'))
             ->addColumn('message', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => true,
             ), 'Message')
+            ->addColumn('request_type', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
+                'nullable' => false,
+                'default' => 'POST'
+            ), 'The request type, can be POST, PUT, DELETE')
             ->addColumn('retry_amount', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 0, array(
                 'unsigned' => true,
                 'nullable' => false,
+                'default' => 0
             ), 'Group ID')
             ->addColumn('max_retry_amount', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 0, array(
                 'unsigned' => true,
                 'nullable' => false,
+                'default' => 20
             ), 'Group ID')
             ->addColumn('response_error', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => true,
@@ -50,7 +56,7 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create the table for the grouping of requests/responses
+         * The audit log for just about anything that the extension does
          */
         $table = $installer->getConnection()->newTable($installer->getTable('unific_extension_audit_log'))
             ->addColumn('log_action_type', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
@@ -112,7 +118,8 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create the table for the identity providers
+         * Create the table for the requests that should be sent out
+         * This is the actual request to the Unific platform
          */
         $table = $installer->getConnection()->newTable($installer->getTable('unific_extension_request'))
             ->addColumn('id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
@@ -168,6 +175,7 @@ class InstallSchema implements InstallSchemaInterface
 
         /**
          * Create the request mapping table
+         * These mappings will map any magento internals to any unific known fields
          */
         $table = $installer->getConnection()
             ->newTable($installer->getTable('unific_extension_request_mapping'))
@@ -211,7 +219,8 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create the request mapping table
+         * Create the request conditions
+         * These conditions apply to determine if a request has to be actually made
          */
         $table = $installer->getConnection()
             ->newTable($installer->getTable('unific_extension_request_condition'))
@@ -264,7 +273,10 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create the request mapping table
+         * Create the response mapping table
+         * When Unific sends a response, if it contains fields to be processed, we map them to magento fields here
+         * This could be that data is "enriched" with data from Unific
+         * Like when a new customer is created, and may get a special Unific identifier
          */
         $table = $installer->getConnection()
             ->newTable($installer->getTable('unific_extension_response_mapping'))
@@ -308,7 +320,8 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create the request mapping table
+         * Create the response conditions
+         * These conditions determine if we're going to do any further processing with the response from Unific
          */
         $table = $installer->getConnection()
             ->newTable($installer->getTable('unific_extension_response_condition'))
