@@ -19,6 +19,9 @@ class InstallSchema implements InstallSchemaInterface
          * The MySQL Table to implement the AMQP behaviour
          */
         $table = $installer->getConnection()->newTable($installer->getTable('unific_extension_message_queue'))
+            ->addColumn('guid', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
+                'nullable' => true,
+            ), 'A unique GUID identifier')
             ->addColumn('message', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => true,
             ), 'Message')
@@ -49,6 +52,18 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn('request_date_last', \Magento\Framework\DB\Ddl\Table::TYPE_DATE, 0, array(
                 'nullable' => true,
             ), 'Date where this request was last sent')
+            ->addColumn(
+                'request_date_first',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
+                'Date where this request was first sent')
+            ->addColumn(
+                'request_date_last',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE],
+                'Date where this request was last sent')
             ->setComment(
                 'Message Queue'
             );
@@ -59,6 +74,12 @@ class InstallSchema implements InstallSchemaInterface
          * The audit log for just about anything that the extension does
          */
         $table = $installer->getConnection()->newTable($installer->getTable('unific_extension_audit_log'))
+            ->addColumn('id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
+                'identity' => true,
+                'unsigned' => true,
+                'nullable' => false,
+                'primary' => true,
+            ), 'ID')
             ->addColumn('log_action_type', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => true,
             ), 'The type of action performed, this can be a request, response or reconfiguration')
@@ -78,9 +99,18 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn('log_action_user_ip', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => true,
             ), 'The user ip of the action')
-            ->addColumn('log_date', \Magento\Framework\DB\Ddl\Table::TYPE_DATE, 0, array(
-                'nullable' => true,
-            ), 'Date when this log was made')
+            ->addColumn(
+                'created_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
+                'Creation date')
+            ->addColumn(
+                'updated_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE],
+                'Update date')
             ->setComment(
                 'Unific Audit Log'
             );
@@ -103,6 +133,18 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn('description', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => true,
             ), 'Description')
+            ->addColumn(
+                'created_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
+                'Creation date')
+            ->addColumn(
+                'updated_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE],
+                'Update date')
             ->addIndex(
                 $setup->getIdxName(
                     $installer->getTable('unific_extension_group'),
@@ -141,6 +183,18 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn('request_event', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => false,
             ), 'Called Event')
+            ->addColumn(
+                'created_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
+                'Creation date')
+            ->addColumn(
+                'updated_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE],
+                'Update date')
             ->addIndex(
                 $setup->getIdxName(
                     $installer->getTable('unific_extension_request'),
@@ -198,6 +252,18 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn('external', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable'  => false,
             ), 'External Attribute')
+            ->addColumn(
+                'created_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
+                'Creation date')
+            ->addColumn(
+                'updated_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE],
+                'Update date')
             ->addIndex(
                 $installer->getIdxName('unific_extension_request_mapping', ['request_id']),
                 ['request_id']
@@ -252,6 +318,18 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn('condition_action_params', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable'  => true,
             ), 'Action Parameters')
+            ->addColumn(
+                'created_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
+                'Creation date')
+            ->addColumn(
+                'updated_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE],
+                'Update date')
             ->addIndex(
                 $installer->getIdxName('unific_extension_request_condition', ['request_id']),
                 ['request_id']
@@ -299,6 +377,18 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn('external', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable'  => false,
             ), 'External Attribute')
+            ->addColumn(
+                'created_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
+                'Creation date')
+            ->addColumn(
+                'updated_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE],
+                'Update date')
             ->addIndex(
                 $installer->getIdxName('unific_extension_response_mapping', ['request_id']),
                 ['request_id']
@@ -353,6 +443,18 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn('condition_action_params', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable'  => true,
             ), 'Action Parameters')
+            ->addColumn(
+                'created_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
+                'Creation date')
+            ->addColumn(
+                'updated_at',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE],
+                'Update date')
             ->addIndex(
                 $installer->getIdxName('unific_extension_response_condition', ['request_id']),
                 ['request_id']
