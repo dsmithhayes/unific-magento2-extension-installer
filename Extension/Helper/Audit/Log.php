@@ -14,6 +14,11 @@ class Log extends \Magento\Framework\App\Helper\AbstractHelper
     const LOG_ERROR_TIMEOUT = 3;
     const LOG_ERROR_UNKNOWN = 4;
 
+    /**
+     * Log constructor.
+     *
+     * @param \Magento\Framework\App\Helper\Context $context
+     */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context)
     {
@@ -30,6 +35,13 @@ class Log extends \Magento\Framework\App\Helper\AbstractHelper
         );
     }
 
+    /**
+     * Log a message to the database table
+     *
+     * @param $payload
+     * @param array $usedParameters
+     * @param int $errorType
+     */
     public function log($payload, array $usedParameters, $errorType = Log::LOG_ERROR_FAILED_TO_RECEIVE)
     {
         $logModel = $this->objectManager->create('Unific\Extension\Model\Audit\Log');
@@ -40,6 +52,11 @@ class Log extends \Magento\Framework\App\Helper\AbstractHelper
         $logModel->save();
     }
 
+    /**
+     * Create a new unique GUID
+     *
+     * @return string
+     */
     function newGUID()
     {
         if (function_exists('com_create_guid') === true)

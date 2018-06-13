@@ -4,6 +4,12 @@ namespace Unific\Extension\Plugin;
 
 class AfterLoad
 {
+    /**
+     * Enrich the model with information required to display everything in the admin
+     * Its also needed to handle the relations upon receiving or sending a request
+     *
+     * @param $model
+     */
     public function afterLoad($model)
     {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();

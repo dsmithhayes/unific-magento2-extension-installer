@@ -7,6 +7,11 @@ use Unific\Extension\Helper\Audit\Log;
 
 class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    const QUEUE_MODE_LIVE = 0;
+    const QUEUE_MODE_BURST = 1;
+
+    public $queueMode = \Unific\Extension\Helper\Message\Queue::QUEUE_MODE_LIVE;
+
     protected $objectManager;
 
     /*
@@ -16,16 +21,35 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $auditLog;
 
+    /**
+     * \Unific\Extension\Helper\Request
+     * Will handle the actual requests
+     */
+    protected $requestHelper;
+
+    /**
+     * Queue constructor.
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Unific\Extension\Helper\Request $requestHelper
+     * @param Log $auditLog
+     */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
+        \Unific\Extension\Helper\Request $requestHelper,
         \Unific\Extension\Helper\Audit\Log $auditLog)
     {
         parent::__construct($context);
 
         $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
         $this->auditLog = $auditLog;
+        $this->requestHelper = $requestHelper;
     }
 
+    /**
+     * @param $config_path
+     * @return mixed
+     */
     public function getConfig($config_path)
     {
         return $this->scopeConfig->getValue(
@@ -34,7 +58,14 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         );
     }
 
-    public function queue(array $data, $requestType = "POST")
+    /**
+     * Queue a message for sending
+     *
+     * @param array $data
+     * @param $url
+     * @param $requestType
+     */
+    public function queue(array $data, $url, $requestType = \Zend\Http\Request::METHOD_POST)
     {
         $messageModel = $this->objectManager->create('Unific\Extension\Model\Message\Queue');
         $messageModel->setGuid($this->newGUID());
@@ -42,7 +73,26 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         $messageModel->setRequestType($requestType);
         $messageModel->setRetryAmount(0);
         $messageModel->setMaxRetryAmount(20);
-        $messageModel->save();
+
+        switch($this->queueMode)
+        {
+            case \Unific\Extension\Model\Message\Queue::QUEUE_MODE_BURST:
+                /** Lets save this to MySQL */
+                $messageModel->save();
+
+                /** From here on a pickup script will handle the message */
+                break;
+            default:
+                /** Lets send this immediately */
+                $status = $this->requestHelper->sendMessage($messageModel, $url, $requestType);
+
+                if($status['code'] !== 200)
+                {
+                    $this->requeue($messageModel);
+                }
+
+                break;
+        }
     }
 
     /**
@@ -55,6 +105,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         if($message->getRetryAmount() < $message->getMaxRetryAmount())
         {
             $message->setRetryAmount($message->getRetryAmount() + 1);
+            $message->save();
         } else {
             $this->logMessage($message, Log::LOG_ERROR_FAILED_TO_RECEIVE);
             $message->delete();
@@ -83,6 +134,11 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         );
     }
 
+    /**
+     * Create a new GUID for a particular message
+     *
+     * @return string
+     */
     function newGUID()
     {
         if (function_exists('com_create_guid') === true)
