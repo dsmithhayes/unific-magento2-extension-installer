@@ -23,6 +23,7 @@
 
     <type name="Unific\Extension\Helper\Request">
         <arguments>
+            <argument name="scopeConfig" xsi:type="object">\Magento\Framework\App\Config\ScopeConfigInterface</argument>
             <argument name="httpRequest" xsi:type="object">\Zend\Http\Request</argument>
             <argument name="httpClient" xsi:type="object">\Zend\Http\Client</argument>
             <argument name="httpHeaders" xsi:type="object">\Zend\Http\Headers</argument>

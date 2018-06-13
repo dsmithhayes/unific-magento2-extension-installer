@@ -7,8 +7,8 @@ use Unific\Extension\Helper\Audit\Log;
 
 class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    const QUEUE_MODE_LIVE = 0;
-    const QUEUE_MODE_BURST = 1;
+    const QUEUE_MODE_LIVE = 'live';
+    const QUEUE_MODE_BURST = 'burst';
 
     public $queueMode = \Unific\Extension\Helper\Message\Queue::QUEUE_MODE_LIVE;
 
@@ -27,14 +27,18 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $requestHelper;
 
+    protected $scopeConfig;
+
     /**
      * Queue constructor.
      * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Unific\Extension\Helper\Request $requestHelper
-     * @param Log $auditLog
+     * @param \Unific\Extension\Helper\Audit\Log $auditLog
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Unific\Extension\Helper\Request $requestHelper,
         \Unific\Extension\Helper\Audit\Log $auditLog)
     {
@@ -44,6 +48,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
         $this->auditLog = $auditLog;
         $this->requestHelper = $requestHelper;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -74,7 +79,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         $messageModel->setRetryAmount(0);
         $messageModel->setMaxRetryAmount(20);
 
-        switch($this->queueMode)
+        switch($this->scopeConfig->getValue('unific/extension/mode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
         {
             case \Unific\Extension\Model\Message\Queue::QUEUE_MODE_BURST:
                 /** Lets save this to MySQL */
