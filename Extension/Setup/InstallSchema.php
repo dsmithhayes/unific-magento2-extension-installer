@@ -80,25 +80,19 @@ class InstallSchema implements InstallSchemaInterface
                 'nullable' => false,
                 'primary' => true,
             ), 'ID')
-            ->addColumn('log_action_type', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
+            ->addColumn('log_guid', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => true,
-            ), 'The type of action performed, this can be a request, response or reconfiguration')
-            ->addColumn('log_action_type_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 0, array(
+            ), 'A unique GUID identifier')
+            ->addColumn('log_error_type', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 0, array(
                 'unsigned' => true,
-                'nullable' => true,
-            ), 'Request or Response ID of the action that caused this audit log to be written')
+                'nullable' => false,
+            ), 'The type of the error, constants are in the log helper')
             ->addColumn('log_action_parameters', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => true,
-            ), 'The parameters of the action performed')
-            ->addColumn('log_action_origin', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
+            ), 'The type of action performed, this can be a request, response or reconfiguration')
+            ->addColumn('log_action_payload', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => true,
-            ), 'The origin of the action')
-            ->addColumn('log_action_user', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable' => true,
-            ), 'The user of the action')
-            ->addColumn('log_action_user_ip', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable' => true,
-            ), 'The user ip of the action')
+            ), 'The payload of the action performed')
             ->addColumn(
                 'created_at',
                 \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
