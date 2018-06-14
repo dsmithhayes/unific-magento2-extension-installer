@@ -11,8 +11,8 @@
                     <label>Operation Mode</label>
                     <source_model>Unific\Extension\Model\Config\Source\Mode</source_model>
                 </field>
-                <field id="interval" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Update Interval</label>
+                <field id="schedule" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Burst schedule (cron syntax)</label>
                 </field>
                 <field id="hmacSecret" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>HMAC Secret Key</label>
