@@ -8,22 +8,31 @@ class Request extends \Magento\Framework\App\Helper\AbstractHelper
 {
     protected $objectManager;
 
+    protected $scopeConfig;
     protected $httpRequest;
     protected $httpClient;
     protected $httpHeaders;
+    protected $guidHelper;
+    protected $hmacHelper;
 
     /**
      * Request constructor.
      * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Zend\Http\Request $httpRequest
      * @param \Zend\Http\Client $httpClient
      * @param \Zend\Http\Headers $httpHeaders
+     * @param Hmac $hmacHelper
+     * @param Guid $guidHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Zend\Http\Request $httpRequest,
         \Zend\Http\Client $httpClient,
-        \Zend\Http\Headers $httpHeaders)
+        \Zend\Http\Headers $httpHeaders,
+        Hmac $hmacHelper,
+        Guid $guidHelper)
     {
         parent::__construct($context);
 
@@ -31,6 +40,9 @@ class Request extends \Magento\Framework\App\Helper\AbstractHelper
         $this->httpClient = $httpClient;
         $this->httpRequest = $httpRequest;
         $this->httpHeaders = $httpHeaders;
+        $this->guidHelper = $guidHelper;
+        $this->scopeConfig = $scopeConfig;
+        $this->hmacHelper = $hmacHelper;
 
         $this->httpHeaders->addHeaders([
             'Accept' => 'application/json',
@@ -58,9 +70,14 @@ class Request extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $this->httpRequest->setHeaders($this->httpHeaders);
         $this->httpRequest->setUri($url);
-        $this->httpRequest->setMethod(\Zend\Http\Request::METHOD_GET);
+        $this->httpRequest->setMethod($requestType);
 
-        $params = new \Zend\Stdlib\Parameters($messageModel->getData());
+        $paramsToSend = $messageModel->getData();
+        $paramsToSend["nonce"] = $this->guidHelper->generateGuid();
+        $paramsToSend["timestamp"] = time();
+        $paramsToSend["hmac"] = $this->hmacHelper($paramsToSend);
+
+        $params = new \Zend\Stdlib\Parameters($paramsToSend);
         $this->httpRequest->setQuery($params);
 
         return $this->httpClient->send($this->httpRequest);

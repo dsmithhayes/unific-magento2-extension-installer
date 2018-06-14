@@ -14,17 +14,22 @@ class Log extends \Magento\Framework\App\Helper\AbstractHelper
     const LOG_ERROR_TIMEOUT = 3;
     const LOG_ERROR_UNKNOWN = 4;
 
+    protected $guidHelper;
+
     /**
      * Log constructor.
      *
      * @param \Magento\Framework\App\Helper\Context $context
      */
     public function __construct(
-        \Magento\Framework\App\Helper\Context $context)
+        \Magento\Framework\App\Helper\Context $context,
+        Guid $guidHelper)
     {
         parent::__construct($context);
 
         $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+        $this->guidHelper = $guidHelper;
     }
 
     public function getConfig($config_path)
@@ -45,25 +50,10 @@ class Log extends \Magento\Framework\App\Helper\AbstractHelper
     public function log($payload, array $usedParameters, $errorType = Log::LOG_ERROR_FAILED_TO_RECEIVE)
     {
         $logModel = $this->objectManager->create('Unific\Extension\Model\Audit\Log');
-        $logModel->setLogGuid($this->newGUID());
+        $logModel->setLogGuid($this->guidHelper->generateGuid());
         $logModel->setLogErrorType($errorType);
         $logModel->setActionPayload($payload);
         $logModel->setActionParameters(json_encode($usedParameters));
         $logModel->save();
-    }
-
-    /**
-     * Create a new unique GUID
-     *
-     * @return string
-     */
-    function newGUID()
-    {
-        if (function_exists('com_create_guid') === true)
-        {
-            return trim(com_create_guid(), '{}');
-        }
-
-        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
 }

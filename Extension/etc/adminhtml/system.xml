@@ -9,14 +9,19 @@
                 <label>General Settings</label>
                 <field id="mode" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Operation Mode</label>
-                    <source_model>Wizkunde\WebSSO\Model\Config\Source\Mode</source_model>
+                    <source_model>Unific\Extension\Model\Config\Source\Mode</source_model>
                 </field>
                 <field id="interval" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Update Interval</label>
                 </field>
-                <field id="hmac" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>HMAC Verification Key</label>
+                <field id="hmacSecret" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>HMAC Secret Key</label>
                 </field>
+                <field id="hmacAlgorithm" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Hmac Algorithm</label>
+                    <source_model>Unific\Extension\Model\Config\Source\HmacAlgorithm</source_model>
+                </field>
+                <field id="
             </group>
         </section>
     </system>

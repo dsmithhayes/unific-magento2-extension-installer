@@ -27,18 +27,20 @@
             <argument name="httpRequest" xsi:type="object">\Zend\Http\Request</argument>
             <argument name="httpClient" xsi:type="object">\Zend\Http\Client</argument>
             <argument name="httpHeaders" xsi:type="object">\Zend\Http\Headers</argument>
+            <argument name="hmacHelper" xsi:type="object">\Unific\Extension\Helper\Hmac</argument>
+            <argument name="guidHelper" xsi:type="object">\Unific\Extension\Helper\Guid</argument>
         </arguments>
     </type>
 
-    <type name="Unific\Extension\Helper\Audit\Log">
-        <arguments>
-        </arguments>
-    </type>
+    <type name="Unific\Extension\Helper\Audit\Log" />
+    <type name="Unific\Extension\Helper\Guid" />
 
     <type name="Unific\Extension\Helper\Message\Queue">
         <arguments>
+            <argument name="scopeConfig" xsi:type="object">\Magento\Framework\App\Config\ScopeConfigInterface</argument>
             <argument name="requestHelper" xsi:type="object">\Unific\Extension\Helper\Request</argument>
             <argument name="auditLog" xsi:type="object">\Unific\Extension\Helper\Audit\Log</argument>
+            <argument name="guidHelper" xsi:type="object">\Unific\Extension\Helper\Guid</argument>
         </arguments>
     </type>
 

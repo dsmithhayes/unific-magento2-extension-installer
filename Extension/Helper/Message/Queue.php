@@ -29,6 +29,8 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected $scopeConfig;
 
+    protected $guidHelper;
+
     /**
      * Queue constructor.
      * @param \Magento\Framework\App\Helper\Context $context
@@ -40,7 +42,8 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Unific\Extension\Helper\Request $requestHelper,
-        \Unific\Extension\Helper\Audit\Log $auditLog)
+        \Unific\Extension\Helper\Audit\Log $auditLog,
+        \Unific\Extension\Helper\Guid $guidHelper)
     {
         parent::__construct($context);
 
@@ -49,6 +52,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         $this->auditLog = $auditLog;
         $this->requestHelper = $requestHelper;
         $this->scopeConfig = $scopeConfig;
+        $this->guidHelper = $guidHelper;
     }
 
     /**
@@ -73,7 +77,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
     public function queue(array $data, $url, $requestType = \Zend\Http\Request::METHOD_POST)
     {
         $messageModel = $this->objectManager->create('Unific\Extension\Model\Message\Queue');
-        $messageModel->setGuid($this->newGUID());
+        $messageModel->setGuid($this->guidHelper->generateGuid());
         $messageModel->setMessage(json_encode($data));
         $messageModel->setRequestType($requestType);
         $messageModel->setRetryAmount(0);
@@ -139,18 +143,5 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         );
     }
 
-    /**
-     * Create a new GUID for a particular message
-     *
-     * @return string
-     */
-    function newGUID()
-    {
-        if (function_exists('com_create_guid') === true)
-        {
-            return trim(com_create_guid(), '{}');
-        }
 
-        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
-    }
 }
