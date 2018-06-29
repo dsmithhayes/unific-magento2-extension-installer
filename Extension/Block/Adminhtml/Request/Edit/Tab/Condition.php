@@ -28,6 +28,20 @@ class Condition extends Generic
         return $websites;
     }
 
+    public function getEavEntities()
+    {
+        return [
+            ['id' => 'catalog_category', 'name' => 'Category'],
+            ['id' => 'catalog_product_entity', 'name' => 'Product'],
+            ['id' => 'customer', 'name' => 'Customer'],
+            ['id' => 'customer_address', 'name' => 'Customer Address'],
+            ['id' => 'order', 'name' => 'Order'],
+            ['id' => 'invoice', 'name' => 'Invoice'],
+            ['id' => 'shipment', 'name' => 'Shipment'],
+            ['id' => 'creditmemo', 'name' => 'Credit Memo']
+        ];
+    }
+
     public function getStores()
     {
         $stores = array();

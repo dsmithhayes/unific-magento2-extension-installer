@@ -15,13 +15,14 @@ class Entity implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         return [
-            ['value' => 'category', 'label' => 'Category'],
-            ['value' => 'product', 'label' => 'Product'],
+            ['value' => 'catalog_category', 'label' => 'Category'],
+            ['value' => 'catalog_product_entity', 'label' => 'Product'],
             ['value' => 'customer', 'label' => 'Customer'],
-            ['value' => 'customer_billing_address', 'label' => 'Billing Address'],
-            ['value' => 'customer_shipment_address', 'label' => 'Shipment Address'],
+            ['value' => 'customer_address', 'label' => 'Customer Address'],
             ['value' => 'order', 'label' => 'Order'],
-            ['value' => 'invoice', 'label' => 'Invoice']
+            ['value' => 'invoice', 'label' => 'Invoice'],
+            ['value' => 'shipment', 'label' => 'Shipment'],
+            ['value' => 'creditmemo', 'label' => 'Credit Memo']
         ];
     }
 
@@ -33,13 +34,14 @@ class Entity implements \Magento\Framework\Option\ArrayInterface
     public function toArray()
     {
         return [
-            'category' => 'Category',
-            'product' => 'Product',
+            'catalog_category' => 'Category',
+            'catalog_product_entity' => 'Product',
             'customer' => 'Customer',
-            'customer_billing_address' => 'Billing Address',
-            'customer_shipment_address' => 'Shipment Address',
+            'customer_address' => 'Customer Address',
             'order' => 'Order',
             'invoice' => 'Invoice',
+            'shipment' => 'Shipment',
+            'creditmemo' => 'Credit Memo',
         ];
     }
 }
