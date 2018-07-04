@@ -1,4 +1,5 @@
 <?php
+
 namespace Unific\Extension\Helper;
 
 use Magento\Framework\Exception\InputException;

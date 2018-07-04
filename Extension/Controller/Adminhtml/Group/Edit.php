@@ -14,7 +14,7 @@ class Edit extends \Unific\Extension\Controller\Adminhtml\Group
         if ($id) {
             $model->load($id);
         }
-        
+
         $this->_coreRegistry->register('_extension_group', $model);
 
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */

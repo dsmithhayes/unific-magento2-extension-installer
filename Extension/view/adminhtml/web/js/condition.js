@@ -57,29 +57,29 @@ define([
 
                 this.addSelectChange(this.prefix + '_condition_type_' + data.id);
 
-                if(isNewOption == false) {
-                    jQuery('#' + config.prefix + '_condition_type_' + data.id + ' option').each(function() {
-                        if(jQuery(this).val() == data.condition) {
+                if (isNewOption == false) {
+                    jQuery('#' + config.prefix + '_condition_type_' + data.id + ' option').each(function () {
+                        if (jQuery(this).val() == data.condition) {
                             jQuery(this).attr('selected', 'selected');
                         }
                     });
 
                     this.addSelectChange(this.prefix + '_condition_type_' + data.id);
 
-                    jQuery('#' + config.prefix + '_condition_comparison_' + data.id + ' option').each(function() {
-                        if(jQuery(this).val() == data.condition_comparison) {
+                    jQuery('#' + config.prefix + '_condition_comparison_' + data.id + ' option').each(function () {
+                        if (jQuery(this).val() == data.condition_comparison) {
                             jQuery(this).attr('selected', 'selected');
                         }
                     });
 
-                    jQuery('#' + config.prefix + '_condition_value_' + data.id + '_select option').each(function() {
-                        if(jQuery(this).val() == data.condition_value) {
+                    jQuery('#' + config.prefix + '_condition_value_' + data.id + '_select option').each(function () {
+                        if (jQuery(this).val() == data.condition_value) {
                             jQuery(this).attr('selected', 'selected');
                         }
                     });
 
-                    jQuery('#' + config.prefix + '_condition_action_' + data.id + ' option').each(function() {
-                        if(jQuery(this).val() == data.condition_action) {
+                    jQuery('#' + config.prefix + '_condition_action_' + data.id + ' option').each(function () {
+                        if (jQuery(this).val() == data.condition_action) {
                             jQuery(this).attr('selected', 'selected');
                         }
                     });
@@ -117,22 +117,22 @@ define([
 
                 jQuery(dataTarget).empty();
 
-                if(dataType == 'json') {
+                if (dataType == 'json') {
                     var options = eval(dataSource);
 
-                    jQuery(options).each(function() {
+                    jQuery(options).each(function () {
                         jQuery(dataTarget).append(jQuery("<option></option>").attr('value', this.id).text(this.name));
                     });
                 }
 
-                if(dataType == 'input') {
-                    jQuery(dataSource).each(function() {
+                if (dataType == 'input') {
+                    jQuery(dataSource).each(function () {
                         jQuery(dataTarget).append(jQuery("<option></option>").attr('value', this.value).text(this.value));
                     });
                 }
 
 
-                if(dataHasValues == 'true') {
+                if (dataHasValues == 'true') {
                     jQuery('#' + elementId + '_value').show();
                 } else {
                     jQuery('#' + elementId + '_value').hide();

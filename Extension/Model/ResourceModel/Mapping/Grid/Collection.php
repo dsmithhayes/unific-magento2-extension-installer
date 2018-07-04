@@ -1,6 +1,6 @@
 <?php
 
-namespace  Unific\Extension\Model\ResourceModel\Mapping\Grid;
+namespace Unific\Extension\Model\ResourceModel\Mapping\Grid;
 
 use Magento\Framework\Api\Search\SearchResultInterface;
 use Magento\Framework\Search\AggregationInterface;
@@ -40,7 +40,8 @@ class Collection extends MappingCollection implements SearchResultInterface
         $model = 'Magento\Framework\View\Element\UiComponent\DataProvider\Document',
         $connection = null,
         \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
-    ) {
+    )
+    {
         parent::__construct(
             $entityFactory,
             $logger,

@@ -55,10 +55,10 @@ class Tab extends Generic
                 'title' => __('Request Method'),
                 'required' => true,
                 'values' => array(
-                    'post'      => 'POST',
-                    'get'       => 'GET',
-                    'put'       => 'PUT',
-                    'delete'    => 'DELETE'
+                    'post' => 'POST',
+                    'get' => 'GET',
+                    'put' => 'PUT',
+                    'delete' => 'DELETE'
                 )
             ]
         );

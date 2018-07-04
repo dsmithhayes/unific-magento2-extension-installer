@@ -109,6 +109,7 @@ class Info extends Generic
                     'Magento\Order\Model\Order::place' => 'Order is placed',
                     'Magento\Order\Model\Order\Invoice::capture' => 'Invoice is captured',
                     'Magento\Order\Model\Order\Creditmemo::save' => 'Refund is created',
+                    'Magento\Shipment\Model\Shipment::save' => 'Shipment is created',
                     'url' => 'URL is called',
                     'other' => 'Other (fill in)'
                 )

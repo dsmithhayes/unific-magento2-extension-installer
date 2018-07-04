@@ -1,6 +1,9 @@
 <?php
+
 namespace Unific\Extension\Model\ResourceModel\Message;
+
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+
 class Queue extends AbstractDb
 {
     /**

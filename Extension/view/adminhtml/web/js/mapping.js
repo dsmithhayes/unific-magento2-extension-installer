@@ -54,11 +54,11 @@ define([
                     this.updateItemsCountField();
                 }
 
-                if(isNewOption == false) {
-                    jQuery('#' + config.prefix + '_mapping_internal_location_' + data.id + ' option').each(function() {
-                       if(jQuery(this).val() == data.location) {
-                           jQuery(this).attr('selected', 'selected');
-                       }
+                if (isNewOption == false) {
+                    jQuery('#' + config.prefix + '_mapping_internal_location_' + data.id + ' option').each(function () {
+                        if (jQuery(this).val() == data.location) {
+                            jQuery(this).attr('selected', 'selected');
+                        }
                     });
                 }
 
@@ -67,15 +67,15 @@ define([
                 Event.observe(config.prefix + '_mapping_internal_type_' + data.id, 'change', this.fillMappings.bind(this, '#' + config.prefix + '_mapping_internal_type_' + data.id, '#' + config.prefix + '_mapping_internal_' + data.id + '_select', data));
                 Event.observe(config.prefix + '_mapping_internal_' + data.id + '_select', 'change', this.copyInternalValue.bind(this, data));
             },
-            copyInternalValue: function(data) {
+            copyInternalValue: function (data) {
                 jQuery('#' + config.prefix + '_mapping_internal_' + data.id).val(jQuery('#' + config.prefix + '_mapping_internal_' + data.id + '_select option[selected=selected]').val());
             },
-            fillTypes: function(element, data) {
-                var selected=false;
-                jQuery.each(config.eavAttributes, function(entityType, attributeData) {
+            fillTypes: function (element, data) {
+                var selected = false;
+                jQuery.each(config.eavAttributes, function (entityType, attributeData) {
                     var newElement = jQuery("<option></option>").attr('value', entityType).text(entityType);
 
-                    if(data['internaltype'] == entityType) {
+                    if (data['internaltype'] == entityType) {
                         selected = true;
                         newElement.attr('selected', 'selected');
                     }
@@ -83,17 +83,17 @@ define([
                     jQuery(element).append(newElement);
                 });
 
-                if(selected == true) {
+                if (selected == true) {
                     this.fillMappings('#' + config.prefix + '_mapping_internal_type_' + data.id, '#' + config.prefix + '_mapping_internal_' + data.id + '_select', data);
                 }
             },
 
-            fillMappings: function(element, target, data) {
-                if(jQuery(element).val() != '') {
+            fillMappings: function (element, target, data) {
+                if (jQuery(element).val() != '') {
                     jQuery(target).empty();
                     var selected = false;
 
-                    if(jQuery(element).val() == 'other') {
+                    if (jQuery(element).val() == 'other') {
                         jQuery('#' + config.prefix + '_mapping_internal_' + data.id).val()
                         jQuery('#' + config.prefix + '_mapping_internal_' + data.id + '_select').hide();
                         jQuery('#' + config.prefix + '_mapping_internal_' + data.id).show();
@@ -102,10 +102,10 @@ define([
                         jQuery('#' + config.prefix + '_mapping_internal_' + data.id).hide();
                     }
 
-                    jQuery.each(config.eavAttributes[jQuery(element).val()], function(elementValue, elementText) {
+                    jQuery.each(config.eavAttributes[jQuery(element).val()], function (elementValue, elementText) {
                         var newElement = jQuery("<option></option>").attr('value', jQuery(element).val() + '.' + elementText).text(elementText);
 
-                        if(data['internal'] == elementText) {
+                        if (data['internal'] == elementText) {
                             selected = true;
                             newElement.attr('selected', 'selected');
                         }

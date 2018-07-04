@@ -1,4 +1,5 @@
 <?php
+
 namespace Unific\Extension\Helper;
 
 use Magento\Framework\Exception\InputException;
@@ -28,23 +29,23 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $serverObject = $this->objectManager->create('Unific\Extension\Model\Request');
         $serverObject->load($requestId);
 
-        foreach($serverObject->getData('mappings') as $mapping) {
-            if(strpos($mapping['external'], '.') !== false) {
+        foreach ($serverObject->getData('mappings') as $mapping) {
+            if (strpos($mapping['external'], '.') !== false) {
                 $fields = explode('.', $mapping['external']);
                 $dataSet = $userData;
-                foreach($fields as $i => $field) {
-                    if($i == count($fields)-1) {
-                        if(isset($dataSet[$field])) {
+                foreach ($fields as $i => $field) {
+                    if ($i == count($fields) - 1) {
+                        if (isset($dataSet[$field])) {
                             $returnData[$mapping['internal']] = $dataSet[$field];
                         }
                     } else {
-                        if(isset($dataSet[$field])) {
+                        if (isset($dataSet[$field])) {
                             $dataSet = (array)$dataSet[$field];
                         }
                     }
                 }
             } else {
-                if(isset($userData[$mapping['external']])) {
+                if (isset($userData[$mapping['external']])) {
                     $returnData[$mapping['internal']] = $userData[$mapping['external']];
                 }
             }

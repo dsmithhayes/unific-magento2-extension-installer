@@ -16,14 +16,17 @@ class ResponseCondition implements ArrayInterface
      * @var CollectionFactory
      */
     protected $collectionFactory;
+
     /**
      * @param CollectionFactory $collectionFactory
      */
     public function __construct(
         CollectionFactory $collectionFactory
-    ) {
+    )
+    {
         $this->collectionFactory = $collectionFactory;
     }
+
     /**
      * To option array
      *

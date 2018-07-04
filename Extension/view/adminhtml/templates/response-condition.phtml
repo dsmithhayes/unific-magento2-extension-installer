@@ -10,13 +10,15 @@
 
 ?>
 <fieldset class="fieldset">
-    <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Manage Response Conditions') ?></span></legend>
+    <legend class="legend"><span><?php /* @escapeNotVerified */
+            echo __('Manage Response Conditions') ?></span></legend>
     <div id="manage-response-conditions-panel" data-index="response_conditions_select_container">
         <table class="admin__control-table" data-index="response_conditions_select">
             <thead>
             <tr id="response-conditions-table">
                 <th class="col-draggable"></th>
-                <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Conditional Flow') ?></span></th>
+                <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
+                        echo __('Conditional Flow') ?></span></th>
                 <th class="col-delete">&nbsp;</th>
             </tr>
             </thead>
@@ -24,50 +26,78 @@
             <tfoot>
             <tr>
                 <th colspan="2" class="validation">
-                    <input type="hidden" class="required-dropdown-attribute-entry" name="dropdown_attribute_validation"/>
+                    <input type="hidden" class="required-dropdown-attribute-entry"
+                           name="dropdown_attribute_validation"/>
                 </th>
             </tr>
             <tr>
                 <th colspan="4" class="col-actions-add">
-                    <button id="add_new_response_condition_button" data-action="add_new_row" title="<?php /* @escapeNotVerified */ echo __('Add Response Condition'); ?>"
+                    <button id="add_new_response_condition_button" data-action="add_new_row"
+                            title="<?php /* @escapeNotVerified */
+                            echo __('Add Response Condition'); ?>"
                             type="button" class="action- scalable add">
-                        <span><?php /* @escapeNotVerified */ echo __('Add Response Condition'); ?></span>
+                        <span><?php /* @escapeNotVerified */
+                            echo __('Add Response Condition'); ?></span>
                     </button>
                 </th>
             </tr>
             </tfoot>
         </table>
-        <input type="hidden" id="option-count-check-response-conditions" value="" />
+        <input type="hidden" id="option-count-check-response-conditions" value=""/>
     </div>
     <script id="row-template-response-conditions" type="text/x-magento-template">
         <tr>
             <td class="col-draggable" style="border-right: 1px solid #fff;">
-                <div data-role="draggable-handle" class="draggable-handle" title="<?php /* @escapeNotVerified */ echo __('Sort Condition'); ?>"></div>
-                <input data-role="response-conditions-order" type="hidden" name="response_condition[order][<%- data.id %>]"  value="<%- data.sort_order %>" />
+                <div data-role="draggable-handle" class="draggable-handle" title="<?php /* @escapeNotVerified */
+                echo __('Sort Condition'); ?>"></div>
+                <input data-role="response-conditions-order" type="hidden"
+                       name="response_condition[order][<%- data.id %>]" value="<%- data.sort_order %>"/>
             </td>
             <td class="col-<%- data.id %>">
                 <table class="condition-table">
                     <thead>
                     <tr>
-                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Condition') ?></span></th>
-                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Comparison') ?></span></th>
-                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Value') ?></span></th>
+                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
+                                echo __('Condition') ?></span></th>
+                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
+                                echo __('Comparison') ?></span></th>
+                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
+                                echo __('Value') ?></span></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td style="width: 300px">
-                            <select name="response_condition[value][<%- data.id %>][type]" class="required-option response_condition_type" data-role="response_condition_type" data-inputs="response_condition_value_<%- data.id %>" id="response_condition_type_<%- data.id %>">
-                                <option id="response_condition_mapping" data-type="input" data-has-values="true" data-input-type="select" data-source=".response-mapping-internal" data-target="#response_condition_type_<%- data.id %>_value" value="mapping">Value of Mapping</option>
-                                <option id="response_condition_httpcode" data-type="input" data-has-values="false" data-input-type="input" value="httpcode">HTTP Response Code</option>
-                                <option id="response_condition_website" data-type="json" data-has-values="false" data-input-type="select" data-source="responseConditionsWebsites" data-target="#response_condition_value_<%- data.id %>_select" value="website">Website</option>
-                                <option id="response_condition_storeview" data-type="json" data-has-values="false" data-input-type="select" data-source="responseConditionsStores" data-target="#response_condition_value_<%- data.id %>_select" value="storeview">Storeview</option>
+                            <select name="response_condition[value][<%- data.id %>][type]"
+                                    class="required-option response_condition_type" data-role="response_condition_type"
+                                    data-inputs="response_condition_value_<%- data.id %>"
+                                    id="response_condition_type_<%- data.id %>">
+                                <option id="response_condition_mapping" data-type="input" data-has-values="true"
+                                        data-input-type="select" data-source=".response-mapping-internal"
+                                        data-target="#response_condition_type_<%- data.id %>_value" value="mapping">
+                                    Value of Mapping
+                                </option>
+                                <option id="response_condition_httpcode" data-type="input" data-has-values="false"
+                                        data-input-type="input" value="httpcode">HTTP Response Code
+                                </option>
+                                <option id="response_condition_website" data-type="json" data-has-values="false"
+                                        data-input-type="select" data-source="responseConditionsWebsites"
+                                        data-target="#response_condition_value_<%- data.id %>_select" value="website">
+                                    Website
+                                </option>
+                                <option id="response_condition_storeview" data-type="json" data-has-values="false"
+                                        data-input-type="select" data-source="responseConditionsStores"
+                                        data-target="#response_condition_value_<%- data.id %>_select" value="storeview">
+                                    Storeview
+                                </option>
                             </select>
-                            <select name="response_condition[value][<%- data.id %>][type]" class="required-option" style="display: none;" id="response_condition_type_<%- data.id %>_value">
+                            <select name="response_condition[value][<%- data.id %>][type]" class="required-option"
+                                    style="display: none;" id="response_condition_type_<%- data.id %>_value">
                             </select>
                         </td>
                         <td>
-                            <select name="response_condition[value][<%- data.id %>][comparison]" id="response_condition_comparison_<%- data.id %>" class="required-option">
+                            <select name="response_condition[value][<%- data.id %>][comparison]"
+                                    id="response_condition_comparison_<%- data.id %>" class="required-option">
                                 <option value="eq">is equal to</option>
                                 <option value="neq">is not equal to</option>
                                 <option value="contains">contains</option>
@@ -75,10 +105,14 @@
                             </select>
                         </td>
                         <td id="response_condition_value_<%- data.id %>">
-                            <select id="response_condition_value_<%- data.id %>_select" name="response_condition[value][<%- data.id %>][select_value]" style="display:none;">
+                            <select id="response_condition_value_<%- data.id %>_select"
+                                    name="response_condition[value][<%- data.id %>][select_value]"
+                                    style="display:none;">
                                 <option>Please select your option...</option>
                             </select>
-                            <input id="response_condition_value_<%- data.id %>_input" type="text" value="<%- data.condition_value %>" name="response_condition[value][<%- data.id %>][value]" class="input-text" />
+                            <input id="response_condition_value_<%- data.id %>_input" type="text"
+                                   value="<%- data.condition_value %>"
+                                   name="response_condition[value][<%- data.id %>][value]" class="input-text"/>
                         </td>
                     </tr>
                     </tbody>
@@ -86,72 +120,92 @@
                 <table class="condition-table">
                     <thead>
                     <tr>
-                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Action') ?></span></th>
+                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
+                                echo __('Action') ?></span></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>
-                            <select name="response_condition[value][<%- data.id %>][action]" id="response_condition_action_<%- data.id %>" class="required-option">
+                            <select name="response_condition[value][<%- data.id %>][action]"
+                                    id="response_condition_action_<%- data.id %>" class="required-option">
                                 <option value="nothing">do nothing</option>
                                 <option value="continue">continue with next condition</option>
                                 <option value="error">display error</option>
                                 <option value="response">do webresponse</option>
+                                <option value="retry">retry request</option>
+                                <option value="log">log error</option>
+                                <option value="notify">log error and notify</option>
                             </select>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <table id="response_condition_action_<%- data.id %>-table-error" class="response_condition_action_<%- data.id %>-table" style="display:none;">
+                <table id="response_condition_action_<%- data.id %>-table-error"
+                       class="response_condition_action_<%- data.id %>-table" style="display:none;">
                     <thead>
                     <tr>
-                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Error') ?></span></th>
+                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
+                                echo __('Error') ?></span></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>
-                            <input name="response_condition[value][<%- data.id %>][action_params][error]" class="input-text action-error" value="<%- data.action_params.error %>" type="text" placeholder="The user will see this error" style="width: 500px;" />
+                            <input name="response_condition[value][<%- data.id %>][action_params][error]"
+                                   class="input-text action-error" value="<%- data.action_params.error %>" type="text"
+                                   placeholder="The user will see this error" style="width: 500px;"/>
                         </td>
                     </tr>
                     </tbody>
                 </table>
 
-                <table id="response_condition_action_<%- data.id %>-table-response" class="response_condition_action_<%- data.id %>-table" style="display:none;">
+                <table id="response_condition_action_<%- data.id %>-table-response"
+                       class="response_condition_action_<%- data.id %>-table" style="display:none;">
                     <thead>
                     <tr>
-                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */ echo __('Response') ?></span></th>
+                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
+                                echo __('Response') ?></span></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>
-                            <select name="response_condition[value][<%- data.id %>][action_params][protocol]" id="action-response-<%- data.id %>" class="required-option">
+                            <select name="response_condition[value][<%- data.id %>][action_params][protocol]"
+                                    id="action-response-<%- data.id %>" class="required-option">
                                 <option value="soap">SOAP Response</option>
                                 <option value="rest">REST Response</option>
                             </select>
 
-                            <input name="response_condition[value][<%- data.id %>][action_params][response_url]" class="input-text" style="width: 500px;" type="text" placeholder="Enter the response URL" />
+                            <input name="response_condition[value][<%- data.id %>][action_params][response_url]"
+                                   class="input-text" style="width: 500px;" type="text"
+                                   placeholder="Enter the response URL"/>
 
-                            <select name="response_condition[value][<%- data.id %>][action_params][method]" class="required-option action-response-<%- data.id %> action-response-<%- data.id %>-rest" style="display: none;">
+                            <select name="response_condition[value][<%- data.id %>][action_params][method]"
+                                    class="required-option action-response-<%- data.id %> action-response-<%- data.id %>-rest"
+                                    style="display: none;">
                                 <option value="get">GET</option>
                                 <option value="post">POST</option>
                                 <option value="put">PUT</option>
                                 <option value="delete">DELETE</option>
                             </select>
 
-                            <input name="response_condition[value][<%- data.id %>][action_params][soap_method]" class="input-text action-response-<%- data.id %> action-response-<%- data.id %>-soap" type="text" placeholder="Enter the SOAP method" style="width: 200px;display: none;" />
+                            <input name="response_condition[value][<%- data.id %>][action_params][soap_method]"
+                                   class="input-text action-response-<%- data.id %> action-response-<%- data.id %>-soap"
+                                   type="text" placeholder="Enter the SOAP method" style="width: 200px;display: none;"/>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </td>
             <td id="delete_button_container_response_condition_<%- data.id %>" class="col-delete">
-                <input type="hidden" class="delete-flag" name="response_condition[delete][<%- data.id %>]" value="" />
-                <button id="delete_button_<%- data.id %>" title="<?php /* @escapeNotVerified */ echo __('Delete') ?>" type="button"
+                <input type="hidden" class="delete-flag" name="response_condition[delete][<%- data.id %>]" value=""/>
+                <button id="delete_button_<%- data.id %>" title="<?php /* @escapeNotVerified */
+                echo __('Delete') ?>" type="button"
                         class="action- scalable delete delete-option"
                 >
-                    <span><?php /* @escapeNotVerified */ echo __('Delete') ?></span>
+                    <span><?php /* @escapeNotVerified */
+                        echo __('Delete') ?></span>
                 </button>
             </td>
         </tr>
@@ -160,12 +214,14 @@
         {
             "*": {
                 "Unific_Extension/js/condition": {
-                    "attributesData": <?php /* @noEscape */ echo json_encode($block->getModel()->getResponseConditions(), JSON_HEX_QUOT); ?>,
+                    "attributesData": <?php /* @noEscape */
+        echo json_encode($block->getModel()->getResponseConditions(), JSON_HEX_QUOT); ?>,
                     "isSortable":  1,
                     "isReadOnly": 0,
                     "prefix": "response"
                 }
             }
         }
+
     </script>
 </fieldset>

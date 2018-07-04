@@ -1,6 +1,9 @@
 <?php
+
 namespace Unific\Extension\Model\ResourceModel\Audit;
+
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+
 class Log extends AbstractDb
 {
     /**

@@ -23,7 +23,7 @@ class CleanLogCommand extends Command
     /**
      * CleanLogCommand constructor.
      * @param ObjectManagerInterface $manager
-     * @param Unific\Extension\Model\ResourceModel\Audit\Log\CollectionFactory $auditLogCollectionFactory,
+     * @param Unific\Extension\Model\ResourceModel\Audit\Log\CollectionFactory $auditLogCollectionFactory ,
      */
     public function __construct(
         ObjectManagerInterface $manager,
@@ -64,7 +64,7 @@ class CleanLogCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if($input->getArgument('preserve')) {
+        if ($input->getArgument('preserve')) {
             $this->preserveDays = $input->getArgument('preserve');
         }
 

@@ -9,7 +9,7 @@ class Connection implements ConnectionInterface
      * @var
      */
     protected $connection;
-    
+
     /**
      * The Object manager that helps us setup different classes
      * @var
@@ -20,7 +20,7 @@ class Connection implements ConnectionInterface
      * @var \Unific\Extension\Model\Server
      */
     protected $serverData;
-    
+
     public function setup()
     {
         $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();

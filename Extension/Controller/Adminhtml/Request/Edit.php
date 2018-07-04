@@ -14,7 +14,7 @@ class Edit extends \Unific\Extension\Controller\Adminhtml\Request
         if ($id) {
             $model->load($id);
         }
-        
+
         $this->_coreRegistry->register('_extension_request', $model);
 
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */

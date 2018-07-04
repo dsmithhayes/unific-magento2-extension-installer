@@ -3,6 +3,7 @@
  * Used in creating options for Server Type config value selection
  *
  */
+
 namespace Unific\Extension\Model\Config\Source;
 
 class Type implements \Magento\Framework\Option\ArrayInterface

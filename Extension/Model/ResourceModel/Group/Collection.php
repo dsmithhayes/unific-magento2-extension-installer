@@ -10,6 +10,7 @@ class Collection extends AbstractCollection
      * @var string
      */
     protected $_idFieldName = 'id';
+
     /**
      * Define resource model
      * @return void

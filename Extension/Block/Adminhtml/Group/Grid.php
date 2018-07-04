@@ -29,7 +29,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Unific\Extension\Model\GroupFactory $groupFactory,
         \Magento\Framework\Module\Manager $moduleManager,
         array $data = []
-    ) {
+    )
+    {
         $this->_groupFactory = $groupFactory;
         $this->moduleManager = $moduleManager;
         parent::__construct($context, $backendHelper, $data);

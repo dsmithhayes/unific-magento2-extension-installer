@@ -1,4 +1,5 @@
 <?php
+
 namespace Unific\Extension\Helper\Message;
 
 use Magento\Framework\Exception\InputException;
@@ -83,8 +84,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         $messageModel->setRetryAmount(0);
         $messageModel->setMaxRetryAmount(20);
 
-        switch($this->scopeConfig->getValue('unific/extension/mode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
-        {
+        switch ($this->scopeConfig->getValue('unific/extension/mode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             case \Unific\Extension\Model\Message\Queue::QUEUE_MODE_BURST:
                 /** Lets save this to MySQL */
                 $messageModel->save();
@@ -95,8 +95,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
                 /** Lets send this immediately */
                 $status = $this->requestHelper->sendMessage($messageModel, $url, $requestType);
 
-                if($status['code'] !== 200)
-                {
+                if ($status['code'] !== 200) {
                     $this->requeue($messageModel);
                 }
 
@@ -111,8 +110,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function requeue(\Unific\Extension\Model\Message\Queue $message)
     {
-        if($message->getRetryAmount() < $message->getMaxRetryAmount())
-        {
+        if ($message->getRetryAmount() < $message->getMaxRetryAmount()) {
             $message->setRetryAmount($message->getRetryAmount() + 1);
             $message->save();
         } else {

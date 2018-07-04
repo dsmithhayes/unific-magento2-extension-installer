@@ -21,7 +21,7 @@ class Condition extends Generic
     public function getWebsites()
     {
         $websites = array();
-        foreach($this->_storeManager->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $websites[] = array('id' => $website->getId(), 'name' => $website->getName());
         }
 
@@ -46,7 +46,7 @@ class Condition extends Generic
     {
         $stores = array();
 
-        foreach($this->_storeManager->getStores() as $store) {
+        foreach ($this->_storeManager->getStores() as $store) {
             $stores[] = array('id' => $store->getId(), 'name' => $store->getName());
         }
 

@@ -20,8 +20,9 @@ class AfterLoad
         $typeInstance = $objectManager->get('Unific\Extension\Model\ResourceModel\Mapping\Collection');
         $typeInstance->addFieldToFilter('request_id', $model->getId());
 
-        foreach($typeInstance->getItems() as $item) {
+        foreach ($typeInstance->getItems() as $item) {
             $itemData = $item->getData();
+
             list($itemData['internaltype'], $itemData['internal']) = explode('.', $itemData['internal']);
             $extraData['request_mappings'][] = $itemData;
         }
@@ -30,7 +31,7 @@ class AfterLoad
         $typeInstance = $objectManager->get('Unific\Extension\Model\ResourceModel\Condition\Collection');
         $typeInstance->addFieldToFilter('request_id', $model->getId());
 
-        foreach($typeInstance->getItems() as $item) {
+        foreach ($typeInstance->getItems() as $item) {
             $itemData = $item->getData();
 
             $conditionData = array_merge_recursive($item->getData(), array(
@@ -44,7 +45,7 @@ class AfterLoad
         $typeInstance = $objectManager->get('Unific\Extension\Model\ResourceModel\ResponseMapping\Collection');
         $typeInstance->addFieldToFilter('request_id', $model->getId());
 
-        foreach($typeInstance->getItems() as $item) {
+        foreach ($typeInstance->getItems() as $item) {
             $itemData = $item->getData();
             list($itemData['internaltype'], $itemData['internal']) = explode('.', $itemData['internal']);
             $extraData['response_mappings'][] = $itemData;
@@ -54,7 +55,7 @@ class AfterLoad
         $typeInstance = $objectManager->get('Unific\Extension\Model\ResourceModel\ResponseCondition\Collection');
         $typeInstance->addFieldToFilter('request_id', $model->getId());
 
-        foreach($typeInstance->getItems() as $item) {
+        foreach ($typeInstance->getItems() as $item) {
             $itemData = $item->getData();
 
             $conditionData = array_merge_recursive($item->getData(), array(

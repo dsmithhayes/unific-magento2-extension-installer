@@ -1,4 +1,5 @@
 <?php
+
 namespace Unific\Extension\Helper;
 
 use Magento\Framework\Exception\InputException;
@@ -50,7 +51,7 @@ class Request extends \Magento\Framework\App\Helper\AbstractHelper
         ]);
 
         $options = [
-            'adapter'   => 'Zend\Http\Client\Adapter\Curl',
+            'adapter' => 'Zend\Http\Client\Adapter\Curl',
             'curloptions' => [CURLOPT_FOLLOWLOCATION => true],
             'maxredirects' => 0,
             'timeout' => 30

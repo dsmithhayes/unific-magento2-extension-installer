@@ -1,6 +1,7 @@
 <?php
 
 namespace Unific\Extension\Setup;
+
 use Magento\Framework\Setup\InstallSchemaInterface;
 
 use Magento\Framework\Setup\ModuleContextInterface;
@@ -228,23 +229,23 @@ class InstallSchema implements InstallSchemaInterface
         $table = $installer->getConnection()
             ->newTable($installer->getTable('unific_extension_request_mapping'))
             ->addColumn('id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
-                'identity'  => true,
-                'unsigned'  => true,
-                'nullable'  => false,
-                'primary'   => true,
+                'identity' => true,
+                'unsigned' => true,
+                'nullable' => false,
+                'primary' => true,
             ), 'ID')
             ->addColumn('request_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 0, array(
                 'unsigned' => true,
                 'nullable' => false,
             ), 'Request ID')
             ->addColumn('location', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Mapping Location')
             ->addColumn('internal', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Internal Attribute')
             ->addColumn('external', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'External Attribute')
             ->addColumn(
                 'created_at',
@@ -285,32 +286,32 @@ class InstallSchema implements InstallSchemaInterface
         $table = $installer->getConnection()
             ->newTable($installer->getTable('unific_extension_request_condition'))
             ->addColumn('id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
-                'identity'  => true,
-                'unsigned'  => true,
-                'nullable'  => false,
-                'primary'   => true,
+                'identity' => true,
+                'unsigned' => true,
+                'nullable' => false,
+                'primary' => true,
             ), 'ID')
             ->addColumn('request_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 0, array(
                 'unsigned' => true,
                 'nullable' => false,
             ), 'Request ID')
             ->addColumn('condition_order', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Provided condition order')
             ->addColumn('condition', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Provided condition')
             ->addColumn('condition_comparison', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Provided condition comparison')
             ->addColumn('condition_value', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => true,
+                'nullable' => true,
             ), 'Provided value')
             ->addColumn('condition_action', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Action of condition')
             ->addColumn('condition_action_params', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => true,
+                'nullable' => true,
             ), 'Action Parameters')
             ->addColumn(
                 'created_at',
@@ -353,23 +354,23 @@ class InstallSchema implements InstallSchemaInterface
         $table = $installer->getConnection()
             ->newTable($installer->getTable('unific_extension_response_mapping'))
             ->addColumn('id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
-                'identity'  => true,
-                'unsigned'  => true,
-                'nullable'  => false,
-                'primary'   => true,
+                'identity' => true,
+                'unsigned' => true,
+                'nullable' => false,
+                'primary' => true,
             ), 'ID')
             ->addColumn('request_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 0, array(
                 'unsigned' => true,
                 'nullable' => false,
             ), 'Request ID')
             ->addColumn('location', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Mapping Location')
             ->addColumn('internal', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Internal Attribute')
             ->addColumn('external', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'External Attribute')
             ->addColumn(
                 'created_at',
@@ -410,32 +411,32 @@ class InstallSchema implements InstallSchemaInterface
         $table = $installer->getConnection()
             ->newTable($installer->getTable('unific_extension_response_condition'))
             ->addColumn('id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
-                'identity'  => true,
-                'unsigned'  => true,
-                'nullable'  => false,
-                'primary'   => true,
+                'identity' => true,
+                'unsigned' => true,
+                'nullable' => false,
+                'primary' => true,
             ), 'ID')
             ->addColumn('request_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 0, array(
                 'unsigned' => true,
                 'nullable' => false,
             ), 'Request ID')
             ->addColumn('condition_order', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Provided condition order')
             ->addColumn('condition', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Provided condition')
             ->addColumn('condition_comparison', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Provided condition comparison')
             ->addColumn('condition_value', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => true,
+                'nullable' => true,
             ), 'Provided value')
             ->addColumn('condition_action', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => false,
+                'nullable' => false,
             ), 'Action of condition')
             ->addColumn('condition_action_params', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
-                'nullable'  => true,
+                'nullable' => true,
             ), 'Action Parameters')
             ->addColumn(
                 'created_at',

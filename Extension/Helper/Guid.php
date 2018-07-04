@@ -1,4 +1,5 @@
 <?php
+
 namespace Unific\Extension\Helper;
 
 use Magento\Framework\Exception\InputException;
@@ -22,8 +23,7 @@ class Guid extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function generateGuid()
     {
-        if (function_exists('com_create_guid') === true)
-        {
+        if (function_exists('com_create_guid') === true) {
             return trim(com_create_guid(), '{}');
         }
 

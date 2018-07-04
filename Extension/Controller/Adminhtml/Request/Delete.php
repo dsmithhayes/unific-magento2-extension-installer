@@ -9,7 +9,7 @@ class Delete extends \Unific\Extension\Controller\Adminhtml\Request
      */
     public function execute()
     {
-        $id = (int) $this->getRequest()->getParam('id');
+        $id = (int)$this->getRequest()->getParam('id');
         if ($id) {
             $model = $this->_objectManager->create('Unific\Extension\Model\Request');
             $model->load($id);

@@ -3,6 +3,7 @@
  * Setting the operation mode of the Unific extension
  *
  */
+
 namespace Unific\Extension\Model\Config\Source;
 
 class Entity implements \Magento\Framework\Option\ArrayInterface

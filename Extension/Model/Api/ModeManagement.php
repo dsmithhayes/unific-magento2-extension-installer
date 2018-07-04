@@ -1,4 +1,5 @@
 <?php
+
 namespace Unific\Extension\Model\Api;
 
 use Unific\Extension\Api\ModeManagementInterface;
@@ -27,7 +28,8 @@ class ModeManagement implements ModeManagementInterface
      *
      * @return bool true on success
      */
-    public function setMode($mode, $intervalInSeconds = 0) {
+    public function setMode($mode, $intervalInSeconds = 0)
+    {
         $this->scopeConfig->setValue('unific/extension/mode', $mode, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $this->scopeConfig->setValue('unific/extension/interval', $intervalInSeconds, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 

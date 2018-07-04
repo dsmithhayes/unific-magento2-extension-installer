@@ -15,7 +15,9 @@ abstract class Group extends \Magento\Backend\App\AbstractAction
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory,
         \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
-    ) {parent::__construct($context);
+    )
+    {
+        parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
@@ -25,6 +27,7 @@ abstract class Group extends \Magento\Backend\App\AbstractAction
         $this->resultLayoutFactory = $resultLayoutFactory;
         $this->resultRawFactory = $resultRawFactory;
     }
+
     /**
      * @return $this
      */

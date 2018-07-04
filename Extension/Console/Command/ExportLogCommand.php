@@ -24,14 +24,14 @@ class ExportLogCommand extends Command
     /**
      * CleanLogCommand constructor.
      * @param ObjectManagerInterface $manager
-     * @param \Unific\Extension\Model\ResourceModel\Audit\Log\CollectionFactory $auditLogCollectionFactory,
+     * @param \Unific\Extension\Model\ResourceModel\Audit\Log\CollectionFactory $auditLogCollectionFactory ,
      * @param \Unific\Extension\Logger\Logger $logger
      */
     public function __construct(
         ObjectManagerInterface $manager,
         \Unific\Extension\Model\ResourceModel\Audit\Log\CollectionFactory $auditLogCollectionFactory,
         \Unific\Extension\Logger\Logger $logger
-        )
+    )
     {
         $this->objectManager = $manager;
         $this->auditLogCollectionFactory = $auditLogCollectionFactory;
@@ -69,7 +69,7 @@ class ExportLogCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if($input->getArgument('days')) {
+        if ($input->getArgument('days')) {
             $this->exportDays = $input->getArgument('days');
         }
 
@@ -82,13 +82,11 @@ class ExportLogCommand extends Command
         // Lets write all of the items to a string
         $output->writeln("Exporting a total of " . $collection->count() . " items");
 
-        foreach($collection as $message)
-        {
+        foreach ($collection as $message) {
             $this->logger->info(
                 implode(',', $message->getData())
             );
         }
-
 
 
     }

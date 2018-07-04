@@ -1,4 +1,5 @@
 <?php
+
 namespace Unific\Extension\Controller\Adminhtml\Group;
 
 use Unific\Extension\Controller\Adminhtml\Group;

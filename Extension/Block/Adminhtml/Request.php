@@ -18,7 +18,8 @@ class Request extends \Magento\Backend\Block\Widget\Container
         \Magento\Backend\Block\Widget\Context $context,
         \Unific\Extension\Model\RequestFactory $requestFactory,
         array $data = []
-    ) {
+    )
+    {
         $this->_requestFactory = $requestFactory;
 
         parent::__construct($context, $data);
