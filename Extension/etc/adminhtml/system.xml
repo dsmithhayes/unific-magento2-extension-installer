@@ -21,6 +21,23 @@
                 </field>
             </group>
 
+            <group id="connection" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Unific Connection Settings</label>
+                <field id="url" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Unific REST API Location</label>
+                </field>
+                <field id="oauthApiUser" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>OAuth2 API User</label>
+                </field>
+                <field id="oauthApiSecret" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>OAuth2 API Secret</label>
+                </field>
+            </group>
+
             <group id="hmac" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
                    showInStore="1">
                 <label>Security Settings</label>
