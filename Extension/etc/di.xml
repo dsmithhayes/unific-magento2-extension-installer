@@ -13,6 +13,7 @@
             <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
         </arguments>
     </type>
+    
     <type name="Unific\Extension\Logger\Logger">
         <arguments>
             <argument name="name" xsi:type="string">ExtensionLog</argument>
@@ -22,6 +23,16 @@
         </arguments>
     </type>
 
+    <type name="Unific\Extension\Helper\Webhook">
+        <arguments>
+            <argument name="scopeConfig" xsi:type="object">\Magento\Framework\App\Config\ScopeConfigInterface</argument>
+            <argument name="requestModel" xsi:type="object">\Unific\Extension\Model\RequestInterface</argument>
+            <argument name="mappingModel" xsi:type="object">\Unific\Extension\Model\MappingInterface</argument>
+            <argument name="conditionModel" xsi:type="object">\Unific\Extension\Model\ConditionInterface</argument>
+            <argument name="responseConditionModel" xsi:type="object">\Unific\Extension\Model\ResponseConditionInterface</argument>
+            <argument name="responseMappingModel" xsi:type="object">\Unific\Extension\Model\ResponseMappingInterface</argument>
+        </arguments>
+    </type>
 
     <type name="Unific\Extension\Helper\Request">
         <arguments>
@@ -45,6 +56,10 @@
             <argument name="guidHelper" xsi:type="object">\Unific\Extension\Helper\Guid</argument>
         </arguments>
     </type>
+
+    <preference for="Unific\Extension\Api\ModeManagementInterface" type="Unific\Extension\Model\Api\ModeManagement" />
+    <preference for="Unific\Extension\Api\ReportManagementInterface" type="Unific\Extension\Model\Api\ReportManagement" />
+    <preference for="Unific\Extension\Api\WebhookManagementInterface" type="Unific\Extension\Model\Api\WebhookManagement" />
 
     <preference for="Unific\Extension\Model\GroupInterface" type="Unific\Extension\Model\Group"/>
     <preference for="Unific\Extension\Model\RequestInterface" type="Unific\Extension\Model\Request"/>
