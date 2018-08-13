@@ -16,8 +16,6 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
     {
         parent::setup();
 
-        $this->connection = $this->getObjectManager()->create('Zend_Rest_Client');
-
         return $this;
     }
 
@@ -47,7 +45,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
     {
         $this->urlData = parse_url($url);
 
-        $connection = new \Zend_Rest_Client($this->urlData['scheme'] . '://' . $this->urlData['host']);
+        $this->connection = new \Zend_Rest_Client($this->urlData['scheme'] . '://' . $this->urlData['host']);
 
         $integrationKey = $this->scopeConfig->getValue('unific/extension/integration_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $extraHeaders[$integrationKey] =  $this->scopeConfig->getValue('unific/extension/integration', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
@@ -58,9 +56,9 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
             $extraHeaders[$hmacKey] = 'test-hmac';
         }
 
-        $connection->getHttpClient()->setHeaders($extraHeaders);
+        $this->connection->getHttpClient()->setHeaders($extraHeaders);
 
-        return $connection;
+        return $this->connection;
     }
 
     /**
@@ -78,7 +76,9 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function post($url, $data = array(), $extraHeaders = array())
     {
-        $this->initConnection($url, $data, $extraHeaders)->restPost($this->urlData['path'], $data);
+        $result = $this->initConnection($url, $data, $extraHeaders)->restPost($this->urlData['path'], $data);
+
+        return $this->connection->getHttpClient()->getLastResponse();
     }
 
     /**
@@ -88,8 +88,9 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function get($url, $data = array(), $extraHeaders = array())
     {
-        $this->initConnection($url, $data, $extraHeaders)->restGet($this->urlData['path'], $data);
+        $result = $this->initConnection($url, $data, $extraHeaders)->restGet($this->urlData['path'], $data);
 
+        return $this->connection->getHttpClient()->getLastResponse();
     }
 
     /**
@@ -99,8 +100,9 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function put($url, $data = array(), $extraHeaders = array())
     {
-        $this->initConnection($url, $data, $extraHeaders)->restPut($this->urlData['path'], $data);
+        $result = $this->initConnection($url, $data, $extraHeaders)->restPut($this->urlData['path'], $data);
 
+        return $this->connection->getHttpClient()->getLastResponse();
     }
 
     /**
@@ -110,6 +112,8 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function delete($url, $data = array(), $extraHeaders = array())
     {
-        $this->initConnection($url, $data, $extraHeaders)->restDelete($this->urlData['path'], $data);
+        $result = $this->initConnection($url, $data, $extraHeaders)->restDelete($this->urlData['path'], $data);
+
+        return $this->connection->getHttpClient()->getLastResponse();
     }
 }
