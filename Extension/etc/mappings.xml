@@ -1,9 +1,4 @@
 <mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <header>
-        <hmac_security_header>
-            <external>X-Magento-Unific-Hmac-SHA256</external>
-        </hmac_security_header>
-    </header>
     <admin_user>
         <username />
     </admin_user>
