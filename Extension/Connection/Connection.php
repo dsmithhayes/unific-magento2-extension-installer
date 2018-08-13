@@ -16,6 +16,9 @@ class Connection implements ConnectionInterface
      */
     protected $objectManager;
 
+    /**
+     * @var \Unific\Extension\Helper\Hmac
+     */
     protected $hmacHelper;
 
     /**
@@ -23,12 +26,20 @@ class Connection implements ConnectionInterface
      */
     protected $serverData;
 
+    /**
+     * Connection constructor.
+     *
+     * @param \Unific\Extension\Helper\Hmac $hmacHelper
+     */
+    public function __construct(
+            \Unific\Extension\Helper\Hmac $hmacHelper
+    ) {
+        $this->hmacHelper = $hmacHelper;
+    }
+
     public function setup()
     {
         $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-
-        $this->requestData = $this->getObjectManager()->get('Unific\Extension\Model\Request');
-        $this->hmacHelper = $this->getObjectManager()->get('Unific\Extension\Helper\Hmac');
 
         return $this;
     }

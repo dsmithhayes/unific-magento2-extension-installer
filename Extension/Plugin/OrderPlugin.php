@@ -81,7 +81,7 @@ class OrderPlugin
                 if($condition['condition_action'] == 'request')
                 {
                     $actionData = json_decode($condition['condition_action_params'], true);
-                    $this->restConnection->post(
+                    $this->restConnection->{$actionData['method']}(
                         $actionData['request_url'],
                         $this->mappingHelper->map($order->getData(), 'order'),
                         array('subject' => 'order/create')
