@@ -6,6 +6,10 @@ class OrderPlugin
 {
     protected $logger;
 
+    /**
+     * OrderPlugin constructor.
+     * @param \Unific\Extension\Logger\Logger $logger
+     */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger
     )
@@ -13,12 +17,20 @@ class OrderPlugin
         $this->logger = $logger;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRequestCollection()
     {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         return $objectManager->create('\Unific\Extension\Model\ResourceModel\Request\Grid\Collection');
     }
 
+    /**
+     * @param $subject
+     * @param $order
+     * @return array
+     */
     public function beforePlace($subject, $order)
     {
         foreach ($this->getRequestCollection()
@@ -31,6 +43,11 @@ class OrderPlugin
         return [$order];
     }
 
+    /**
+     * @param $subject
+     * @param $order
+     * @return mixed
+     */
     public function afterPlace($subject, $order)
     {
         foreach ($this->getRequestCollection()
