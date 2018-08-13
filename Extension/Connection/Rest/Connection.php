@@ -49,10 +49,16 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
 
         $connection = new \Zend_Rest_Client($this->urlData['scheme'] . '://' . $this->urlData['host']);
 
-        $connection->getHttpClient()->setHeaders(
-            //array_merge($extraHeaders, array('X-Magento-Unific-Hmac-SHA256' => $this->getHmacHelper()->generateHmac($data)))
-            array_merge($extraHeaders, array('X-Magento-Unific-Hmac-SHA256' => 'test-hmac'))
-        );
+        $integrationKey = $this->scopeConfig->getValue('unific/extension/integration_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $extraHeaders[$integrationKey] =  $this->scopeConfig->getValue('unific/extension/integration', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        if($this->scopeConfig->getValue('unific/hmac/hmacEnable', \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
+        {
+            $hmacKey = $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            $extraHeaders[$hmacKey] = 'test-hmac';
+        }
+
+        $connection->getHttpClient()->setHeaders($extraHeaders);
 
         return $connection;
     }

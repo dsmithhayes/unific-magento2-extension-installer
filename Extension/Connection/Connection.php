@@ -26,15 +26,22 @@ class Connection implements ConnectionInterface
      */
     protected $serverData;
 
+
+    protected $scopeConfig;
+
     /**
      * Connection constructor.
      *
      * @param \Unific\Extension\Helper\Hmac $hmacHelper
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-            \Unific\Extension\Helper\Hmac $hmacHelper
+            \Unific\Extension\Helper\Hmac $hmacHelper,
+            \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+
     ) {
         $this->hmacHelper = $hmacHelper;
+        $this->scopeConfig = $scopeConfig;
     }
 
     public function setup()
@@ -89,5 +96,10 @@ class Connection implements ConnectionInterface
     public function getHmacHelper()
     {
         return $this->hmacHelper;
+    }
+
+    public function getScopeConfig()
+    {
+        return $this->scopeConfig;
     }
 }

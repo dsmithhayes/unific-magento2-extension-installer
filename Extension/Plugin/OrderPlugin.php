@@ -85,8 +85,7 @@ class OrderPlugin
                         $actionData['request_url'],
                         $this->mappingHelper->map($order->getData(), 'order'),
                         array(
-                            'integration' => '32VYVdV09xYesdUBLAthVN3yzgCqcfPGjs1pTzsQYL7nNhfHm-oxp5wpKh0',
-                            'subject' => 'order/create'
+                            'X-SUBJECT' => 'order/create'
                         )
                     );
                 }
