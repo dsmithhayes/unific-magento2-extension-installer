@@ -62,7 +62,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function getRestPath()
     {
-        return (isset($this->urlData['query'])) ? $this->urlData['path'] . '?' . $this->urlData['query'] : $this->urlData['path'];
+        return (isset($this->urlData['query'])) ? $this->urlData['path'] . '?' . urlencode($this->urlData['query']) : $this->urlData['path'];
     }
 
     /**
@@ -72,7 +72,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function post($url, $data = array(), $extraHeaders = array())
     {
-        $this->initConnection($url, $data, $extraHeaders)->restPost($this->getRestPath(), $data);
+        $this->initConnection($url, $data, $extraHeaders)->restPost($this->urlData['path'], $data);
     }
 
     /**
@@ -82,7 +82,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function get($url, $data = array(), $extraHeaders = array())
     {
-        $this->initConnection($url, $data, $extraHeaders)->restGet($this->getRestPath(), $data);
+        $this->initConnection($url, $data, $extraHeaders)->restGet($this->urlData['path'], $data);
 
     }
 
@@ -93,7 +93,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function put($url, $data = array(), $extraHeaders = array())
     {
-        $this->initConnection($url, $data, $extraHeaders)->restPut($this->getRestPath(), $data);
+        $this->initConnection($url, $data, $extraHeaders)->restPut($this->urlData['path'], $data);
 
     }
 
@@ -104,6 +104,6 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function delete($url, $data = array(), $extraHeaders = array())
     {
-        $this->initConnection($url, $data, $extraHeaders)->restDelete($this->getRestPath(), $data);
+        $this->initConnection($url, $data, $extraHeaders)->restDelete($this->urlData['path'], $data);
     }
 }
