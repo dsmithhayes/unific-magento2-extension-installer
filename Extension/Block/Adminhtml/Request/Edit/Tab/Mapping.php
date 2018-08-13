@@ -40,6 +40,14 @@ class Mapping extends Generic
         return parent::_prepareForm();
     }
 
+    public function getDefaults()
+    {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $mappingHelper = $objectManager->get('\Unific\Extension\Helper\Mapping');
+
+        return $mappingHelper->getMappings();
+    }
+
     public function getEavAttributes()
     {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();

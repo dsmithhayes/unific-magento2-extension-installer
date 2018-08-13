@@ -1,0 +1,52 @@
+<mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <header>
+        <hmac_security_header>
+            <external>X-Magento-Unific-Hmac-SHA256</external>
+        </hmac_security_header>
+    </header>
+    <admin_user>
+        <username />
+    </admin_user>
+    <cart>
+        <entity_id>
+            <external>cart_id</external>
+        </entity_id>
+        <date_created />
+    </cart>
+    <order>
+        <entity_id>
+            <external>order_id</external>
+        </entity_id>
+        <increment_id />
+        <date_created />
+    </order>
+    <invoice>
+        <entity_id>
+            <external>invoice_id</external>
+        </entity_id>
+        <order_id />
+        <date_created />
+    </invoice>
+    <shipment>
+        <entity_id>
+            <external>shipment_id</external>
+        </entity_id>
+        <order_id />
+        <date_created />
+    </shipment>
+    <creditmemo>
+        <entity_id>
+            <external>creditmemo_id</external>
+        </entity_id>
+        <order_id />
+        <date_created />
+    </creditmemo>
+    <customer>
+        <entity_id>
+            <external>customer_id</external>
+        </entity_id>
+        <email />
+        <firstname />
+        <lastname />
+    </customer>
+</mappings>

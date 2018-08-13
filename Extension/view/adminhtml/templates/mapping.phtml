@@ -11,7 +11,53 @@
 ?>
 <fieldset class="fieldset">
     <legend class="legend"><span><?php /* @escapeNotVerified */
-            echo __('Manage Mappings') ?></span></legend>
+            echo __('Default Mappings') ?></span></legend>
+    <div id="default-request-mappings-panel" data-index="default_request_mappings_select_container">
+        <table class="admin__control-table" data-index="default_request_mappings_select">
+            <thead>
+            <tr id="default-request-mappings-table">
+                <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
+                        echo __('Magento Field') ?></span></th>
+                <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
+                        echo __('External Field') ?></span></th>
+                <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
+                        echo __('Add To') ?></span></th>
+            </tr>
+            </thead>
+            <tbody id="default-request-mappings-container" data-role="default-request-mappings-options-container" class="ignore-validate"></tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="3" class="validation">
+                        <input type="hidden" class="required-dropdown-attribute-entry"
+                               name="dropdown_attribute_validation"/>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <script id="row-template-default-request-mappings" type="text/x-magento-template">
+        <tr>
+            <td class="col-<%- data.id %>"><%- data.internal %></td>
+            <td class="col-<%- data.id %>"><%- data.external %></td>
+            <td class="col-<%- data.id %>"><%- data.location %></td>
+        </tr>
+    </script>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Unific_Extension/js/default-mapping": {
+                    "attributesData": <?php /* @noEscape */ echo json_encode($block->getDefaults(), JSON_HEX_QUOT); ?>,
+                    "prefix": "request"
+                }
+            }
+        }
+
+    </script>
+</fieldset>
+
+<fieldset class="fieldset">
+    <legend class="legend"><span><?php /* @escapeNotVerified */
+            echo __('Manage Additional Mappings') ?></span></legend>
     <div id="manage-request-mappings-panel" data-index="request_mappings_select_container">
         <table class="admin__control-table" data-index="request_mappings_select">
             <thead>
@@ -58,6 +104,7 @@
                        value="<%- data.sort_order %>"/>
             </td>
             <td class="col-<%- data.id %>"><select id="request_mapping_internal_type_<%- data.id %>"
+                                                   name="request_mapping[value][<%- data.id %>][internal_type]
                                                    value="<%- data.internal_type %>"
                                                    class="input-text required-option request-mapping-internal">
                     <option>Select type</option>

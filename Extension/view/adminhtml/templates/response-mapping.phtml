@@ -9,6 +9,7 @@
 /** @var $block \Unific\Extension\Block\Adminhtml\Response\Edit\Tab\Info */
 
 ?>
+
 <fieldset class="fieldset">
     <legend class="legend"><span><?php /* @escapeNotVerified */
             echo __('Manage Response Mappings') ?></span></legend>
@@ -62,6 +63,7 @@
                                                   class="input-text required-option response-mapping-external"
                                                   type="text"/></td>
             <td class="col-<%- data.id %>"><select id="response_mapping_internal_type_<%- data.id %>"
+                                                   name="response_mapping[value][<%- data.id %>][internal]
                                                    value="<%- data.internal_type %>"
                                                    class="input-text required-option response-mapping-internal">
                     <option>Select type</option>

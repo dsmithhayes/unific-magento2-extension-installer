@@ -32,6 +32,18 @@ define([
                         'action_params': {}
                     };
                     isNewOption = true;
+                } else {
+                    data.sort_order = data.id;
+
+                    if(data.action_params == null)
+                    {
+                        data.action_params = {};
+                    }
+
+                    if(data.condition_action_params == null)
+                    {
+                        data.condition_action_params = {};
+                    }
                 }
 
                 if (!data.intype) {
@@ -83,14 +95,31 @@ define([
                             jQuery(this).attr('selected', 'selected');
                         }
                     });
-                }
+
+                    if(typeof data.condition_action_params == "string")
+                    {
+                        data.condition_action_params = JSON.parse(data.condition_action_params);
+
+                        jQuery('#action-' + config.prefix + '-' + data.id + ' option').each(function () {
+                            if (jQuery(this).val() == data.condition_action_params.protocol) {
+                                jQuery(this).attr('selected', 'selected');
+                            }
+                        });
+
+                        jQuery('#action-' + config.prefix + '-method-' + data.id + ' option').each(function () {
+                            if (jQuery(this).val() == data.condition_action_params.method) {
+                                jQuery(this).attr('selected', 'selected');
+                            }
+                        });
+                    }
+              }
 
                 this.addActionChange(this.prefix + '_condition_action_' + data.id);
                 this.addRequestChange('action-request-' + data.id);
 
                 Event.observe(this.prefix + '_condition_type_' + data.id, 'change', this.addSelectChange.bind(this, this.prefix + '_condition_type_' + data.id));
                 Event.observe(this.prefix + '_condition_action_' + data.id, 'change', this.addActionChange.bind(this, this.prefix + '_condition_action_' + data.id));
-                Event.observe('action-request-' + data.id, 'change', this.addRequestChange.bind(this, 'action-request-' + data.id));
+                Event.observe('action-' +  this.prefix + '-' + data.id, 'change', this.addRequestChange.bind(this, 'action-' +  this.prefix + '-' + data.id));
 
                 jQuery('#' + this.prefix + '_condition_type_' + data.id).trigger('change');
 

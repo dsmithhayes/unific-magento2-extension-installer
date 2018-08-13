@@ -28,8 +28,8 @@ class Tabs extends WidgetTabs
         $this->addTab(
             'request_info',
             [
-                'label' => __('Information'),
-                'title' => __('Information'),
+                'label' => __('Configuration'),
+                'title' => __('Configuration'),
                 'content' => $this->getLayout()->createBlock(
                     'Unific\Extension\Block\Adminhtml\Request\Edit\Tab\Info'
                 )->toHtml(),
@@ -40,8 +40,8 @@ class Tabs extends WidgetTabs
         $this->addTab(
             'request_condition',
             [
-                'label' => __('Conditions'),
-                'title' => __('Conditions'),
+                'label' => __('Webhook Conditions'),
+                'title' => __('Webhook Conditions'),
                 'content' => $this->getLayout()->createBlock(
                     'Unific\Extension\Block\Adminhtml\Request\Edit\Tab\Condition'
                 )->toHtml(),
@@ -52,8 +52,8 @@ class Tabs extends WidgetTabs
         $this->addTab(
             'request_mapping',
             [
-                'label' => __('Mappings'),
-                'title' => __('Mappings'),
+                'label' => __('Webhook Mappings'),
+                'title' => __('Webhook Mappings'),
                 'content' => $this->getLayout()->createBlock(
                     'Unific\Extension\Block\Adminhtml\Request\Edit\Tab\Mapping'
                 )->toHtml(),

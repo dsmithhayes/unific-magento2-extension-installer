@@ -74,10 +74,10 @@ class Info extends Generic
         );
 
         $fieldset->addField(
-            'request_event_other_execution',
+            'request_event_execution',
             'select',
             [
-                'name' => 'request_event',
+                'name' => 'request_event_execution',
                 'label' => __('Event Execution'),
                 'title' => __('Event Execution'),
                 'values' => array(
@@ -103,15 +103,13 @@ class Info extends Generic
                     'Magento\Customer\Model\Session::logout' => 'Customer logs out',
                     'Magento\Backend\Model\Auth\Session::processLogin' => 'Admin user logs in',
                     'Magento\Backend\Model\Auth\Session::processLogout' => 'Admin user logs out',
-                    'Magento\Customer\Model\Customer::save' => 'Customer is saved',
+                    'Magento\Customer\Api\CustomerManagementInterface::save' => 'Customer is saved',
                     'Magento\User\Model\User::save' => 'Admin user is saved',
-                    'Magento\Quote\Model\Quote::save' => 'Quote is saved',
-                    'Magento\Order\Model\Order::place' => 'Order is placed',
+                    'Magento\Quote\Api\CartManagementInterface::save' => 'Cart is saved',
+                    'Magento\Sales\Api\OrderManagementInterface::place' => 'Order is placed',
                     'Magento\Order\Model\Order\Invoice::capture' => 'Invoice is captured',
                     'Magento\Order\Model\Order\Creditmemo::save' => 'Refund is created',
                     'Magento\Shipment\Model\Shipment::save' => 'Shipment is created',
-                    'url' => 'URL is called',
-                    'other' => 'Other (fill in)'
                 )
             ]
         );

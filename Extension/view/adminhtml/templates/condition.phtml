@@ -94,7 +94,7 @@
                                     Storeview
                                 </option>
                             </select>
-                            <select name="request_condition[value][<%- data.id %>][type]" class="required-option"
+                            <select name="request_condition[value][<%- data.id %>][type_value]" class="required-option"
                                     style="display: none;" id="request_condition_type_<%- data.id %>_value">
                             </select>
                         </td>
@@ -181,6 +181,7 @@
                                    style="width: 500px;" type="text" placeholder="Enter the request URL"/>
 
                             <select name="request_condition[value][<%- data.id %>][action_params][method]"
+                                    id="action-request-method-<%- data.id %>"
                                     class="required-option action-request-<%- data.id %> action-request-<%- data.id %>-rest"
                                     style="display: none;">
                                 <option value="get">GET</option>

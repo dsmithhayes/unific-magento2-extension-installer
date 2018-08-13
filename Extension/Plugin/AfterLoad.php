@@ -22,8 +22,12 @@ class AfterLoad
 
         foreach ($typeInstance->getItems() as $item) {
             $itemData = $item->getData();
+	   
+	    if(strpos('.', $itemData['internal']) > 0)
+	    { 
+            	list($itemData['internaltype'], $itemData['internal']) = explode('.', $itemData['internal']);
+	    }
 
-            list($itemData['internaltype'], $itemData['internal']) = explode('.', $itemData['internal']);
             $extraData['request_mappings'][] = $itemData;
         }
 
@@ -47,7 +51,12 @@ class AfterLoad
 
         foreach ($typeInstance->getItems() as $item) {
             $itemData = $item->getData();
-            list($itemData['internaltype'], $itemData['internal']) = explode('.', $itemData['internal']);
+
+            if(strpos($itemData['internal'], '.') > 0)
+            {
+                list($itemData['internaltype'], $itemData['internal']) = explode('.', $itemData['internal']);
+            }
+
             $extraData['response_mappings'][] = $itemData;
         }
 

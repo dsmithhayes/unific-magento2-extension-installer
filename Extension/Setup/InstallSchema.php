@@ -28,7 +28,6 @@ class InstallSchema implements InstallSchemaInterface
             ), 'Message')
             ->addColumn('request_type', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => false,
-                'default' => 'POST'
             ), 'The request type, can be POST, PUT, DELETE')
             ->addColumn('retry_amount', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, 0, array(
                 'unsigned' => true,
@@ -178,6 +177,9 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn('request_event', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => false,
             ), 'Called Event')
+            ->addColumn('request_event_execution', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
+                'nullable' => false,
+            ), 'Event Execution Time')
             ->addColumn(
                 'created_at',
                 \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
