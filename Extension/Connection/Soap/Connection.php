@@ -1,6 +1,6 @@
 <?php
 
-namespace Unific\Extension\Connection\OAuth2;
+namespace Unific\Extension\Connection\Soap;
 
 use Unific\Extension\Connection\ConnectionInterface;
 

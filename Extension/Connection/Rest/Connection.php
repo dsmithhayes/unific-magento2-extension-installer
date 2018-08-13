@@ -1,6 +1,6 @@
 <?php
 
-namespace Unific\Extension\Connection\OAuth2;
+namespace Unific\Extension\Connection\Rest;
 
 use Unific\Extension\Connection\ConnectionInterface;
 
@@ -27,5 +27,19 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
     public function handleResponse()
     {
         return parent::handleResponse();
+    }
+
+    public function post($url, $data = array(), $extraHeaders = array())
+    {
+        $urlData = parse_url($url);
+
+        $connection = new \Zend_Rest_Client($urlData['scheme'] . '://' . $urlData['host']);
+
+        $connection->getHttpClient()->setHeaders(
+            //array_merge($extraHeaders, array('X-Magento-Unific-Hmac-SHA256' => $this->getHmacHelper()->generateHmac($data)))
+            array_merge($extraHeaders, array('X-Magento-Unific-Hmac-SHA256' => 'test-hmac'))
+        );
+
+        $connection->restPost($urlData['path'], $data);
     }
 }

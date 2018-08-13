@@ -39,11 +39,38 @@ class Mapping extends \Magento\Framework\App\Helper\AbstractHelper
         $this->parser = $parser;
     }
 
+    /**
+     * @return mixed
+     */
     public function getMappings()
     {
         $filePath = $this->moduleDirReader->getModuleDir('etc', 'Unific_Extension') . '/mappings.xml';
         $parsedArray = $this->parser->load($filePath)->xmlToArray();
 
         return $parsedArray;
+    }
+
+    /**
+     * @param array $data
+     * @param string $entity
+     * @return array
+     */
+    public function map(array $data, $entity = 'order')
+    {
+        $mappedArray = array();
+
+        foreach($this->getMappings()['mappings'][$entity] as $mapping => $settings)
+        {
+            if(isset($data[$mapping]))
+            {
+                if($settings == null || (is_array($settings) && (isset($settings['location']) == false || $settings['location'] == 'body')))
+                {
+                    $externalKey = ($settings == null || is_array($settings) && isset($settings['external']) == false) ? $mapping : $settings['external'];
+                    $mappedArray[$externalKey] = $data[$mapping];
+                }
+            }
+        }
+
+        return $mappedArray;
     }
 }

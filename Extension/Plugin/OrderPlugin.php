@@ -4,17 +4,30 @@ namespace Unific\Extension\Plugin;
 
 class OrderPlugin
 {
+    protected $objectManager;
+
     protected $logger;
+    protected $mappingHelper;
+
+    protected $restConnection;
 
     /**
      * OrderPlugin constructor.
      * @param \Unific\Extension\Logger\Logger $logger
+     * @param \Unific\Extension\Helper\Mapping $mapping
+     * @param \Unific\Extension\Connection\Rest\Connection $restConnection
      */
     public function __construct(
-        \Unific\Extension\Logger\Logger $logger
+        \Unific\Extension\Logger\Logger $logger,
+        \Unific\Extension\Helper\Mapping $mapping,
+        \Unific\Extension\Connection\Rest\Connection $restConnection
     )
     {
+        $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
         $this->logger = $logger;
+        $this->mappingHelper = $mapping;
+        $this->restConnection = $restConnection;
     }
 
     /**
@@ -22,8 +35,7 @@ class OrderPlugin
      */
     public function getRequestCollection()
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        return $objectManager->create('\Unific\Extension\Model\ResourceModel\Request\Grid\Collection');
+        return $this->objectManager->create('\Unific\Extension\Model\ResourceModel\Request\Grid\Collection');
     }
 
     /**
@@ -37,7 +49,10 @@ class OrderPlugin
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\OrderManagementInterface::place'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
-            $this->logger->info('before place order - rule ' . $id);
+
+            // A plugin attaches the sub data
+            $model = $this->objectManager->create('Unific\Extension\Model\Request');
+            $model->load($id);
         }
 
         return [$order];
@@ -54,7 +69,25 @@ class OrderPlugin
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\OrderManagementInterface::place'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
-            $this->logger->info('after place order - rule ' . $id);
+
+            // A plugin attaches the sub data
+            $model = $this->objectManager->create('Unific\Extension\Model\Request');
+            $model->load($id);
+
+            $data = $model->getData();
+
+            foreach($data['request_conditions' ] as $condition)
+            {
+                if($condition['condition_action'] == 'request')
+                {
+                    $actionData = json_decode($condition['condition_action_params'], true);
+                    $this->restConnection->post(
+                        $actionData['request_url'],
+                        $this->mappingHelper->map($order->getData(), 'order'),
+                        array('subject' => 'order/create')
+                    );
+                }
+            }
         }
 
         return $order;
