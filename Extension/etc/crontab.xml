@@ -11,4 +11,9 @@
             <schedule>0 3 * * *</schedule>
         </job>
     </group>
+    <group id="unific_message">
+        <job name="unific_message_queue" instance="Unific\Extension\Helper\Queue" method="process">
+            <schedule>*/5 * * * *</schedule>
+        </job>
+    </group>
 </config>
