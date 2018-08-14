@@ -53,7 +53,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
         if($this->scopeConfig->getValue('unific/hmac/hmacEnable', \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
         {
             $hmacKey = $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-            $extraHeaders[$hmacKey] = 'test-hmac';
+            $extraHeaders[$hmacKey] = $this->hmacHelper->generateHmac($data);
         }
 
         $this->connection->getHttpClient()->setHeaders($extraHeaders);

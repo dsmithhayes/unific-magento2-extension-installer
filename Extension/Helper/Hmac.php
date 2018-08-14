@@ -26,9 +26,9 @@ class Hmac extends \Magento\Framework\App\Helper\AbstractHelper
     public function generateHmac(array $data)
     {
         return hash_hmac(
-            $this->scopeConfig->getValue('unific/extension/hashAlgorithm', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
-            serialize($data),
-            $this->scopeConfig->getValue('unific/extension/hmacSecret', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            $this->scopeConfig->getValue('unific/hmac/hmacAlgorithm', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
+            json_encode($data),
+            $this->scopeConfig->getValue('unific/hmac/hmacSecret', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
         );
     }
 

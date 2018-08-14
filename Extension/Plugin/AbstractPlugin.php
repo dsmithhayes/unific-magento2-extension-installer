@@ -67,7 +67,12 @@ class AbstractPlugin
                     )
                 );
 
-                $this->logger->info($response->getBody());
+                // Server responded with an error
+                if($response->isSuccess() == false)
+                {
+                    // @todo Handle requeue
+                    $this->logger->info($response->getStatusCode() . ': ' . $response->getBody());
+                }
             }
         }
     }
