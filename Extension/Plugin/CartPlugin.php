@@ -2,29 +2,44 @@
 
 namespace Unific\Extension\Plugin;
 
-class CartPlugin
+class CartPlugin extends AbstractPlugin
 {
-    protected $requestCollection;
+    protected $entity = 'cart';
+    protected $subject = 'cart/create';
 
-    protected $logger;
-
-    public function __construct(
-        \Unific\Extension\Model\ResourceModel\Request\Grid\Collection $requestCollection,
-        \Unific\Extension\Logger\Logger $logger
-    )
+    /**
+     * @param $subject
+     * @param $quote
+     * @return array
+     */
+    public function beforeSave($subject, $quote)
     {
-        $this->requestCollection = $requestCollection;
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Quote\Api\CartManagementInterface::save'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
+                 as $id => $request) {
 
-        $this->logger = $logger;
+            $this->handleCondition($id, $request, $quote);
+        }
+
+        return [$quote];
     }
 
-    public function beforeSave($model)
+    /**
+     * @param $subject
+     * @param $quote
+     * @return mixed
+     */
+    public function afterSave($subject, $quote)
     {
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Quote\Api\CartManagementInterface::save'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
+                 as $id => $request) {
 
-    }
+            $this->handleCondition($id, $request, $quote);
+        }
 
-    public function afterSave($model)
-    {
-
+        return $quote;
     }
 }

@@ -107,8 +107,8 @@ class Info extends Generic
                     'Magento\User\Model\User::save' => 'Admin user is saved',
                     'Magento\Quote\Api\CartManagementInterface::save' => 'Cart is saved',
                     'Magento\Sales\Api\OrderManagementInterface::place' => 'Order is placed',
-                    'Magento\Order\Model\Order\Invoice::capture' => 'Invoice is captured',
-                    'Magento\Order\Model\Order\Creditmemo::save' => 'Refund is created',
+                    'Magento\Sales\Model\Order\Invoice::capture' => 'Invoice is captured',
+                    'Magento\Sales\Model\Order\Creditmemo::save' => 'Refund is created',
                     'Magento\Shipment\Model\Shipment::save' => 'Shipment is created',
                 )
             ]

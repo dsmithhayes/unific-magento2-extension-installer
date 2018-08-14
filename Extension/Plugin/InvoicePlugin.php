@@ -2,29 +2,42 @@
 
 namespace Unific\Extension\Plugin;
 
-class InvoicePlugin
+class InvoicePlugin extends AbstractPlugin
 {
-    protected $requestCollection;
+    protected $entity = 'invoice';
+    protected $subject = 'invoice/create';
 
-    protected $logger;
-
-    public function __construct(
-        \Unific\Extension\Model\ResourceModel\Request\Grid\Collection $requestCollection,
-        \Unific\Extension\Logger\Logger $logger
-    )
+    /**
+     * @param $invoice
+     * @return array
+     */
+    public function beforeCapture($invoice)
     {
-        $this->requestCollection = $requestCollection;
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Model\Order\Invoice::capture'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
+                 as $id => $request) {
 
-        $this->logger = $logger;
+            $this->handleCondition($id, $request, $invoice);
+        }
+
+        return [$invoice];
     }
 
-    public function beforeCapture($model)
+    /**
+     * @param $invoice
+     * @return mixed
+     */
+    public function afterCapture($invoice)
     {
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Model\Order\Invoice::capture'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
+                 as $id => $request) {
 
-    }
+            $this->handleCondition($id, $request, $invoice);
+        }
 
-    public function afterCapture($model)
-    {
-
+        return $invoice;
     }
 }

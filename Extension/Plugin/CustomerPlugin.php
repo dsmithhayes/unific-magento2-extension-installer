@@ -2,19 +2,44 @@
 
 namespace Unific\Extension\Plugin;
 
-class CustomerPlugin
+class CustomerPlugin extends AbstractPlugin
 {
-    protected $requestCollection;
+    protected $entity = 'customer';
+    protected $subject = 'customer/create';
 
-    protected $logger;
-
-    public function __construct(
-        \Unific\Extension\Model\ResourceModel\Request\Grid\Collection $requestCollection,
-        \Unific\Extension\Logger\Logger $logger
-    )
+    /**
+     * @param $subject
+     * @param $customer
+     * @return array
+     */
+    public function beforeSave($subject, $customer)
     {
-        $this->requestCollection = $requestCollection;
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Api\CustomerManagementInterface::save'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
+                 as $id => $request) {
 
-        $this->logger = $logger;
+            $this->handleCondition($id, $request, $customer);
+        }
+
+        return [$customer];
+    }
+
+    /**
+     * @param $subject
+     * @param $customer
+     * @return mixed
+     */
+    public function afterSave($subject, $customer)
+    {
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\OrderManagementInterface::place'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
+                 as $id => $request) {
+
+            $this->handleCondition($id, $request, $customer);
+        }
+
+        return $customer;
     }
 }

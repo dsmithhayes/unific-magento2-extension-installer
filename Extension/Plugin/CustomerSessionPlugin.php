@@ -2,35 +2,87 @@
 
 namespace Unific\Extension\Plugin;
 
-class CustomerSessionPlugin
+class CustomerSessionPlugin extends AbstractPlugin
 {
-    protected $requestCollection;
+    protected $entity = 'customer';
 
-    protected $logger;
-
-    public function __construct(
-        \Unific\Extension\Model\ResourceModel\Request\Grid\Collection $requestCollection,
-        \Unific\Extension\Logger\Logger $logger
-    )
+    /**
+     * @param $subject
+     * @param $customer
+     * @return array
+     */
+    public function beforeSetCustomerAsLoggedIn($subject, $customer)
     {
-        $this->requestCollection = $requestCollection;
+        $this->subject = 'customer/login';
 
-        $this->logger = $logger;
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::setCustomerAsLoggedIn'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
+                 as $id => $request) {
+
+            $this->handleCondition($id, $request, $customer);
+        }
+
+        return [$customer];
     }
 
-    public function beforeSetCustomerAsLoggedIn($model)
+    /**
+     * @param $subject
+     * @param $customer
+     * @return mixed
+     */
+    public function afterSetCustomerAsLoggedIn($subject, $customer)
     {
+        $this->subject = 'customer/login';
+
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::setCustomerAsLoggedIn'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
+                 as $id => $request) {
+
+            $this->handleCondition($id, $request, $customer);
+        }
+
+        return $customer;
     }
 
-    public function afterSetCustomerAsLoggedIn($model)
+    /**
+     * @param $subject
+     * @param $order
+     * @return array
+     */
+    public function beforeLogout($subject, $customer)
     {
+        $this->subject = 'customer/logout';
+
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::logout'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
+                 as $id => $request) {
+
+            $this->handleCondition($id, $request, $customer);
+        }
+
+        return [$customer];
     }
 
-    public function beforeLogout($model)
+    /**
+     * @param $subject
+     * @param $order
+     * @return mixed
+     */
+    public function afterLogout($subject, $customer)
     {
-    }
+        $this->subject = 'customer/logout';
 
-    public function afterLogout($model)
-    {
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::logout'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
+                 as $id => $request) {
+
+            $this->handleCondition($id, $request, $customer);
+        }
+
+        return $customer;
     }
 }

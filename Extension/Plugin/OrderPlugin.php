@@ -2,41 +2,10 @@
 
 namespace Unific\Extension\Plugin;
 
-class OrderPlugin
+class OrderPlugin extends AbstractPlugin
 {
-    protected $objectManager;
-
-    protected $logger;
-    protected $mappingHelper;
-
-    protected $restConnection;
-
-    /**
-     * OrderPlugin constructor.
-     * @param \Unific\Extension\Logger\Logger $logger
-     * @param \Unific\Extension\Helper\Mapping $mapping
-     * @param \Unific\Extension\Connection\Rest\Connection $restConnection
-     */
-    public function __construct(
-        \Unific\Extension\Logger\Logger $logger,
-        \Unific\Extension\Helper\Mapping $mapping,
-        \Unific\Extension\Connection\Rest\Connection $restConnection
-    )
-    {
-        $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-
-        $this->logger = $logger;
-        $this->mappingHelper = $mapping;
-        $this->restConnection = $restConnection;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRequestCollection()
-    {
-        return $this->objectManager->create('\Unific\Extension\Model\ResourceModel\Request\Grid\Collection');
-    }
+    protected $entity = 'order';
+    protected $subject = 'order/create';
 
     /**
      * @param $subject
@@ -50,9 +19,7 @@ class OrderPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            // A plugin attaches the sub data
-            $model = $this->objectManager->create('Unific\Extension\Model\Request');
-            $model->load($id);
+            $this->handleCondition($id, $request, $order);
         }
 
         return [$order];
@@ -70,28 +37,7 @@ class OrderPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            // A plugin attaches the sub data
-            $model = $this->objectManager->create('Unific\Extension\Model\Request');
-            $model->load($id);
-
-            $data = $model->getData();
-
-            foreach($data['request_conditions' ] as $condition)
-            {
-                if($condition['condition_action'] == 'request')
-                {
-                    $actionData = json_decode($condition['condition_action_params'], true);
-                    $response = $this->restConnection->{$actionData['method']}(
-                        $actionData['request_url'],
-                        $this->mappingHelper->map($order->getData(), 'order'),
-                        array(
-                            'X-SUBJECT' => 'order/create'
-                        )
-                    );
-
-                    $this->logger->info($response->getBody());
-                }
-            }
+            $this->handleCondition($id, $request, $order);
         }
 
         return $order;

@@ -2,39 +2,66 @@
 
 namespace Unific\Extension\Plugin;
 
-class AdminSessionPlugin
+class AdminSessionPlugin extends AbstractPlugin
 {
-    protected $requestCollection;
-
-    protected $logger;
-
-    public function __construct(
-        \Unific\Extension\Model\ResourceModel\Request\Grid\Collection $requestCollection,
-        \Unific\Extension\Logger\Logger $logger
-    )
+    public function beforeProcessLogin($subject, $user)
     {
-        $this->requestCollection = $requestCollection;
+        $this->subject = 'admin/login';
 
-        $this->logger = $logger;
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Backend\Model\Auth\Session::processLogin'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
+                 as $id => $request) {
+
+            $this->handleCondition($id, $request, $user);
+        }
+
+        return [$user];
     }
 
-    public function beforeProcessLogin($model)
+    public function afterProcessLogin($subject, $user)
     {
+        $this->subject = 'admin/login';
+
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Backend\Model\Auth\Session::processLogin'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
+                 as $id => $request) {
+
+            $this->handleCondition($id, $request, $user);
+        }
+
+        return $user;
 
     }
 
-    public function afterProcessLogin($model)
+    public function beforeProcessLogout($subject, $user)
     {
+        $this->subject = 'admin/logout';
 
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Backend\Model\Auth\Session::processLogout'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
+                 as $id => $request) {
+
+            $this->handleCondition($id, $request, $user);
+        }
+
+        return [$user];
     }
 
-    public function beforeProcessLogout($model)
+    public function afterProcessLogout($subject, $user)
     {
+        $this->subject = 'admin/logout';
 
-    }
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Backend\Model\Auth\Session::processLogout'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
+                 as $id => $request) {
 
-    public function afterProcessLogout($model)
-    {
+            $this->handleCondition($id, $request, $user);
+        }
 
+        return $user;
     }
 }

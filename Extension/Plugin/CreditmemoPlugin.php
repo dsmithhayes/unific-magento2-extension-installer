@@ -2,29 +2,44 @@
 
 namespace Unific\Extension\Plugin;
 
-class CreditmemoPlugin
+class CreditmemoPlugin extends AbstractPlugin
 {
-    protected $requestCollection;
+    protected $entity = 'order';
+    protected $subject = 'order/credit';
 
-    protected $logger;
-
-    public function __construct(
-        \Unific\Extension\Model\ResourceModel\Request\Grid\Collection $requestCollection,
-        \Unific\Extension\Logger\Logger $logger
-    )
+    /**
+     * @param $subject
+     * @param $order
+     * @return array
+     */
+    public function beforeSave($subject, $order)
     {
-        $this->requestCollection = $requestCollection;
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Model\Order\Creditmemo::save'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
+                 as $id => $request) {
 
-        $this->logger = $logger;
+            $this->handleCondition($id, $request, $order);
+        }
+
+        return [$order];
     }
 
-    public function beforeSave($model)
+    /**
+     * @param $subject
+     * @param $order
+     * @return mixed
+     */
+    public function afterSave($subject, $order)
     {
+        foreach ($this->getRequestCollection()
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Model\Order\Creditmemo::save'))
+                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
+                 as $id => $request) {
 
-    }
+            $this->handleCondition($id, $request, $order);
+        }
 
-    public function afterSave($model)
-    {
-
+        return $order;
     }
 }
