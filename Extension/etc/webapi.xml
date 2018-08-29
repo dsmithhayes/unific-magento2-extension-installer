@@ -25,7 +25,7 @@
             <resource ref="Unific_Extension::report"/>
         </resources>
     </route>
-    <route url="/V1/unific/connect" method="GET">
+    <route url="/V1/unific/connect" method="POST">
         <service class="Unific\Extension\Api\SetupManagementInterface" method="getData"/>
         <resources>
             <resource ref="Unific_Extension::connect"/>
