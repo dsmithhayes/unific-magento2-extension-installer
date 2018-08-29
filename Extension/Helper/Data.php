@@ -81,6 +81,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         );
     }
 
+    public function getApiUser()
+    {
+        return $this->integrationFactory->create()->load($this->apiIntegrationName,'name')->getData();
+    }
+
     /**
      * Create a new API User for Unific to work with
      */
