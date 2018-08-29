@@ -5,20 +5,28 @@ namespace Unific\Extension\Api;
 interface WebhookManagementInterface
 {
     /**
-     * Sets the group of a webhook
+     * Creates a new webhook
      *
      * @api
-     * @param string $group
      * @return bool true on success
      */
-    public function setGroup($group = 'default');
+    public function createWebhook();
 
     /**
-     * Returns the mode
+     * Updates an existing webhook
      *
      * @api
      *
-     * @return string
+     * @return bool true on success
      */
-    public function getGroup();
+    public function updateWebhook();
+
+    /**
+     * Deletes an existing webhook
+     *
+     * @api
+     *
+     * @return bool true on success
+     */
+    public function deleteWebhook();
 }

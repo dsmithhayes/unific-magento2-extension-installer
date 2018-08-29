@@ -25,6 +25,12 @@
             <resource ref="Unific_Extension::report"/>
         </resources>
     </route>
+    <route url="/V1/unific/connect" method="GET">
+        <service class="Unific\Extension\Api\SetupManagementInterface" method="getData"/>
+        <resources>
+            <resource ref="Unific_Extension::connect"/>
+        </resources>
+    </route>
     <route url="/V1/unific/mode" method="GET">
         <service class="Unific\Extension\Api\ModeManagementInterface" method="getMode"/>
         <resources>
@@ -35,6 +41,12 @@
         <service class="Unific\Extension\Api\ModeManagementInterface" method="setMode"/>
         <resources>
             <resource ref="Unific_Extension::mode"/>
+        </resources>
+    </route>
+    <route url="/V1/unific/webhook" method="POST">
+        <service class="Unific\Extension\Api\WebhookManagementInterface" method="createWebhook"/>
+        <resources>
+            <resource ref="Unific_Extension::webhook"/>
         </resources>
     </route>
 </routes>

@@ -6,6 +6,9 @@ use Unific\Extension\Api\ModeManagementInterface;
 
 class ModeManagement implements ModeManagementInterface
 {
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
     protected $scopeConfig;
 
     /**
