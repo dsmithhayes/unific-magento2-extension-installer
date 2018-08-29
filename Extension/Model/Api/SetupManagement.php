@@ -31,10 +31,10 @@ class SetupManagement implements SetupManagementInterface
      */
     public function getData()
     {
-        return array(
+        return array('hmac' => array(
             'hmac_header' => $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
             'hmac_secret' => $this->scopeConfig->getValue('unific/hmac/hmacSecret', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
             'hmac_algorithm' => $this->scopeConfig->getValue('unific/hmac/hmacAlgorithm', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-        );
+        ));
     }
 }
