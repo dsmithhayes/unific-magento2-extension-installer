@@ -2,7 +2,7 @@
 
 namespace Unific\Extension\Model\Api\Data;
 
-class Hmac implements \Unific\Extension\Api\Data\HmacInterface
+class Hmac implements \Unific\Extension\Api\Data\TotalsInterface
 {
     protected $category;
     protected $product;
