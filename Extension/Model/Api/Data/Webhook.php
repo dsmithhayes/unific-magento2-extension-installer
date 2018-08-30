@@ -2,7 +2,7 @@
 
 namespace Unific\Extension\Model\Api\Data;
 
-class Integration implements \Unific\Extension\Api\Data\IntegrationInterface
+class Webhook implements \Unific\Extension\Api\Data\IntegrationInterface
 {
     private $actionmapping = array(
         'customer_login' => 'Magento\Customer\Model\Session::setCustomerAsLoggedIn',
@@ -24,24 +24,72 @@ class Integration implements \Unific\Extension\Api\Data\IntegrationInterface
         'product_update' => 'Magento\Catalog\Api\ProductManagementInterface::save'
     );
 
-    /**
-     * @var
-     */
-    protected $integration_id;
+    protected $name;
+    protected $description;
+    protected $event;
+    protected $eventExecution;
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getIntegrationId()
+    public function getName()
     {
-        return $this->integration_id;
+        return $this->name;
     }
 
     /**
-     * @param $id
+     * @param mixed $name
      */
-    public function setIntegrationId($id)
+    public function setName($name)
     {
-        $this->integration_id = $id;
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
+
+    /**
+     * @param mixed $event
+     */
+    public function setEvent($event)
+    {
+        $this->event = $event;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventExecution()
+    {
+        return $this->eventExecution;
+    }
+
+    /**
+     * @param mixed $eventExecution
+     */
+    public function setEventExecution($eventExecution)
+    {
+        $this->eventExecution = $eventExecution;
     }
 }
