@@ -2,7 +2,7 @@
 
 namespace Unific\Extension\Model\Api\Data;
 
-class Hmac implements \Unific\Extension\Api\Data\SetupResponseInterface
+class SetupResponse implements \Unific\Extension\Api\Data\SetupResponseInterface
 {
     /**
      * @var
