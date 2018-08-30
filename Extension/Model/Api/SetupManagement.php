@@ -18,17 +18,24 @@ class SetupManagement implements SetupManagementInterface
     protected $scopeConfig;
 
     /**
+     * @var \Unific\Extension\Api\Data\HmacInterface
+     */
+    protected $hmacInterface;
+    /**
      * ModeManagement constructor.
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Config\ConfigResource\ConfigInterface $configInterface
+     * @param \Unific\Extension\Api\Data\HmacInterface $hmacInterface
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\App\Config\ConfigResource\ConfigInterface $configInterface
+        \Magento\Framework\App\Config\ConfigResource\ConfigInterface $configInterface,
+        \Unific\Extension\Api\Data\HmacInterface $hmacInterface
     )
     {
         $this->scopeConfig = $scopeConfig;
         $this->configInterface = $configInterface;
+        $this->hmacInterface = $hmacInterface;
     }
 
     /**
@@ -36,16 +43,16 @@ class SetupManagement implements SetupManagementInterface
      *
      * @api
      *
-     * @return array
+     * @return \Unific\Extension\Api\Data\HmacInterface
      */
     public function getData(\Unific\Extension\Api\Data\IntegrationInterface $integration)
     {
         $this->configInterface->saveConfig('unific/extension/integration', $integration->getIntegrationId(), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
 
-        return array('hmac' => array(
-            'hmac_header' => $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
-            'hmac_secret' => $this->scopeConfig->getValue('unific/hmac/hmacSecret', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
-            'hmac_algorithm' => $this->scopeConfig->getValue('unific/hmac/hmacAlgorithm', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-        ));
+        $this->hmacInterface->setHmacHeader($this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $this->hmacInterface->setHmacSecret($this->scopeConfig->getValue('unific/hmac/hmacSecret', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $this->hmacInterface->setHmacAlgorithm($this->scopeConfig->getValue('unific/hmac/hmacAlgorithm', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+
+        return $this->hmacInterface;
     }
 }
