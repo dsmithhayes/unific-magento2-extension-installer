@@ -8,9 +8,9 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 class SetupManagement implements SetupManagementInterface
 {
     /**
-     *  @var \Magento\Framework\App\Config\Storage\WriterInterface
+     *  @var \Magento\Framework\App\Config\ConfigResource\ConfigInterface
      */
-    protected $configWriter;
+    protected $configInterface;
 
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -20,14 +20,15 @@ class SetupManagement implements SetupManagementInterface
     /**
      * ModeManagement constructor.
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ConfigResource\ConfigInterface $configInterface
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
+        \Magento\Framework\App\Config\ConfigResource\ConfigInterface $configInterface
     )
     {
         $this->scopeConfig = $scopeConfig;
-        $this->configWriter = $configWriter;
+        $this->configInterface = $configInterface;
     }
 
     /**
@@ -39,7 +40,7 @@ class SetupManagement implements SetupManagementInterface
      */
     public function getData(\Unific\Extension\Api\Data\IntegrationInterface $integration)
     {
-        $this->configWriter->save('unific/extension/integration', $integration->getIntegrationId(), $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $scopeId = 0);
+        $this->configInterface->save('unific/extension/integration', $integration->getIntegrationId(), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
 
         return array('hmac' => array(
             'hmac_header' => $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
