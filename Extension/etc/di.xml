@@ -60,6 +60,9 @@
     <preference for="Unific\Extension\Api\WebhookManagementInterface" type="Unific\Extension\Model\Api\WebhookManagement" />
     <preference for="Unific\Extension\Api\SetupManagementInterface" type="Unific\Extension\Model\Api\SetupManagement" />
 
+    <preference for="Unific\Extension\Api\Data\IntegrationInterface" type="Unific\Extension\Model\Api\Data\Integration" />
+    <preference for="Unific\Extension\Api\Data\HmacInterface" type="Unific\Extension\Model\Api\Data\Hmac" />
+
     <preference for="Unific\Extension\Model\GroupInterface" type="Unific\Extension\Model\Group"/>
     <preference for="Unific\Extension\Model\RequestInterface" type="Unific\Extension\Model\Request"/>
     <preference for="Unific\Extension\Model\MappingInterface" type="Unific\Extension\Model\Mapping"/>

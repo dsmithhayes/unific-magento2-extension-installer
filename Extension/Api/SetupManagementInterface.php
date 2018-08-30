@@ -9,7 +9,8 @@ interface SetupManagementInterface
      *
      * @api
      *
+     * @param Data\IntegrationInterface $integration
      * @return array
      */
-    public function getData();
+    public function getData(\Unific\Extension\Api\Data\IntegrationInterface $integration);
 }
