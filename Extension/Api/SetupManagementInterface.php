@@ -10,7 +10,7 @@ interface SetupManagementInterface
      * @api
      *
      * @param Data\IntegrationInterface $integration
-     * @return \Unific\Extension\Api\Data\HmacInterface
+     * @return \Unific\Extension\Api\Data\SetupResponseInterface
      */
     public function getData(\Unific\Extension\Api\Data\IntegrationInterface $integration);
 }

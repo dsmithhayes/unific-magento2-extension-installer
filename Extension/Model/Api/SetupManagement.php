@@ -21,21 +21,70 @@ class SetupManagement implements SetupManagementInterface
      * @var \Unific\Extension\Api\Data\HmacInterface
      */
     protected $hmacInterface;
+
+    /**
+     * @var \Unific\Extension\Api\Data\TotalsInterface
+     */
+    protected $totalsInterface;
+
+    /**
+     * @var \Unific\Extension\Api\Data\SetupResponseInterface
+     */
+    protected $setupResponseInterface;
+
+    /**
+     * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
+     */
+    protected $orderCollectionFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory
+     */
+    protected $categoryCollectionFactory;
+
+    /**
+     * @var \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory
+     */
+    protected $customerCollectionFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
+     */
+    protected $productCollectionFactory;
+
     /**
      * ModeManagement constructor.
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Config\ConfigResource\ConfigInterface $configInterface
      * @param \Unific\Extension\Api\Data\HmacInterface $hmacInterface
+     * @param \Unific\Extension\Api\Data\TotalsInterface $totalsInterface
+     * @param \Unific\Extension\Api\Data\SetupResponseInterface $setupResponseInterface
+     * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
+     * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerCollectionFactory
+     * @param \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory
+     * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Config\ConfigResource\ConfigInterface $configInterface,
-        \Unific\Extension\Api\Data\HmacInterface $hmacInterface
+        \Unific\Extension\Api\Data\HmacInterface $hmacInterface,
+        \Unific\Extension\Api\Data\TotalsInterface $totalsInterface,
+        \Unific\Extension\Api\Data\SetupResponseInterface $setupResponseInterface,
+        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
+        \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerCollectionFactory,
+        \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory,
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
     )
     {
         $this->scopeConfig = $scopeConfig;
         $this->configInterface = $configInterface;
         $this->hmacInterface = $hmacInterface;
+        $this->totalsInterface = $totalsInterface;
+        $this->setupResponseInterface = $setupResponseInterface;
+        $this->orderCollectionFactory = $orderCollectionFactory;
+        $this->customerCollectionFactory = $customerCollectionFactory;
+        $this->categoryCollectionFactory = $categoryCollectionFactory;
+        $this->productCollectionFactory = $productCollectionFactory;
     }
 
     /**
@@ -43,7 +92,7 @@ class SetupManagement implements SetupManagementInterface
      *
      * @api
      *
-     * @return \Unific\Extension\Api\Data\HmacInterface
+     * @return \Unific\Extension\Api\Data\SetupResponseInterface
      */
     public function getData(\Unific\Extension\Api\Data\IntegrationInterface $integration)
     {
@@ -53,6 +102,14 @@ class SetupManagement implements SetupManagementInterface
         $this->hmacInterface->setHmacSecret($this->scopeConfig->getValue('unific/hmac/hmacSecret', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         $this->hmacInterface->setHmacAlgorithm($this->scopeConfig->getValue('unific/hmac/hmacAlgorithm', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
 
-        return $this->hmacInterface;
+        $this->totalsInterface->setCategory($this->categoryCollectionFactory->create()->getSize());
+        $this->totalsInterface->setProduct($this->productCollectionFactory->create()->getSize());
+        $this->totalsInterface->setOrder($this->orderCollectionFactory->create()->getSize());
+        $this->totalsInterface->setCustomer($this->customerCollectionFactory->create()->getSize());
+
+        $this->setupResponseInterface->setTotals($this->totalsInterface);
+        $this->setupResponseInterface->setHmac($this->hmacInterface);
+
+        return $this->setupResponseInterface;
     }
 }

@@ -62,6 +62,8 @@
 
     <preference for="Unific\Extension\Api\Data\IntegrationInterface" type="Unific\Extension\Model\Api\Data\Integration" />
     <preference for="Unific\Extension\Api\Data\HmacInterface" type="Unific\Extension\Model\Api\Data\Hmac" />
+    <preference for="Unific\Extension\Api\Data\TotalsInterface" type="Unific\Extension\Model\Api\Data\Totals" />
+    <preference for="Unific\Extension\Api\Data\SetupResponseInterface" type="Unific\Extension\Model\Api\Data\SetupResponse" />
 
     <preference for="Unific\Extension\Model\GroupInterface" type="Unific\Extension\Model\Group"/>
     <preference for="Unific\Extension\Model\RequestInterface" type="Unific\Extension\Model\Request"/>
