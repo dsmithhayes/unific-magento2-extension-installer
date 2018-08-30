@@ -40,7 +40,7 @@ class SetupManagement implements SetupManagementInterface
      */
     public function getData(\Unific\Extension\Api\Data\IntegrationInterface $integration)
     {
-        $this->configInterface->save('unific/extension/integration', $integration->getIntegrationId(), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+        $this->configInterface->saveConfig('unific/extension/integration', $integration->getIntegrationId(), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
 
         return array('hmac' => array(
             'hmac_header' => $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
