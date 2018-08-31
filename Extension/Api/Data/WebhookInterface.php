@@ -61,6 +61,18 @@ interface WebhookInterface extends ExtensibleDataInterface
      * @return void
      */
     public function setUniqueId($unique_id);
+
+    /**
+     * @return string
+     */
+    public function getGroup();
+
+    /**
+     * @param string $group
+     * @return void
+     */
+    public function setGroup($group = "Default");
+
     /**
      * @return string
      */

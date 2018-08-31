@@ -37,6 +37,11 @@ class Webhook implements \Unific\Extension\Api\Data\WebhookInterface
     /**
      * @var
      */
+    protected $group;
+
+    /**
+     * @var
+     */
     protected $description;
 
     /**
@@ -143,6 +148,22 @@ class Webhook implements \Unific\Extension\Api\Data\WebhookInterface
     public function setUniqueId($unique_id)
     {
         $this->unique_id = $unique_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * @param string $group
+     */
+    public function setGroup($group = "Default")
+    {
+        $this->group = $group;
     }
 
     /**
