@@ -61,7 +61,7 @@ class AbstractPlugin
                 $actionData = json_decode($condition['condition_action_params'], true);
                 $response = $this->restConnection->{$actionData['method']}(
                     $actionData['request_url'],
-                    $this->mappingHelper->map($dataModel->getData(), $this->entity),
+                    $dataModel->getData(),
                     array(
                         'X-SUBJECT' => $this->subject
                     )
