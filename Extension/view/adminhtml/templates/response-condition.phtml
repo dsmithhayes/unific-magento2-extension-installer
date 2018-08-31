@@ -72,6 +72,11 @@
                                     class="required-option response_condition_type" data-role="response_condition_type"
                                     data-inputs="response_condition_value_<%- data.id %>"
                                     id="response_condition_type_<%- data.id %>">
+                                <option id="response_condition_always" data-type="input" data-has-values="false"
+                                        data-input-type="input" data-source=".response-mapping-internal"
+                                        data-target="#response_condition_type_<%- data.id %>_value" value="always">
+                                    Always
+                                </option>
                                 <option id="response_condition_mapping" data-type="input" data-has-values="true"
                                         data-input-type="select" data-source=".response-mapping-internal"
                                         data-target="#response_condition_type_<%- data.id %>_value" value="mapping">

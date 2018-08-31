@@ -141,7 +141,6 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
         if($requestCollection->getSize() > 0)
         {
             $requestModel = $requestCollection->getFirstItem();
-        } else {
 
             // Remove old mappings
             $mappingCollection = $this->mappingFactory->create()->getCollection();
@@ -175,6 +174,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
 
         // Persist the webhook itself
         $requestModel->setName($webhook->getName());
+        $requestModel->setUniqueId($webhook->getUniqueId());
         $requestModel->setGroupId($group->getId());
         $requestModel->setDescription($webhook->getDescription());
 
@@ -211,14 +211,14 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
                 $conditionModel->setConditionComparison($condition->getComparison());
                 $conditionModel->setConditionValue($condition->getValue());
                 $conditionModel->setConditionAction($condition->getAction());
-                
+
                 if($condition->getRequest() != null)
                 {
                     $conditionModel->setConditionActionParams(
                         json_encode([
                             'protocol' => $condition->getRequest()->getProtocol(),
-                            'url' => $condition->getRequest()->getUrl(),
-                            'type' => $condition->getRequest()->getType()
+                            'request_url' => $condition->getRequest()->getUrl(),
+                            'method' => $condition->getRequest()->getType()
                         ]));
                 }
 
@@ -257,8 +257,8 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
                     $conditionModel->setConditionActionParams(
                         json_encode([
                             'protocol' => $condition->getRequest()->getProtocol(),
-                            'url' => $condition->getRequest()->getUrl(),
-                            'type' => $condition->getRequest()->getType()
+                            'response_url' => $condition->getRequest()->getUrl(),
+                            'method' => $condition->getRequest()->getType()
                         ]));
                 }
 
