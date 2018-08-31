@@ -52,13 +52,9 @@ class OrderPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $filters = array();
-            $filters[] = $this->filterBuilder->setField('id')
-                ->setValue($order->getId())
-                ->create();
-
-            $searchCriteria = $this->searchCriteriaBuilder->addFilters($filters)->create();
-
+            $searchCriteria = $this->searchCriteriaBuilder;
+            $searchCriteria->addFilter('id', $order->getId(), 'eq')->create();
+            
             $this->handleCondition($id, $request, $this->orderRepository->getList($searchCriteria));
         }
 
@@ -77,12 +73,8 @@ class OrderPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $filters = array();
-            $filters[] = $this->filterBuilder->setField('id')
-                ->setValue($order->getId())
-                ->create();
-
-            $searchCriteria = $this->searchCriteriaBuilder->addFilters($filters)->create();
+            $searchCriteria = $this->searchCriteriaBuilder;
+            $searchCriteria->addFilter('id', $order->getId(), 'eq')->create();
 
             $this->handleCondition($id, $request, $this->orderRepository->getList($searchCriteria));
         }
