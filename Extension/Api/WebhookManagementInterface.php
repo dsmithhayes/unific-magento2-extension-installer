@@ -8,7 +8,7 @@ interface WebhookManagementInterface
      * Creates a new webhook
      *
      * @api
-     * @return bool true on success
+     * @return \Unific\Extension\Api\Data\WebhookInterface
      */
     public function createWebhook();
 
@@ -17,7 +17,7 @@ interface WebhookManagementInterface
      *
      * @api
      *
-     * @return bool true on success
+     * @return \Unific\Extension\Api\Data\WebhookInterface
      */
     public function updateWebhook();
 
@@ -26,7 +26,7 @@ interface WebhookManagementInterface
      *
      * @api
      *
-     * @return bool true on success
+     * @return \Unific\Extension\Api\Data\WebhookInterface
      */
     public function deleteWebhook();
 }

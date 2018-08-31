@@ -2,7 +2,7 @@
 
 namespace Unific\Extension\Model\Api\Data;
 
-class Webhook implements \Unific\Extension\Api\Data\IntegrationInterface
+class Webhook implements \Unific\Extension\Api\Data\WebhookInterface
 {
     private $actionmapping = array(
         'customer_login' => 'Magento\Customer\Model\Session::setCustomerAsLoggedIn',

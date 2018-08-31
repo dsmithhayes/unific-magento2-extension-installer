@@ -40,12 +40,13 @@ class WebhookManagement implements WebhookeManagementInterface
      * Creates a new webhook
      *
      * @api
-     * @return bool true on success
+     * @return \Unific\Extension\Api\Data\WebhookInterface
      */
-    public function createWebhook()
+    public function createWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
     {
-        $this->webhookHelper->createWebhook($this->request->getPost());
-        return true;
+        $this->webhookHelper->createWebhook($webhook);
+
+        return $webhook;
     }
 
     /**
@@ -53,13 +54,13 @@ class WebhookManagement implements WebhookeManagementInterface
      *
      * @api
      *
-     * @return bool true on success
+     * @return \Unific\Extension\Api\Data\WebhookInterface
      */
-    public function updateWebhook()
+    public function updateWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
     {
-        $this->webhookHelper->updateWebhook($this->request->getData());
+        $this->webhookHelper->updateWebhook($webhook);
 
-        return true;
+        return $webhook;
     }
 
     /**
@@ -67,12 +68,12 @@ class WebhookManagement implements WebhookeManagementInterface
      *
      * @api
      *
-     * @return bool true on success
+     * @return \Unific\Extension\Api\Data\WebhookInterface
      */
-    public function deleteWebhook()
+    public function deleteWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
     {
-        $this->webhookHelper->removeWebhook($this->request->getData());
+        $this->webhookHelper->removeWebhook($webhook);
 
-        return true;
+        return $webhook;
     }
 }

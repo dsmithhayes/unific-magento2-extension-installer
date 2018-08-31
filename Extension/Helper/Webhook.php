@@ -45,19 +45,28 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param array $webhookData
+     * @param \Unific\Extension\Api\Data\WebhookInterface $webhookData
      * @return bool
      */
-    public function createWebhook(array $webhookData)
+    public function createWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhookData)
     {
         return true;
     }
 
     /**
-     * @param string $identifier
+     * @param \Unific\Extension\Api\Data\WebhookInterface $webhookData
      * @return bool
      */
-    public function removeWebhook(string $identifier)
+    public function updateWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhookData)
+    {
+        return true;
+    }
+
+    /**
+     * @param \Unific\Extension\Api\Data\WebhookInterface $identifier
+     * @return bool
+     */
+    public function removeWebhook(\Unific\Extension\Api\Data\WebhookInterface $identifier)
     {
         return true;
     }
