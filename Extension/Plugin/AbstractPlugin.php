@@ -14,7 +14,6 @@ class AbstractPlugin
     protected $entity = 'order';
     protected $subject = 'order/create';
 
-
     /**
      * OrderPlugin constructor.
      * @param \Unific\Extension\Logger\Logger $logger
