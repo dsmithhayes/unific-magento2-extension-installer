@@ -37,7 +37,7 @@ class OrderPlugin extends AbstractPlugin
 
         $this->orderRepository = $orderRepository;
 
-        parent::__construct($logger, $mapping, $restConnection);
+        parent::__construct($logger, $mapping, $restConnection, $searchCriteriaBuilder, $filterBuilder);
     }
 
     /**
@@ -54,7 +54,7 @@ class OrderPlugin extends AbstractPlugin
 
             $searchCriteria = $this->searchCriteriaBuilder;
             $searchCriteria->addFilter('id', $order->getId(), 'eq')->create();
-            
+
             $this->handleCondition($id, $request, $this->orderRepository->getList($searchCriteria));
         }
 
