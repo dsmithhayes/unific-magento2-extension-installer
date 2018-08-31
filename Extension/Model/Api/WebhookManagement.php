@@ -44,7 +44,7 @@ class WebhookManagement implements WebhookManagementInterface
      */
     public function createWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
     {
-        $this->webhookHelper->createWebhook($webhook);
+        $this->webhookHelper->saveWebhook($webhook);
 
         return $webhook;
     }
@@ -58,7 +58,7 @@ class WebhookManagement implements WebhookManagementInterface
      */
     public function updateWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
     {
-        $this->webhookHelper->updateWebhook($webhook);
+        $this->webhookHelper->saveWebhook($webhook);
 
         return $webhook;
     }
