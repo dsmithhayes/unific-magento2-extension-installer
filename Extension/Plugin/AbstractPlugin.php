@@ -14,16 +14,23 @@ class AbstractPlugin
     protected $entity = 'order';
     protected $subject = 'order/create';
 
+    protected $searchCriteriaBuilder;
+    protected $filterBuilder;
+
     /**
      * OrderPlugin constructor.
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
-        \Unific\Extension\Connection\Rest\Connection $restConnection
+        \Unific\Extension\Connection\Rest\Connection $restConnection,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder
     )
     {
         $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -31,6 +38,8 @@ class AbstractPlugin
         $this->logger = $logger;
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
     }
 
     /**

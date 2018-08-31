@@ -14,12 +14,16 @@ class OrderPlugin extends AbstractPlugin
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
     )
     {
@@ -28,6 +32,9 @@ class OrderPlugin extends AbstractPlugin
         $this->logger = $logger;
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
+
         $this->orderRepository = $orderRepository;
 
         parent::__construct($logger, $mapping, $restConnection);
@@ -45,9 +52,14 @@ class OrderPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $order = $this->orderRepository->get($order->getId());
+            $filters = array();
+            $filters[] = $this->filterBuilder->setField('id')
+                ->setValue($order->getId())
+                ->create();
 
-            $this->handleCondition($id, $request, $order);
+            $searchCriteria = $this->searchCriteriaBuilder->addFilters($filters)->create();
+
+            $this->handleCondition($id, $request, $this->orderRepository->getList($searchCriteria));
         }
 
         return [$order];
@@ -65,9 +77,14 @@ class OrderPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $order = $this->orderRepository->get($order->getId());
+            $filters = array();
+            $filters[] = $this->filterBuilder->setField('id')
+                ->setValue($order->getId())
+                ->create();
 
-            $this->handleCondition($id, $request, $order);
+            $searchCriteria = $this->searchCriteriaBuilder->addFilters($filters)->create();
+
+            $this->handleCondition($id, $request, $this->orderRepository->getList($searchCriteria));
         }
 
         return $order;
