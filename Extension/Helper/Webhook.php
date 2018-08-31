@@ -7,41 +7,70 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 
 class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
     protected $scopeConfig;
 
-    protected $requestModel;
-    protected $mappingModel;
-    protected $conditionModel;
-    protected $responseConditionModel;
-    protected $responseMappingModel;
+    /**
+     * @var \Unific\Extension\Model\RequestFactory
+     */
+    protected $requestFactory;
+
+    /**
+     * @var \Unific\Extension\Model\MappingFactory
+     */
+    protected $mappingFactory;
+
+    /**
+     * @var \Unific\Extension\Model\ConditionFactory
+     */
+    protected $conditionFactory;
+
+    /**
+     * @var \Unific\Extension\Model\ResponseConditionFactory
+     */
+    protected $responseConditionFactory;
+
+    /**
+     * @var \Unific\Extension\Model\ResponseMappingFactory
+     */
+    protected $responseMappingFactory;
+    /**
+     * @var \Unific\Extension\Model\GroupFactory
+     */
+    private $groupFactory;
 
     /**
      * Request constructor.
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Unific\Extension\Model\Request $requestModel
-     * @param \Unific\Extension\Model\Mapping $mappingModel
-     * @param \Unific\Extension\Model\Condition $conditionModel
-     * @param \Unific\Extension\Model\ResponseCondition $responseConditionModel
-     * @param \Unific\Extension\Model\ResponseMapping $responseMappingModel
+     * @param \Unific\Extension\Model\GroupFactory $groupFactory
+     * @param \Unific\Extension\Model\RequestFactory $requestFactory
+     * @param \Unific\Extension\Model\MappingFactory $mappingFactory
+     * @param \Unific\Extension\Model\ConditionFactory $conditionFactory
+     * @param \Unific\Extension\Model\ResponseConditionFactory $responseConditionFactory
+     * @param \Unific\Extension\Model\ResponseMappingFactory $responseMappingFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Unific\Extension\Model\Request $requestModel,
-        \Unific\Extension\Model\Mapping $mappingModel,
-        \Unific\Extension\Model\Condition $conditionModel,
-        \Unific\Extension\Model\ResponseCondition $responseConditionModel,
-        \Unific\Extension\Model\ResponseMapping $responseMappingModel)
+        \Unific\Extension\Model\GroupFactory $groupFactory,
+        \Unific\Extension\Model\RequestFactory $requestFactory,
+        \Unific\Extension\Model\MappingFactory $mappingFactory,
+        \Unific\Extension\Model\ConditionFactory $conditionFactory,
+        \Unific\Extension\Model\ResponseConditionFactory $responseConditionFactory,
+        \Unific\Extension\Model\ResponseMappingFactory $responseMappingFactory)
     {
         parent::__construct($context);
 
         $this->scopeConfig = $scopeConfig;
-        $this->requestModel = $requestModel;
-        $this->mappingModel = $mappingModel;
-        $this->conditionModel = $conditionModel;
-        $this->responseConditionModel = $responseConditionModel;
-        $this->responseMappingModel = $responseMappingModel;
+        $this->requestFactory = $requestFactory;
+        $this->mappingFactory = $mappingFactory;
+        $this->conditionFactory = $conditionFactory;
+        $this->responseConditionFactory = $responseConditionFactory;
+        $this->responseMappingFactory = $responseMappingFactory;
+        $this->groupFactory = $groupFactory;
     }
 
     /**
@@ -59,7 +88,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getGroupFromWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
     {
-        $groupCollection = $this->_objectManager->create('Unific\Extension\Model\Group')->getCollection();
+        $groupCollection = $this->groupFactory->create()->getCollection();
         $groupCollection->addFieldToFilter('name', $webhook->getGroup());
 
         if ($groupCollection->getSize() <= 0) {
@@ -78,7 +107,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function saveWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
     {
-        $requestCollection = $this->_objectManager->create('Unific\Extension\Model\Request')->getCollection();
+        $requestCollection = $this->requestFactory->create()->getCollection();
         $requestCollection->addFieldToFilter('unique_id', $webhook->getUniqueId());
 
         if($requestCollection->getSize() <= 0)
@@ -88,26 +117,26 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
             $requestModel = $requestCollection->getFirstItem();
 
             // Remove old mappings
-            $mappingCollection = $this->_objectManager->create('Unific\Extension\Model\Mapping')->getCollection();
+            $mappingCollection = $this->mappingFactory->create()->getCollection();
             $mappingCollection->addFieldToFilter('request_id', $requestModel->getId());
             $mappingCollection->walk('delete');
 
             // Remove old conditions
-            $conditionCollection = $this->_objectManager->create('Unific\Extension\Model\ResourceModel\Condition\Collection');
+            $conditionCollection = $this->conditionFactory->create()->getCollection();
             $conditionCollection->addFieldToFilter('request_id', $requestModel->getId());
             foreach($conditionCollection->getItems() as $item)
             {
                 $item->delete();
             }
             // Remove old response mappings
-            $responseMappingCollection = $this->_objectManager->create('Unific\Extension\Model\ResourceModel\ResponseMapping\Collection');
+            $responseMappingCollection = $this->responseMappingFactory->create()->getCollection();
             $responseMappingCollection->addFieldToFilter('request_id', $requestModel->getId());
             foreach($responseMappingCollection->getItems() as $item)
             {
                 $item->delete();
             }
             // Remove old response conditions
-            $responseConditionCollection = $this->_objectManager->create('Unific\Extension\Model\ResourceModel\ResponseCondition\Collection');
+            $responseConditionCollection = $this->responseConditionFactory->create()->getCollection();
             $responseConditionCollection->addFieldToFilter('request_id', $requestModel->getId());
             foreach($responseConditionCollection->getItems() as $item)
             {
@@ -130,7 +159,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
         {
             foreach($webhook->getMappings() as $mapping)
             {
-                $typeModel = $this->_objectManager->create('Unific\Extension\Model\Mapping');
+                $typeModel = $this->mappingFactory->create();
                 $typeModel->setRequestId($requestModel->getId());
                 $typeModel->setInternal($mapping->getInternal());
                 $typeModel->getExternal($mapping->getExternal());
@@ -143,7 +172,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
         {
             foreach($webhook->getConditions() as $count => $condition)
             {
-                $conditionModel = $this->_objectManager->create('Unific\Extension\Model\Condition');
+                $conditionModel = $this->conditionFactory->create();
                 $conditionModel->setRequestId($requestModel->getId());
                 $conditionModel->setConditionOrder($count);
                 $conditionModel->setCondition($condition->getCondition());
@@ -160,7 +189,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
         {
             foreach($webhook->getResponse()->getMappings() as $mapping)
             {
-                $typeModel = $this->_objectManager->create('Unific\Extension\Model\ResponseMapping');
+                $typeModel = $this->responseMappingFactory->create();
                 $typeModel->setRequestId($requestModel->getId());
                 $typeModel->setInternal($mapping->getInternal());
                 $typeModel->getExternal($mapping->getExternal());
@@ -173,7 +202,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
         {
             foreach($webhook->getResponse()->getConditions() as $count => $condition)
             {
-                $conditionModel = $this->_objectManager->create('Unific\Extension\Model\ResponseCondition');
+                $conditionModel = $this->responseConditionFactory->create();;
                 $conditionModel->setRequestId($requestModel->getId());
                 $conditionModel->setConditionOrder($count);
                 $conditionModel->setCondition($condition->getCondition());
