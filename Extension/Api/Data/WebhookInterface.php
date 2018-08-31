@@ -41,12 +41,13 @@ interface WebhookInterface extends ExtensibleDataInterface
 
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName();
 
     /**
      * @param mixed $name
+     * @return void
      */
     public function setName($name);
 
@@ -57,35 +58,39 @@ interface WebhookInterface extends ExtensibleDataInterface
 
     /**
      * @param string $unique_id
+     * @return void
      */
     public function setUniqueId($unique_id);
     /**
-     * @return mixed
+     * @return string
      */
     public function getDescription();
 
     /**
      * @param mixed $description
+     * @return void
      */
     public function setDescription($description);
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getEvent();
 
     /**
      * @param mixed $event
+     * @return void
      */
     public function setEvent($event);
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getEventExecution();
 
     /**
      * @param mixed $eventExecution
+     * @return void
      */
     public function setEventExecution($eventExecution);
 }
