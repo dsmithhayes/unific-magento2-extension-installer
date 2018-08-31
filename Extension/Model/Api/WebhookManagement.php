@@ -2,9 +2,9 @@
 
 namespace Unific\Extension\Model\Api;
 
-use Unific\Extension\Api\WebhookeManagementInterface;
+use Unific\Extension\Api\WebhookManagementInterface;
 
-class WebhookManagement implements WebhookeManagementInterface
+class WebhookManagement implements WebhookManagementInterface
 {
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface

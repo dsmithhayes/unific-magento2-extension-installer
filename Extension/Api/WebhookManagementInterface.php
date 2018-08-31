@@ -8,25 +8,28 @@ interface WebhookManagementInterface
      * Creates a new webhook
      *
      * @api
+     * @param Data\WebhookInterface $webhook
      * @return \Unific\Extension\Api\Data\WebhookInterface
      */
-    public function createWebhook();
+    public function createWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook);
 
     /**
      * Updates an existing webhook
      *
      * @api
      *
+     * @param Data\WebhookInterface $webhook
      * @return \Unific\Extension\Api\Data\WebhookInterface
      */
-    public function updateWebhook();
+    public function updateWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook);
 
     /**
      * Deletes an existing webhook
      *
      * @api
      *
+     * @param Data\WebhookInterface $webhook
      * @return \Unific\Extension\Api\Data\WebhookInterface
      */
-    public function deleteWebhook();
+    public function deleteWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook);
 }
