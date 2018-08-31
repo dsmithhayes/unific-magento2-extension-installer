@@ -22,7 +22,7 @@ class OrderPlugin extends AbstractPlugin
             $searchCriteria = $this->searchCriteriaBuilder;
             $searchCriteria->addFilter('id', $order->getId(), 'eq')->create();
 
-            $this->handleCondition($id, $request, $order->getList($searchCriteria));
+            $this->handleCondition($id, $request, $order);
         }
 
         return [$order];
@@ -40,10 +40,7 @@ class OrderPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $searchCriteria = $this->searchCriteriaBuilder;
-            $searchCriteria->addFilter('id', $order->getId(), 'eq')->create();
-
-            $this->handleCondition($id, $request, $order->getList($searchCriteria));
+            $this->handleCondition($id, $request, $order->getList($order));
         }
 
         return $order;
