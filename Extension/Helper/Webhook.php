@@ -211,12 +211,16 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
                 $conditionModel->setConditionComparison($condition->getComparison());
                 $conditionModel->setConditionValue($condition->getValue());
                 $conditionModel->setConditionAction($condition->getAction());
-                $conditionModel->setConditionActionParams(
-                    json_encode([
-                        'protocol' => $condition->getRequest()->getProtocol(),
-                        'url' => $condition->getRequest()->getUrl(),
-                        'type' => $condition->getRequest()->getType()
-                    ]));
+                
+                if($condition->getRequest() != null)
+                {
+                    $conditionModel->setConditionActionParams(
+                        json_encode([
+                            'protocol' => $condition->getRequest()->getProtocol(),
+                            'url' => $condition->getRequest()->getUrl(),
+                            'type' => $condition->getRequest()->getType()
+                        ]));
+                }
 
                 $conditionModel->save();
             }
@@ -247,12 +251,17 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
                 $conditionModel->setConditionComparison($condition->getComparison());
                 $conditionModel->setConditionValue($condition->getValue());
                 $conditionModel->setConditionAction($condition->getAction());
-                $conditionModel->setConditionActionParams(
-                    json_encode([
-                        'protocol' => $condition->getRequest()->getProtocol(),
-                        'url' => $condition->getRequest()->getUrl(),
-                        'type' => $condition->getRequest()->getType()
-                    ]));
+
+                if($condition->getRequest() != null)
+                {
+                    $conditionModel->setConditionActionParams(
+                        json_encode([
+                            'protocol' => $condition->getRequest()->getProtocol(),
+                            'url' => $condition->getRequest()->getUrl(),
+                            'type' => $condition->getRequest()->getType()
+                        ]));
+                }
+
 
                 $conditionModel->save();
             }
