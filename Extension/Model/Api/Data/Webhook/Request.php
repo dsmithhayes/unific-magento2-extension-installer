@@ -19,7 +19,7 @@ class Request implements \Unific\Extension\Api\Data\Webhook\RequestInterface
     /**
      * @param string $protocol
      */
-    public function setProtocol($protocol)
+    public function setProtocol($protocol = "rest")
     {
         $this->protocol = $protocol;
     }
@@ -51,7 +51,7 @@ class Request implements \Unific\Extension\Api\Data\Webhook\RequestInterface
     /**
      * @param string $type
      */
-    public function setType($type)
+    public function setType($type = "get")
     {
         $this->type = $type;
     }
