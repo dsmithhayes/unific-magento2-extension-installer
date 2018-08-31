@@ -19,7 +19,7 @@ class UpgradeSchema implements  UpgradeSchemaInterface
 
             // Check if the table already exists
             if ($setup->getConnection()->isTableExists($tableName) == true) {
-                
+
                 // Declare data
                 $columns = [
                     'unique_id' => [

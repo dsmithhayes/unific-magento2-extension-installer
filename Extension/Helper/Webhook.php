@@ -88,11 +88,12 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getGroupFromWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
     {
-        $groupCollection = $this->groupFactory->create()->getCollection();
+        $group = $this->groupFactory->create();
+
+        $groupCollection = $group->getCollection();
         $groupCollection->addFieldToFilter('name', $webhook->getGroup());
 
         if ($groupCollection->getSize() <= 0) {
-            $group = $this->_objectManager->create('Unific\Extension\Model\Group');
             $group->setName($webhook->getGroup());
             $group->save();
         } else {
@@ -107,14 +108,15 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function saveWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
     {
-        $requestCollection = $this->requestFactory->create()->getCollection();
+        $requestModel = $this->requestFactory->create();
+
+        $requestCollection = $requestModel->getCollection();
         $requestCollection->addFieldToFilter('unique_id', $webhook->getUniqueId());
 
-        if($requestCollection->getSize() <= 0)
+        if($requestCollection->getSize() > 0)
         {
-            $requestModel = $this->_objectManager->create('Unific\Extension\Model\Request');
-        } else {
             $requestModel = $requestCollection->getFirstItem();
+        } else {
 
             // Remove old mappings
             $mappingCollection = $this->mappingFactory->create()->getCollection();
