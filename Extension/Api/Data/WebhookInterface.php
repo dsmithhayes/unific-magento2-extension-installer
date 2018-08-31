@@ -7,7 +7,7 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface WebhookInterface extends ExtensibleDataInterface
 {
     /**
-     * @return array
+     * @return \Unific\Extension\Api\Data\Webhook\ConditionInterface[]
      */
     public function getConditions();
 
@@ -17,7 +17,7 @@ interface WebhookInterface extends ExtensibleDataInterface
     public function setConditions(array $conditions);
 
     /**
-     * @return array
+     * @return \Unific\Extension\Api\Data\Webhook\MappingInterface[]
      */
     public function getMappings();
 
