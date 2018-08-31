@@ -13,6 +13,7 @@ interface WebhookInterface extends ExtensibleDataInterface
 
     /**
      * @param \Unific\Extension\Api\Data\Webhook\ConditionInterface[] $conditions
+     * @return void
      */
     public function setConditions(array $conditions);
 
@@ -23,6 +24,7 @@ interface WebhookInterface extends ExtensibleDataInterface
 
     /**
      * @param \Unific\Extension\Api\Data\Webhook\MappingInterface[] $mappings
+     * @return void
      */
     public function setMappings(array $mappings);
 
@@ -33,6 +35,7 @@ interface WebhookInterface extends ExtensibleDataInterface
 
     /**
      * @param \Unific\Extension\Api\Data\Webhook\ResponseInterface $response
+     * @return void
      */
     public function setResponse(\Unific\Extension\Api\Data\Webhook\ResponseInterface $response);
 

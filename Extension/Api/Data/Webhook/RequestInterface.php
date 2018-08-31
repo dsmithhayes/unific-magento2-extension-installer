@@ -13,7 +13,7 @@ interface RequestInterface extends ExtensibleDataInterface
 
     /**
      * @param string $protocol
-     * @return mixed
+     * @return void
      */
     public function setProtocol($protocol = "rest");
 
@@ -24,7 +24,7 @@ interface RequestInterface extends ExtensibleDataInterface
 
     /**
      * @param $url
-     * @return mixed
+     * @return void
      */
     public function setUrl($url);
 
@@ -35,7 +35,7 @@ interface RequestInterface extends ExtensibleDataInterface
 
     /**
      * @param string $type
-     * @return mixed
+     * @return void
      */
     public function setType($type = "get");
 }

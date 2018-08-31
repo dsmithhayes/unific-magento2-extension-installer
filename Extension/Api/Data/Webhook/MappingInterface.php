@@ -13,6 +13,7 @@ interface MappingInterface extends ExtensibleDataInterface
 
     /**
      * @param string $internal
+     * @return void
      */
     public function setInternal($internal);
 
@@ -23,6 +24,7 @@ interface MappingInterface extends ExtensibleDataInterface
 
     /**
      * @param string $external
+     * @return void
      */
     public function setExternal($external);
 }

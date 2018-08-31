@@ -13,6 +13,7 @@ interface ConditionInterface extends ExtensibleDataInterface
 
     /**
      * @param string $condition
+     * @return void
      */
     public function setCondition($condition);
 
@@ -23,6 +24,7 @@ interface ConditionInterface extends ExtensibleDataInterface
 
     /**
      * @param string $comparison
+     * @return void
      */
     public function setComparison($comparison);
 
@@ -33,6 +35,7 @@ interface ConditionInterface extends ExtensibleDataInterface
 
     /**
      * @param string $value
+     * @return void
      */
     public function setValue($value);
 
@@ -43,6 +46,7 @@ interface ConditionInterface extends ExtensibleDataInterface
 
     /**
      * @param string $action
+     * @return void
      */
     public function setAction($action);
 
@@ -53,6 +57,7 @@ interface ConditionInterface extends ExtensibleDataInterface
 
     /**
      * @param \Unific\Extension\Api\Data\Webhook\RequestInterface $request
+     * @return void
      */
     public function setRequest(\Unific\Extension\Api\Data\Webhook\RequestInterface $request);
 }
