@@ -24,10 +24,94 @@ class Webhook implements \Unific\Extension\Api\Data\IntegrationInterface
         'product_update' => 'Magento\Catalog\Api\ProductManagementInterface::save'
     );
 
+    /**
+     * @var
+     */
     protected $name;
+
+    /**
+     * @var
+     */
+    protected $unique_id;
+
+    /**
+     * @var
+     */
     protected $description;
+
+    /**
+     * @var
+     */
     protected $event;
+
+    /**
+     * @var
+     */
     protected $eventExecution;
+
+    /**
+     * @var \Unific\Extension\Api\Data\Webhook\ConditionInterface[]
+     */
+    protected $conditions = array();
+
+    /**
+     * @var \Unific\Extension\Api\Data\Webhook\MappingInterface[]
+     */
+    protected $mappings = array();
+
+    /**
+     * @var \Unific\Extension\Api\Data\Webhook\ResponseInterface
+     */
+    protected $response;
+
+    /**
+     * @return array
+     */
+    public function getConditions()
+    {
+        return $this->conditions;
+    }
+
+    /**
+     * @param \Unific\Extension\Api\Data\Webhook\ConditionInterface[] $conditions
+     */
+    public function setConditions(array $conditions)
+    {
+        $this->conditions = $conditions;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMappings()
+    {
+        return $this->mappings;
+    }
+
+    /**
+     * @param \Unific\Extension\Api\Data\Webhook\MappingInterface[] $mappings
+     */
+    public function setMappings(array $mappings)
+    {
+        $this->mappings = $mappings;
+    }
+
+    /**
+     * @return \Unific\Extension\Api\Data\Webhook\ResponseInterface
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    /**
+     * @param \Unific\Extension\Api\Data\Webhook\ResponseInterface $response
+     */
+    public function setResponse(\Unific\Extension\Api\Data\Webhook\ResponseInterface $response)
+    {
+        $this->response = $response;
+    }
+
 
     /**
      * @return mixed
@@ -43,6 +127,22 @@ class Webhook implements \Unific\Extension\Api\Data\IntegrationInterface
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUniqueId()
+    {
+        return $this->unique_id;
+    }
+
+    /**
+     * @param string $unique_id
+     */
+    public function setUniqueId($unique_id)
+    {
+        $this->unique_id = $unique_id;
     }
 
     /**

@@ -65,6 +65,12 @@
     <preference for="Unific\Extension\Api\Data\TotalsInterface" type="Unific\Extension\Model\Api\Data\Totals" />
     <preference for="Unific\Extension\Api\Data\SetupResponseInterface" type="Unific\Extension\Model\Api\Data\SetupResponse" />
 
+    <preference for="Unific\Extension\Api\Data\WebhookInterface" type="Unific\Extension\Model\Api\Data\Webhook" />
+    <preference for="Unific\Extension\Api\Data\Webhook\ConditionInterface" type="Unific\Extension\Model\Api\Data\Webhook\Condition" />
+    <preference for="Unific\Extension\Api\Data\Webhook\MappingInterface" type="Unific\Extension\Model\Api\Data\Webhook\Mapping" />
+    <preference for="Unific\Extension\Api\Data\Webhook\RequestInterface" type="Unific\Extension\Model\Api\Data\Webhook\Request" />
+    <preference for="Unific\Extension\Api\Data\Webhook\ResponseInterface" type="Unific\Extension\Model\Api\Data\Webhook\Response" />
+
     <preference for="Unific\Extension\Model\GroupInterface" type="Unific\Extension\Model\Group"/>
     <preference for="Unific\Extension\Model\RequestInterface" type="Unific\Extension\Model\Request"/>
     <preference for="Unific\Extension\Model\MappingInterface" type="Unific\Extension\Model\Mapping"/>

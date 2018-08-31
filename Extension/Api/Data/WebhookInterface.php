@@ -7,37 +7,45 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface WebhookInterface extends ExtensibleDataInterface
 {
     /**
-     * @return string
+     * @return array
      */
-    public function getGroup();
+    public function getConditions();
 
     /**
-     * @param string $group
-     * @return void
+     * @param \Unific\Extension\Api\Data\Webhook\ConditionInterface[] $conditions
      */
-    public function setGroup($group = 'default');
+    public function setConditions(array $conditions);
 
     /**
-     * @return string
+     * @return array
+     */
+    public function getMappings();
+
+    /**
+     * @param \Unific\Extension\Api\Data\Webhook\MappingInterface[] $mappings
+     */
+    public function setMappings(array $mappings);
+
+    /**
+     * @return \Unific\Extension\Api\Data\Webhook\ResponseInterface
+     */
+    public function getResponse();
+
+    /**
+     * @param \Unific\Extension\Api\Data\Webhook\ResponseInterface $response
+     */
+    public function setResponse(\Unific\Extension\Api\Data\Webhook\ResponseInterface $response);
+
+
+    /**
+     * @return mixed
      */
     public function getName();
 
     /**
-     * @param $name
-     * @return void
+     * @param mixed $name
      */
     public function setName($name);
-
-    /**
-     * @return string
-     */
-    public function getDescription();
-
-    /**
-     * @param string $description
-     * @return void
-     */
-    public function setDescription($description = 'No description available');
 
     /**
      * @return string
@@ -45,8 +53,36 @@ interface WebhookInterface extends ExtensibleDataInterface
     public function getUniqueId();
 
     /**
-     * @param $uniqueId
-     * @return void
+     * @param string $unique_id
      */
-    public function setUniqueId($uniqueId);
+    public function setUniqueId($unique_id);
+    /**
+     * @return mixed
+     */
+    public function getDescription();
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description);
+
+    /**
+     * @return mixed
+     */
+    public function getEvent();
+
+    /**
+     * @param mixed $event
+     */
+    public function setEvent($event);
+
+    /**
+     * @return mixed
+     */
+    public function getEventExecution();
+
+    /**
+     * @param mixed $eventExecution
+     */
+    public function setEventExecution($eventExecution);
 }
