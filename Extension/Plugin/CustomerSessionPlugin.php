@@ -62,7 +62,7 @@ class CustomerSessionPlugin extends AbstractPlugin
             $this->handleCondition($id, $request, $subject);
         }
 
-        return [$customer];
+        return [$subject];
     }
 
     /**
