@@ -122,7 +122,7 @@ class Info extends Generic
                     'Magento\Sales\Model\Order\Invoice::capture' => 'Invoice is captured',
                     'Magento\Sales\Model\Order\Creditmemo::save' => 'Refund is created',
                     'Magento\Shipment\Model\Shipment::save' => 'Shipment is created',
-                    'Magento\Catalog\Api\CategoryManagementInterface::save' => 'Category is saved',
+                    'Magento\Catalog\Model\Category::save' => 'Category is saved',
                     'Magento\Catalog\Api\ProductManagementInterface::save' => 'Product is saved',
                 )
             ]

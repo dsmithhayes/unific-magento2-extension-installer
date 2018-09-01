@@ -111,7 +111,7 @@
         <plugin name="after_load_request" type="Unific\Extension\Plugin\AfterLoad" sortOrder="1"/>
     </type>
 
-    <type name="\Magento\Catalog\Model\Category">
+    <type name="Magento\Catalog\Model\Category">
         <plugin name="unific_category_webhook" type="Unific\Extension\Plugin\CategoryPlugin" sortOrder="1"/>
     </type>
 

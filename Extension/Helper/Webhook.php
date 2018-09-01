@@ -25,10 +25,10 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
         'order/create' => 'Magento\Sales\Api\OrderManagementInterface::place',
         'order/update' => 'Magento\Sales\Api\OrderManagementInterface::place',
         'invoice/create' => 'Magento\Sales\Model\Order\Invoice::capture',
-        'creditmemo/create' => 'Magento\Sales\Model\Order\Creditmemo::save',
-        'shipment/create' => 'Magento\Shipment\Model\Shipment::save',
-        'category/create' => 'Magento\Catalog\Api\CategoryManagementInterface::save',
-        'category/update' => 'Magento\Catalog\Api\CategoryManagementInterface::save',
+        'creditmemo/create' => 'Magento\Sales\Api\CreditmemoManagementInterface::save',
+        'shipment/create' => 'Magento\Sales\Api\ShipmentManagementInterface::save',
+        'category/create' => 'Magento\Catalog\Model\Category::save',
+        'category/update' => 'Magento\Catalog\Model\Category::save',
         'product/create' => 'Magento\Catalog\Api\ProductManagementInterface::save',
         'product/update' => 'Magento\Catalog\Api\ProductManagementInterface::save'
     );

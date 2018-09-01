@@ -9,17 +9,16 @@ class CategoryPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param \Magento\Catalog\Api\Data\CategoryInterface $category
      * @return array
      */
-    public function beforeSave($subject, \Magento\Catalog\Api\Data\CategoryInterface $category)
+    public function beforeSave($subject)
     {
         foreach ($this->getRequestCollection()
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Api\CategoryManagementInterface::save'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $category);
+            $this->handleCondition($id, $request, $subject);
         }
 
         return [$subject];
@@ -27,19 +26,18 @@ class CategoryPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param \Magento\Catalog\Api\Data\CategoryInterface $category
      * @return mixed
      */
-    public function afterSave($subject, \Magento\Catalog\Api\Data\CategoryInterface $category)
+    public function afterSave($subject)
     {
         foreach ($this->getRequestCollection()
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Api\CategoryManagementInterface::place'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $category);
+            $this->handleCondition($id, $request, $subject);
         }
 
-        return $category;
+        return $subject;
     }
 }
