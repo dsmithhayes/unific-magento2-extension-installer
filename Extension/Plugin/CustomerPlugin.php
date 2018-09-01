@@ -8,10 +8,11 @@ class CustomerPlugin extends AbstractPlugin
     protected $subject = 'customer/create';
 
     /**
-     * @param $customer
+     * @param $subject
+     * @param \Magento\Customer\Model\Customer $customer
      * @return array
      */
-    public function beforeSave(\Magento\Customer\Model\Customer $customer)
+    public function beforeSave($subject, \Magento\Customer\Model\Customer $customer)
     {
         foreach ($this->getRequestCollection()
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Customer::save'))
@@ -25,10 +26,11 @@ class CustomerPlugin extends AbstractPlugin
     }
 
     /**
-     * @param $customer
+     * @param $subject
+     * @param \Magento\Customer\Model\Customer $customer
      * @return mixed
      */
-    public function afterSave(\Magento\Customer\Model\Customer $customer)
+    public function afterSave($subject, \Magento\Customer\Model\Customer $customer)
     {
         foreach ($this->getRequestCollection()
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Customer::save'))
