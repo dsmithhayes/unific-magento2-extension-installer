@@ -29,6 +29,8 @@ class CustomerPlugin extends AbstractPlugin
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;
         $this->customerFactory = $customerFactory;
+
+        parent::__construct($logger, $mapping, $restConnection);
     }
 
     /**
