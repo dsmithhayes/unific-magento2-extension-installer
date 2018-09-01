@@ -21,7 +21,7 @@ class CustomerPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $customer);
+            $this->handleCondition($id, $request, $customer->getData());
         }
 
         return [$customer, $password, $redirectUrl];
@@ -41,7 +41,7 @@ class CustomerPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $customer);
+            $this->handleCondition($id, $request, $customer->getData());
         }
 
         return $customer;
