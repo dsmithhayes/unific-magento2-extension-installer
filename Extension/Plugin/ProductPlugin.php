@@ -8,40 +8,36 @@ class ProductPlugin extends AbstractPlugin
     protected $subject = 'product/create';
 
     /**
-     * @param $subject
-     * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @param bool $saveOptions
+     * @param \Magento\Catalog\Model\Product $subject
      * @return array
      */
-    public function beforeSave($subject, \Magento\Catalog\Api\Data\ProductInterface $product, $saveOptions = false)
+    public function beforeSave(\Magento\Catalog\Model\Product $subject)
     {
         foreach ($this->getRequestCollection()
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Api\ProductManagementInterface::save'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $product);
+            $this->handleCondition($id, $request, $subject);
         }
 
-        return [$product, $saveOptions];
+        return [$subject];
     }
 
     /**
-     * @param $subject
-     * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @param bool $saveOptions
+     * @param \Magento\Catalog\Model\Product $subject
      * @return mixed
      */
-    public function afterSave($subject, \Magento\Catalog\Api\Data\ProductInterface $product, $saveOptions = false)
+    public function afterSave(\Magento\Catalog\Model\Product $subject)
     {
         foreach ($this->getRequestCollection()
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Api\ProductManagementInterface::place'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $product);
+            $this->handleCondition($id, $request, $subject);
         }
 
-        return $product;
+        return $subject;
     }
 }
