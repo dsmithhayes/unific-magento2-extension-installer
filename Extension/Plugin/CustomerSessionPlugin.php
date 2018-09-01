@@ -7,10 +7,11 @@ class CustomerSessionPlugin extends AbstractPlugin
     protected $entity = 'customer';
 
     /**
+     * @param $subject
      * @param $customer
      * @return array
      */
-    public function beforeSetCustomerDataAsLoggedIn($customer)
+    public function beforeSetCustomerDataAsLoggedIn($subject, $customer)
     {
         $this->subject = 'customer/login';
 
@@ -26,10 +27,11 @@ class CustomerSessionPlugin extends AbstractPlugin
     }
 
     /**
+     * @param $subject
      * @param $customer
      * @return mixed
      */
-    public function afterSetCustomerDataAsLoggedIn($customer)
+    public function afterSetCustomerDataAsLoggedIn($subject, $customer)
     {
         $this->subject = 'customer/login';
 
