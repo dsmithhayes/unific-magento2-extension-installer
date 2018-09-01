@@ -23,6 +23,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
         'quote/create' => 'Magento\Quote\Api\CartManagementInterface::save',
         'quote/update' => 'Magento\Quote\Api\CartManagementInterface::save',
         'order/create' => 'Magento\Sales\Api\OrderManagementInterface::place',
+        'order/update' => 'Magento\Sales\Api\OrderManagementInterface::place',
         'invoice/create' => 'Magento\Sales\Model\Order\Invoice::capture',
         'creditmemo/create' => 'Magento\Sales\Model\Order\Creditmemo::save',
         'shipment/create' => 'Magento\Shipment\Model\Shipment::save',
