@@ -63,6 +63,17 @@ class Info extends Generic
         );
 
         $fieldset->addField(
+            'unique_id',
+            'text',
+            [
+                'name' => 'unique_id',
+                'label' => __('Unique ID'),
+                'title' => __('Unique ID'),
+                'required' => true,
+            ]
+        );
+
+        $fieldset->addField(
             'description',
             'textarea',
             [
