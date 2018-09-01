@@ -29,8 +29,8 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
         'shipment/create' => 'Magento\Sales\Api\ShipmentManagementInterface::save',
         'category/create' => 'Magento\Catalog\Model\Category::save',
         'category/update' => 'Magento\Catalog\Model\Category::save',
-        'product/create' => 'Magento\Catalog\Api\ProductManagementInterface::save',
-        'product/update' => 'Magento\Catalog\Api\ProductManagementInterface::save'
+        'product/create' => 'Magento\Catalog\Model\Product::save',
+        'product/update' => 'Magento\Catalog\Model\Product::save'
     );
 
     /**
