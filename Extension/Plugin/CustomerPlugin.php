@@ -15,7 +15,7 @@ class CustomerPlugin extends AbstractPlugin
     public function beforeSave($subject, $customer)
     {
         foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Api\CustomerManagementInterface::save'))
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Customer::save'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
@@ -33,7 +33,7 @@ class CustomerPlugin extends AbstractPlugin
     public function afterSave($subject, $customer)
     {
         foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\OrderManagementInterface::place'))
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Customer::save'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 

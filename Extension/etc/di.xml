@@ -81,7 +81,7 @@
     <type name="Magento\Sales\Api\OrderManagementInterface">
         <plugin name="unific_order_api_webhook" type="Unific\Extension\Plugin\OrderPlugin" sortOrder="1"/>
     </type>
-    <type name="Magento\Customer\Api\CustomerManagementInterface">
+    <type name="Magento\Customer\Model\Customer">
         <plugin name="unific_customer_webhook" type="Unific\Extension\Plugin\CustomerPlugin" sortOrder="1"/>
     </type>
     <type name="Magento\Customer\Model\Session">
