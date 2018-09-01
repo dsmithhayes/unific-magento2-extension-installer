@@ -9,31 +9,35 @@ class CustomerPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param $customer
+     * @param $password
+     * @param $redirectUrl
      * @return array
      */
-    public function beforeSave($subject, \Magento\Customer\Model\Customer $customer)
+    public function beforeCreateAccount($subject, $customer, $password, $redirectUrl)
     {
         foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Customer::save'))
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Api\AccountManagementInterface::createAccount'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
             $this->handleCondition($id, $request, $customer);
         }
 
-        return [$customer];
+        return [$customer, $password, $redirectUrl];
     }
 
     /**
      * @param $subject
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param $customer
+     * @param $password
+     * @param $redirectUrl
      * @return mixed
      */
-    public function afterSave($subject, \Magento\Customer\Model\Customer $customer)
+    public function afterCreateAccount($subject, $customer, $password, $redirectUrl)
     {
         foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Customer::save'))
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Api\AccountManagementInterface::createAccount'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
