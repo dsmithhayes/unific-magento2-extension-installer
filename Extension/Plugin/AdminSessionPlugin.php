@@ -4,6 +4,12 @@ namespace Unific\Extension\Plugin;
 
 class AdminSessionPlugin extends AbstractPlugin
 {
+
+    /**
+     * @param $subject
+     * @param $user
+     * @return array
+     */
     public function beforeProcessLogin($subject, $user)
     {
         $this->subject = 'admin/login';
@@ -19,6 +25,11 @@ class AdminSessionPlugin extends AbstractPlugin
         return [$user];
     }
 
+    /**
+     * @param $subject
+     * @param $user
+     * @return array
+     */
     public function afterProcessLogin($subject, $user)
     {
         $this->subject = 'admin/login';
@@ -35,6 +46,11 @@ class AdminSessionPlugin extends AbstractPlugin
 
     }
 
+    /**
+     * @param $subject
+     * @param $user
+     * @return array
+     */
     public function beforeProcessLogout($subject, $user)
     {
         $this->subject = 'admin/logout';
@@ -50,6 +66,11 @@ class AdminSessionPlugin extends AbstractPlugin
         return [$user];
     }
 
+    /**
+     * @param $subject
+     * @param $user
+     * @return array
+     */
     public function afterProcessLogout($subject, $user)
     {
         $this->subject = 'admin/logout';
