@@ -16,7 +16,7 @@ class CustomerSessionPlugin extends AbstractPlugin
         $this->subject = 'customer/login';
 
         foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::setCustomerAsLoggedIn'))
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::setCustomerDataAsLoggedIn'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
@@ -36,7 +36,7 @@ class CustomerSessionPlugin extends AbstractPlugin
         $this->subject = 'customer/login';
 
         foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::setCustomerAsLoggedIn'))
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::setCustomerDataAsLoggedIn'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 

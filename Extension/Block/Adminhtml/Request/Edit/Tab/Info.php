@@ -110,7 +110,7 @@ class Info extends Generic
                 'onchange' => 'jQuery(\'.request_event_info\').parent().parent().hide();if(this.value.indexOf(\'::\') < 0) { jQuery(\'.request_event_info_\' + this.value).parent().parent().show(); }',
                 'onload' => 'jQuery(this).trigger(\'change\')',
                 'values' => array(
-                    'Magento\Customer\Model\Session::setCustomerAsLoggedIn' => 'Customer logs in',
+                    'Magento\Customer\Model\Session::setCustomerDataAsLoggedIn' => 'Customer logs in',
                     'Magento\Customer\Model\Session::logout' => 'Customer logs out',
                     'Magento\Backend\Model\Auth\Session::processLogin' => 'Admin user logs in',
                     'Magento\Backend\Model\Auth\Session::processLogout' => 'Admin user logs out',

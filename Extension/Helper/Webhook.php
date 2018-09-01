@@ -13,7 +13,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
      * @var array
      */
     private $actionmapping = array(
-        'customer/login' => 'Magento\Customer\Model\Session::setCustomerAsLoggedIn',
+        'customer/login' => 'Magento\Customer\Model\Session::setCustomerDataAsLoggedIn',
         'customer/logout' => 'Magento\Customer\Model\Session::logout',
         'admin/login' => 'Magento\Backend\Model\Auth\Session::processLogin',
         'admin/logout' => 'Magento\Backend\Model\Auth\Session::processLogout',
