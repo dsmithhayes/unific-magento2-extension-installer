@@ -20,7 +20,7 @@ class CustomerPlugin extends AbstractPlugin
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
-        Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerFactory
+        \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerFactory
     )
     {
         $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
