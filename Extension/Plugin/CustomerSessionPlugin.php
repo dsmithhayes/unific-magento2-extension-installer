@@ -48,10 +48,9 @@ class CustomerSessionPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $order
      * @return array
      */
-    public function beforeLogout($subject, $customer)
+    public function beforeLogout($subject)
     {
         $this->subject = 'customer/logout';
 
@@ -60,7 +59,7 @@ class CustomerSessionPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $customer);
+            $this->handleCondition($id, $request, $subject);
         }
 
         return [$customer];
@@ -68,10 +67,9 @@ class CustomerSessionPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $order
      * @return mixed
      */
-    public function afterLogout($subject, $customer)
+    public function afterLogout($subject)
     {
         $this->subject = 'customer/logout';
 
@@ -80,9 +78,9 @@ class CustomerSessionPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $customer);
+            $this->handleCondition($id, $request, $subject);
         }
 
-        return $customer;
+        return $subject;
     }
 }
