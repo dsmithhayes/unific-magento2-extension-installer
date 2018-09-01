@@ -36,11 +36,9 @@ class CustomerPlugin extends AbstractPlugin
     /**
      * @param $subject
      * @param $customer
-     * @param $password
-     * @param $redirectUrl
      * @return array
      */
-    public function beforeCreateAccount($subject, $customer, $password, $redirectUrl)
+    public function beforeCreateAccount($subject, $customer)
     {
         foreach ($this->getRequestCollection()
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Api\AccountManagementInterface::createAccount'))
@@ -50,17 +48,15 @@ class CustomerPlugin extends AbstractPlugin
             $this->handleCondition($id, $request, $customer);
         }
 
-        return [$customer, $password, $redirectUrl];
+        return [$customer];
     }
 
     /**
      * @param $subject
      * @param $customer
-     * @param $password
-     * @param $redirectUrl
      * @return mixed
      */
-    public function afterCreateAccount($subject, $customer, $password, $redirectUrl)
+    public function afterCreateAccount($subject, $customer)
     {
         foreach ($this->getRequestCollection()
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Api\AccountManagementInterface::createAccount'))
