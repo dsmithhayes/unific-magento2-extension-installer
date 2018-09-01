@@ -7,10 +7,9 @@ class AdminSessionPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $user
      * @return array
      */
-    public function beforeProcessLogin($subject, $user)
+    public function beforeProcessLogin($subject)
     {
         $this->subject = 'admin/login';
 
@@ -19,18 +18,17 @@ class AdminSessionPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $user);
+            $this->handleCondition($id, $request, $subject);
         }
 
-        return [$user];
+        return [$subject];
     }
 
     /**
      * @param $subject
-     * @param $user
      * @return array
      */
-    public function afterProcessLogin($subject, $user)
+    public function afterProcessLogin($subject)
     {
         $this->subject = 'admin/login';
 
@@ -39,19 +37,18 @@ class AdminSessionPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $user);
+            $this->handleCondition($id, $request, $subject);
         }
 
-        return $user;
+        return $subject;
 
     }
 
     /**
      * @param $subject
-     * @param $user
      * @return array
      */
-    public function beforeProcessLogout($subject, $user)
+    public function beforeProcessLogout($subject)
     {
         $this->subject = 'admin/logout';
 
@@ -60,18 +57,17 @@ class AdminSessionPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $user);
+            $this->handleCondition($id, $request, $subject);
         }
 
-        return [$user];
+        return [$subject];
     }
 
     /**
      * @param $subject
-     * @param $user
      * @return array
      */
-    public function afterProcessLogout($subject, $user)
+    public function afterProcessLogout($subject)
     {
         $this->subject = 'admin/logout';
 
@@ -80,9 +76,9 @@ class AdminSessionPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $user);
+            $this->handleCondition($id, $request, $subject);
         }
 
-        return $user;
+        return $subject;
     }
 }
