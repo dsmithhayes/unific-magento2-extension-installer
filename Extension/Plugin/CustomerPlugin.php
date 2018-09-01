@@ -7,20 +7,20 @@ class CustomerPlugin extends AbstractPlugin
     protected $entity = 'customer';
     protected $subject = 'customer/create';
 
-    protected $customerManagement;
+    protected $customerFactory;
 
     /**
      * OrderPlugin constructor.
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
-     * @param \Magento\Customer\Api\CustomerManagementInterface $customerManagement
+     * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerFactory
      */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
-        \Magento\Customer\Api\CustomerManagementInterface $customerManagement
+        Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerFactory
     )
     {
         $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -28,7 +28,7 @@ class CustomerPlugin extends AbstractPlugin
         $this->logger = $logger;
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;
-        $this->customerManagement = $customerManagement;
+        $this->customerFactory = $customerFactory;
     }
 
     /**
@@ -45,8 +45,7 @@ class CustomerPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-
-            $this->handleCondition($id, $request, $this->customerManagement->getById($customer->getId()));
+            $this->handleCondition($id, $request, $customer);
         }
 
         return [$customer, $password, $redirectUrl];
@@ -66,7 +65,9 @@ class CustomerPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $this->customerManagement->getById($customer->getId()));
+            $customerData = $this->customerFactory->create()->addFieldToFilter('id', $customer->getId())->getFirstItem();
+
+            $this->handleCondition($id, $request, $customerData);
         }
 
         return $customer;
