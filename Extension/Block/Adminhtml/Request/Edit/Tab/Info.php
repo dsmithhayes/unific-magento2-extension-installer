@@ -120,8 +120,8 @@ class Info extends Generic
                     'Magento\Sales\Api\OrderManagementInterface::place' => 'Order is placed',
                     'Magento\Sales\Api\Order::save' => 'Order is updated',
                     'Magento\Sales\Model\Order\Invoice::capture' => 'Invoice is captured',
-                    'Magento\Sales\Model\Order\Creditmemo::save' => 'Refund is created',
-                    'Magento\Shipment\Model\Shipment::save' => 'Shipment is created',
+                    'Magento\Sales\Api\CreditmemoManagementInterface::save' => 'Refund is created',
+                    'Magento\Sales\Api\ShipmentManagementInterface::save' => 'Shipment is created',
                     'Magento\Catalog\Model\Category::save' => 'Category is saved',
                     'Magento\Catalog\Api\ProductManagementInterface::save' => 'Product is saved',
                 )
