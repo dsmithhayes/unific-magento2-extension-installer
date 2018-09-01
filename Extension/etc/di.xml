@@ -111,12 +111,12 @@
         <plugin name="after_load_request" type="Unific\Extension\Plugin\AfterLoad" sortOrder="1"/>
     </type>
 
-    <type name="Magento\Catalog\Api\CategoryRepositoryInterface">
-        <plugin name="unific_category_api_webhook" type="Unific\Extension\Plugin\CategoryPlugin" sortOrder="1"/>
+    <type name="\Magento\Catalog\Model\Category">
+        <plugin name="unific_category_webhook" type="Unific\Extension\Plugin\CategoryPlugin" sortOrder="1"/>
     </type>
 
-    <type name="Magento\Catalog\Api\ProductRepositoryInterface">
-        <plugin name="unific_product_api_webhook" type="Unific\Extension\Plugin\ProductPlugin" sortOrder="1"/>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="unific_product_webhook" type="Unific\Extension\Plugin\ProductPlugin" sortOrder="1"/>
     </type>
 
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
