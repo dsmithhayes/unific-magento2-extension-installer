@@ -46,7 +46,7 @@ class CustomerPlugin extends AbstractPlugin
                  as $id => $request) {
 
 
-            $this->handleCondition($id, $request, $this->customerManagement->get($customer->getId()));
+            $this->handleCondition($id, $request, $this->customerManagement->getById($customer->getId()));
         }
 
         return [$customer, $password, $redirectUrl];
@@ -66,7 +66,7 @@ class CustomerPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $this->customerManagement->get($customer->getId()));
+            $this->handleCondition($id, $request, $this->customerManagement->getById($customer->getId()));
         }
 
         return $customer;
