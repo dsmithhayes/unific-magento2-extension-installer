@@ -9,37 +9,35 @@ class ProductPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $product
      * @return array
      */
-    public function beforeSave($subject, $product)
+    public function beforeSave($subject)
     {
         foreach ($this->getRequestCollection()
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Api\ProductManagementInterface::save'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $product);
+            $this->handleCondition($id, $request, $subject);
         }
 
-        return [$product];
+        return [$subject];
     }
 
     /**
      * @param $subject
-     * @param $product
      * @return mixed
      */
-    public function afterSave($subject, $product)
+    public function afterSave($subject)
     {
         foreach ($this->getRequestCollection()
                      ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Api\ProductManagementInterface::place'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $product);
+            $this->handleCondition($id, $request, $subject);
         }
 
-        return $product;
+        return $subject;
     }
 }
