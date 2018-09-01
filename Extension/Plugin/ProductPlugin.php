@@ -14,7 +14,7 @@ class ProductPlugin extends AbstractPlugin
     public function beforeSave(\Magento\Catalog\Model\Product $subject)
     {
         foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Api\ProductManagementInterface::save'))
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Model\Product::save'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
@@ -31,7 +31,7 @@ class ProductPlugin extends AbstractPlugin
     public function afterSave(\Magento\Catalog\Model\Product $subject)
     {
         foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Api\ProductManagementInterface::place'))
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Model\Product::save'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 

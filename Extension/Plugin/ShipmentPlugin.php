@@ -31,7 +31,7 @@ class ShipmentPlugin extends AbstractPlugin
     )
     {
         foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\ShipOrderInterface::execute'))
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\ShipmentManagementInterface::save'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
@@ -65,7 +65,7 @@ class ShipmentPlugin extends AbstractPlugin
                                  \Magento\Sales\Api\Data\ShipmentCreationArgumentsInterface $arguments = null)
     {
         foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\ShipOrderInterface::execute'))
+                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\ShipmentManagementInterface::save'))
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
