@@ -81,7 +81,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function post($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->setParameterPost(json_encode($data))->request(\Zend_Http_Client::POST);
+        $result = $this->initConnection($url, $data, $extraHeaders)->setRawData(json_encode($data))->request(\Zend_Http_Client::POST);
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
@@ -105,7 +105,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function put($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->setParameterPost(json_encode($data))->request(\Zend_Http_Client::PUT);
+        $result = $this->initConnection($url, $data, $extraHeaders)->setRawData(json_encode($data))->request(\Zend_Http_Client::PUT);
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
@@ -117,7 +117,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function delete($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->setParameterPost(json_encode($data))->request(\Zend_Http_Client::DELETE);
+        $result = $this->initConnection($url, $data, $extraHeaders)->setRawData(json_encode($data))->request(\Zend_Http_Client::DELETE);
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
