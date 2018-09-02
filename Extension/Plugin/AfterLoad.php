@@ -4,6 +4,31 @@ namespace Unific\Extension\Plugin;
 
 class AfterLoad
 {
+    protected $mappingFactory;
+    protected $conditionFactory;
+    protected $responseMappingFactory;
+    protected $responseConditionFactory;
+
+    /**
+     * OrderPlugin constructor.
+     * @param \Unific\Extension\Model\ResourceModel\Mapping\CollectionFactory $mappingFactory
+     * @param \Unific\Extension\Model\ResourceModel\Condition\CollectionFactory $conditionFactory
+     * @param \Unific\Extension\Model\ResourceModel\ResponseMapping\CollectionFactory $responseMappingFactory
+     * @param \Unific\Extension\Model\ResourceModel\ResponseCondition\CollectionFactory $responseConditionFactory
+     */
+    public function __construct(
+        \Unific\Extension\Model\ResourceModel\Mapping\CollectionFactory $mappingFactory,
+        \Unific\Extension\Model\ResourceModel\Condition\CollectionFactory $conditionFactory,
+        \Unific\Extension\Model\ResourceModel\ResponseMapping\CollectionFactory $responseMappingFactory,
+        \Unific\Extension\Model\ResourceModel\ResponseCondition\CollectionFactory $responseConditionFactory
+    )
+    {
+        $this->mappingFactory = $mappingFactory;
+        $this->conditionFactory = $conditionFactory;
+        $this->responseMappingFactory = $responseMappingFactory;
+        $this->responseConditionFactory = $responseConditionFactory;
+    }
+
     /**
      * Enrich the model with information required to display everything in the admin
      * Its also needed to handle the relations upon receiving or sending a request
@@ -12,12 +37,10 @@ class AfterLoad
      */
     public function afterLoad($model)
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-
         $extraData = array();
 
         // Add mappings
-        $typeInstance = $objectManager->get('Unific\Extension\Model\ResourceModel\Mapping\Collection');
+        $typeInstance = $this->mappingFactory->create();
         $typeInstance->addFieldToFilter('request_id', $model->getId());
 
         foreach ($typeInstance->getItems() as $item) {
@@ -32,7 +55,7 @@ class AfterLoad
         }
 
         // Add conditions
-        $typeInstance = $objectManager->get('Unific\Extension\Model\ResourceModel\Condition\Collection');
+        $typeInstance = $this->conditionFactory->create();
         $typeInstance->addFieldToFilter('request_id', $model->getId());
 
         foreach ($typeInstance->getItems() as $item) {
@@ -46,7 +69,7 @@ class AfterLoad
         }
 
         // Add response mappings
-        $typeInstance = $objectManager->get('Unific\Extension\Model\ResourceModel\ResponseMapping\Collection');
+        $typeInstance = $this->responseMappingFactory->create();
         $typeInstance->addFieldToFilter('request_id', $model->getId());
 
         foreach ($typeInstance->getItems() as $item) {
@@ -61,7 +84,7 @@ class AfterLoad
         }
 
         // Add response conditions
-        $typeInstance = $objectManager->get('Unific\Extension\Model\ResourceModel\ResponseCondition\Collection');
+        $typeInstance = $this->responseConditionFactory->create();
         $typeInstance->addFieldToFilter('request_id', $model->getId());
 
         foreach ($typeInstance->getItems() as $item) {
