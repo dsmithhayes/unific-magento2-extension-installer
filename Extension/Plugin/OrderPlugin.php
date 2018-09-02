@@ -8,8 +8,6 @@ class OrderPlugin extends AbstractPlugin
     protected $subject = 'order/create';
 
     protected $orderRepository;
-    protected $orderExtensionFactory;
-    protected $metadata;
 
     /**
      * OrderPlugin constructor.
@@ -17,15 +15,13 @@ class OrderPlugin extends AbstractPlugin
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param unificOrderMetadata $metadata
-     * @param \Magento\Sales\Api\Data\OrderExtensionFactory|null $orderExtensionFactory
      */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-        unificOrderMetadata $metadata,
+        \Unific\Extension\Model\ResourceModel\OrderMetadata $metadata,
         \Magento\Sales\Api\Data\OrderExtensionFactory $orderExtensionFactory = null
     )
     {
@@ -34,8 +30,6 @@ class OrderPlugin extends AbstractPlugin
         $this->restConnection = $restConnection;
 
         $this->orderRepository = $orderRepository;
-        $this->orderExtensionFactory = $orderExtensionFactory;
-        $this->metadata = $metadata;
 
         parent::__construct($logger, $mapping, $restConnection);
     }
@@ -49,7 +43,7 @@ class OrderPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place', 'before') as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($order->getId()));
+            $this->handleCondition($request->getId(), $request,  $this->getFullOrder($order));
         }
 
         return [$order];
@@ -64,7 +58,7 @@ class OrderPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place') as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($order->getId()));
+            $this->handleCondition($request->getId(), $request,  $this->getFullOrder($order));
         }
 
         return $order;
@@ -73,27 +67,9 @@ class OrderPlugin extends AbstractPlugin
     /**
      * @param $id
      */
-    protected function getFullOrder($id)
+    protected function getFullOrder($order)
     {
-        $order = $this->metadata->load($id);
-
-        /** @var OrderExtensionInterface $extensionAttributes */
-        $extensionAttributes = $order->getExtensionAttributes();
-
-        if ($extensionAttributes === null) {
-            $extensionAttributes = $this->orderExtensionFactory->create();
-        } elseif ($extensionAttributes->getShippingAssignments() !== null) {
-            return;
-        }
-
-        /** @var ShippingAssignmentInterface $shippingAssignment */
-        $shippingAssignments = \Magento\Framework\App\ObjectManager::getInstance()->get(
-            \Magento\Sales\Model\Order\ShippingAssignmentBuilder::class
-        );
-
-        $shippingAssignments->setOrderId($order->getEntityId());
-        $extensionAttributes->setShippingAssignments($shippingAssignments->create());
-        $order->setExtensionAttributes($extensionAttributes);
+        $order->load($order->getId());
 
         return $order;
     }
