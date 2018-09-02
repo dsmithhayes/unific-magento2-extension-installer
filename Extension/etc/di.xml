@@ -78,7 +78,7 @@
     <preference for="Unific\Extension\Model\ConditionInterface" type="Unific\Extension\Model\Condition"/>
     <preference for="Unific\Extension\Model\ResponseConditionInterface" type="Unific\Extension\Model\ResponseCondition"/>
 
-    <virtualType name="orderMetadata" type="Unific\Extension\Model\ResourceModel\OrderMetadata">
+    <virtualType name="unificOrderMetadata" type="Unific\Extension\Model\ResourceModel\OrderMetadata">
         <arguments>
             <argument name="resourceClassName" xsi:type="string">Magento\Sales\Model\ResourceModel\Order</argument>
             <argument name="modelClassName" xsi:type="string">Magento\Sales\Model\Order</argument>
