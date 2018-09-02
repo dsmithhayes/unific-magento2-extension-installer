@@ -57,7 +57,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
         }
 
         $extraHeaders["Content-Type"] = 'application/json';
-        $this->connection->getHttpClient()->addHeaders($extraHeaders);
+        $this->connection->getHttpClient()->setHeaders($extraHeaders);
 
         $this->connection->setNoReset(true);
 
