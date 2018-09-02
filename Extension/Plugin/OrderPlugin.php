@@ -9,6 +9,7 @@ class OrderPlugin extends AbstractPlugin
 
     protected $orderRepository;
     protected $orderExtensionFactory;
+    protected $metadata;
 
     /**
      * OrderPlugin constructor.
@@ -16,6 +17,7 @@ class OrderPlugin extends AbstractPlugin
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+     * @param Magento\Sales\Model\ResourceModel\Metadata $metadata
      * @param \Magento\Sales\Api\Data\OrderExtensionFactory|null $orderExtensionFactory
      */
     public function __construct(
@@ -23,6 +25,7 @@ class OrderPlugin extends AbstractPlugin
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+        Magento\Sales\Model\ResourceModel\Metadata $metadata,
         \Magento\Sales\Api\Data\OrderExtensionFactory $orderExtensionFactory = null
     )
     {
@@ -32,6 +35,7 @@ class OrderPlugin extends AbstractPlugin
 
         $this->orderRepository = $orderRepository;
         $this->orderExtensionFactory = $orderExtensionFactory;
+        $this->metadata = $metadata;
 
         parent::__construct($logger, $mapping, $restConnection);
     }
@@ -71,7 +75,7 @@ class OrderPlugin extends AbstractPlugin
      */
     protected function getFullOrder($id)
     {
-        $order = $this->orderRepository->get($id);
+        $order = $this->metadata->load($id);
 
         /** @var OrderExtensionInterface $extensionAttributes */
         $extensionAttributes = $order->getExtensionAttributes();
