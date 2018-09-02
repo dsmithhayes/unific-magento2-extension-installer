@@ -39,7 +39,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      * @param $url
      * @param array $data
      * @param array $extraHeaders
-     * @return \Zend_Rest_Client
+     * @return \Zend_Http_Client
      */
     public function initConnection($url, $data = array(), $extraHeaders = array())
     {
@@ -56,12 +56,15 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
             $extraHeaders[$hmacKey] = $this->hmacHelper->generateHmac($data);
         }
 
-        $extraHeaders["Content-Type"] = 'application/json';
+        $extraHeaders["Content-type"] = 'application/json';
         $this->connection->getHttpClient()->setHeaders($extraHeaders);
 
         $this->connection->setNoReset(true);
 
-        return $this->connection;
+        $client = $this->connection->getHttpClient();
+        $client->setHeaders('Content-type','application/json');
+
+        return $client;
     }
 
     /**
@@ -79,7 +82,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function post($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->restPost($this->urlData['path'], json_encode($data));
+        $result = $this->initConnection($url, $data, $extraHeaders)->setParameterPost(json_encode($data))->request(\Zend_Http_Client::POST);
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
@@ -91,7 +94,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function get($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->restGet($this->urlData['path'], $data);
+        $result = $this->initConnection($url, $data, $extraHeaders)->setParameterGet($data)->request(\Zend_Http_Client::GET);
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
@@ -103,7 +106,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function put($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->restPut($this->urlData['path'], json_encode($data));
+        $result = $this->initConnection($url, $data, $extraHeaders)->setParameterPost(json_encode($data))->request(\Zend_Http_Client::PUT);
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
@@ -115,7 +118,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function delete($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->restDelete($this->urlData['path'], json_encode($data));
+        $result = $this->initConnection($url, $data, $extraHeaders)->setParameterPost(json_encode($data))->request(\Zend_Http_Client::DELETE);
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
