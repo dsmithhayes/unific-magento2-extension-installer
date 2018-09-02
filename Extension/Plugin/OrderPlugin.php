@@ -43,7 +43,6 @@ class OrderPlugin extends AbstractPlugin
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
-     * @param \Magento\Sales\Model\ResourceModel\Metadata $metadata
      * @param \Magento\Sales\Api\Data\OrderSearchResultInterfaceFactory $searchResultFactory
      * @param \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface|null $collectionProcessor
      * @param \Magento\Sales\Api\Data\OrderExtensionFactory|null $orderExtensionFactory
@@ -52,7 +51,6 @@ class OrderPlugin extends AbstractPlugin
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
-        \Magento\Sales\Model\ResourceModel\Metadata $metadata,
         \Magento\Sales\Api\Data\OrderSearchResultInterfaceFactory $searchResultFactory,
         \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface $collectionProcessor = null,
         \Magento\Sales\Api\Data\OrderExtensionFactory $orderExtensionFactory = null
@@ -64,12 +62,10 @@ class OrderPlugin extends AbstractPlugin
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;
 
-        $this->metadata = $metadata;
+        $this->metadata = $this->objectManager->get(Magento\Sales\Model\ResourceModel\Metadata::class);
         $this->searchResultFactory = $searchResultFactory;
-        $this->collectionProcessor = $collectionProcessor ?: \Magento\Framework\App\ObjectManager::getInstance()
-            ->get(\Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface::class);
-        $this->orderExtensionFactory = $orderExtensionFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
-            ->get(\Magento\Sales\Api\Data\OrderExtensionFactory::class);
+        $this->collectionProcessor = $collectionProcessor ?: $this->objectManager->get(\Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface::class);
+        $this->orderExtensionFactory = $orderExtensionFactory ?: $this->objectManager->get(\Magento\Sales\Api\Data\OrderExtensionFactory::class);
 
         parent::__construct($logger, $mapping, $restConnection);
     }
