@@ -57,7 +57,6 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
         }
 
         $this->connection->getHttpClient()->setHeaders($extraHeaders);
-        $this->connection->setEnctype('application/json;charset="utf-8"');
 
         return $this->connection;
     }
@@ -77,7 +76,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function post($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->restPost($this->urlData['path'], json_encode($data));
+        $result = $this->initConnection($url, $data, $extraHeaders)->restPost($this->urlData['path'], json_encode($data), 'application/json');
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
@@ -89,7 +88,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function get($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->restGet($this->urlData['path'], $data);
+        $result = $this->initConnection($url, $data, $extraHeaders)->restGet($this->urlData['path'], $data, 'application/json');
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
@@ -101,7 +100,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function put($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->restPut($this->urlData['path'], json_encode($data));
+        $result = $this->initConnection($url, $data, $extraHeaders)->restPut($this->urlData['path'], json_encode($data), 'application/json');
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
@@ -113,7 +112,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function delete($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->restDelete($this->urlData['path'], $data);
+        $result = $this->initConnection($url, $data, $extraHeaders)->restDelete($this->urlData['path'], $data, 'application/json');
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
