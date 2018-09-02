@@ -56,7 +56,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
             $extraHeaders[$hmacKey] = $this->hmacHelper->generateHmac($data);
         }
 
-        $this->connection->getHttpClient()->setHeaders($extraHeaders);
+        $this->connection->getHttpClient()->addHeaders($extraHeaders);
         $this->connection->setEncType('application/json;charset="utf-8"');
         $this->connection->setNoReset(true);
 
@@ -78,7 +78,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function post($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->restPost($this->urlData['path'], json_encode($data));
+        $result = $this->initConnection($url, $data, $extraHeaders)->restPost($this->urlData['path'], $data);
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
@@ -102,7 +102,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      */
     public function put($url, $data = array(), $extraHeaders = array())
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->restPut($this->urlData['path'], json_encode($data));
+        $result = $this->initConnection($url, $data, $extraHeaders)->restPut($this->urlData['path'], $data);
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
