@@ -83,7 +83,7 @@ class OrderPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place', 'before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $this->metadata->getNewInstance()->load($order->getId()));
+            $this->handleCondition($request->getId(), $request, $this->getFullOrder($order->getId()));
         }
 
         return [$order];
@@ -98,9 +98,38 @@ class OrderPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $this->metadata->getNewInstance()->load($order->getId());
+            $this->handleCondition($request->getId(), $request, $this->getFullOrder($order->getId()));
         }
 
         return $order;
     }
+
+    protected function getFullOrder($id)
+    {
+        $order = $this->metadata->getNewInstance()->load($id);
+        $this->setShippingAssignments($order);
+
+        return $order;
+    }
+    /**
+     * @param OrderInterface $order
+     * @return void
+     */
+    private function setShippingAssignments(OrderInterface $order)
+    {
+        /** @var OrderExtensionInterface $extensionAttributes */
+        $extensionAttributes = $order->getExtensionAttributes();
+
+        if ($extensionAttributes === null) {
+            $extensionAttributes = $this->orderExtensionFactory->create();
+        } elseif ($extensionAttributes->getShippingAssignments() !== null) {
+            return;
+        }
+        /** @var ShippingAssignmentInterface $shippingAssignment */
+        $shippingAssignments = $this->getShippingAssignmentBuilderDependency();
+        $shippingAssignments->setOrderId($order->getEntityId());
+        $extensionAttributes->setShippingAssignments($shippingAssignments->create());
+        $order->setExtensionAttributes($extensionAttributes);
+    }
+
 }
