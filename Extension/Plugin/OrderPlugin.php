@@ -2,6 +2,8 @@
 
 namespace Unific\Extension\Plugin;
 
+use Unific\Extension\Model\ResourceModel\Metadata;
+
 class OrderPlugin extends AbstractPlugin
 {
     protected $entity = 'order';
@@ -10,20 +12,22 @@ class OrderPlugin extends AbstractPlugin
     protected $orderRepository;
     protected $searchCriteriaBuilder;
 
+    protected $metadata;
+
     /**
      * OrderPlugin constructor.
+     * @param Metadata $metadata
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
+        \Unific\Extension\Model\ResourceModel\Metadata $metadata,
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
-        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
     )
     {
         $this->logger = $logger;
@@ -31,7 +35,7 @@ class OrderPlugin extends AbstractPlugin
         $this->restConnection = $restConnection;
 
         $this->orderRepository = $orderRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->metadata = $metadata;
 
         parent::__construct($logger, $mapping, $restConnection);
     }
@@ -71,8 +75,7 @@ class OrderPlugin extends AbstractPlugin
      */
     protected function getFullOrder($order)
     {
-        $criteria = $this->searchCriteriaBuilder->addFilter('entity_id', $order->getId(), 'eq')->create();
-        $orderResult = $this->orderRepository->getList($criteria);
-        return $orderResult->getFirstItem();
+        $fullOrder = $this->metadata->getNewInstance()->load($order->getId());
+        return $fullOrder;
     }
 }

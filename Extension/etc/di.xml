@@ -78,6 +78,19 @@
     <preference for="Unific\Extension\Model\ConditionInterface" type="Unific\Extension\Model\Condition"/>
     <preference for="Unific\Extension\Model\ResponseConditionInterface" type="Unific\Extension\Model\ResponseCondition"/>
 
+    <virtualType name="unificOrderMetadata" type="Unific\Extension\Model\ResourceModel\Metadata">
+        <arguments>
+            <argument name="resourceClassName" xsi:type="string">Magento\Sales\Model\ResourceModel\Order</argument>
+            <argument name="modelClassName" xsi:type="string">Magento\Sales\Model\Order</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Unific\Extension\Plugin\OrderPlugin">
+        <arguments>
+            <argument name="metadata" xsi:type="object">unificOrderMetadata</argument>
+        </arguments>
+    </type>
+
     <type name="Magento\Sales\Api\OrderManagementInterface">
         <plugin name="unific_order_api_webhook" type="Unific\Extension\Plugin\OrderPlugin" sortOrder="1"/>
     </type>
