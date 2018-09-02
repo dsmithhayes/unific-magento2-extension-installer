@@ -22,7 +22,7 @@ class OrderPlugin extends AbstractPlugin
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Magento\Sales\Api\Data\OrderExtensionFactory|null $orderExtensionFactory
+     * @param \Magento\Sales\Api\Data\OrderExtensionFactory $orderExtensionFactory
      */
     public function __construct(
         \Unific\Extension\Model\ResourceModel\Metadata $metadata,
@@ -30,7 +30,7 @@ class OrderPlugin extends AbstractPlugin
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-        \Magento\Sales\Api\Data\OrderExtensionFactory $orderExtensionFactory = null
+        \Magento\Sales\Api\Data\OrderExtensionFactory $orderExtensionFactory
     )
     {
         $this->logger = $logger;
@@ -79,25 +79,20 @@ class OrderPlugin extends AbstractPlugin
      */
     protected function getFullOrder($order)
     {
-        $fullOrder = $this->metadata->getNewInstance()->load($order->getId());
-
         /** @var OrderExtensionInterface $extensionAttributes */
-        $extensionAttributes = $fullOrder->getExtensionAttributes();
+        $extensionAttributes = $order->getExtensionAttributes();
 
-        if ($extensionAttributes === null) {
-            $extensionAttributes = $this->orderExtensionFactory->create();
-        } elseif ($extensionAttributes->getShippingAssignments() !== null) {
-        }
+        $extensionAttributes = $this->orderExtensionFactory->create();
 
         /** @var ShippingAssignmentInterface $shippingAssignment */
         $shippingAssignments = \Magento\Framework\App\ObjectManager::getInstance()->get(
             \Magento\Sales\Model\Order\ShippingAssignmentBuilder::class
         );
 
-        $shippingAssignments->setOrderId($fullOrder->getEntityId());
+        $shippingAssignments->setOrderId($order->getEntityId());
         $extensionAttributes->setShippingAssignments($shippingAssignments->create());
-        $fullOrder->setExtensionAttributes($extensionAttributes);
+        $order->setExtensionAttributes($extensionAttributes);
 
-        return $fullOrder;
+        return $order;
     }
 }
