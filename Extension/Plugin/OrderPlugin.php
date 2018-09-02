@@ -14,11 +14,8 @@ class OrderPlugin extends AbstractPlugin
      */
     public function beforePlace($subject, $order)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\OrderManagementInterface::place'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place', 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $order);
         }
 
@@ -32,11 +29,8 @@ class OrderPlugin extends AbstractPlugin
      */
     public function afterPlace($subject, $order)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\OrderManagementInterface::place'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $order);
         }
 

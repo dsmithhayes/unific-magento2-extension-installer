@@ -34,11 +34,15 @@ class AbstractPlugin
     }
 
     /**
+     * @param string $eventFilter
+     * @param string $eventExecution
      * @return mixed
      */
-    public function getRequestCollection()
+    public function getRequestCollection($eventFilter = 'Magento\Sales\Api\OrderManagementInterface::place', $eventExecution = 'after')
     {
-        return $this->objectManager->create('\Unific\Extension\Model\ResourceModel\Request\Grid\Collection');
+        return $this->objectManager->create('\Unific\Extension\Model\ResourceModel\Request\Grid\Collection')
+            ->addFieldToFilter('request_event', array('eq' => $eventFilter))
+            ->addFieldToFilter('request_event_execution', array('eq' => $eventExecution))->load();
     }
 
     /**

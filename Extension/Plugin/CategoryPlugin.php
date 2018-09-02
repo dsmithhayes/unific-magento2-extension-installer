@@ -13,11 +13,8 @@ class CategoryPlugin extends AbstractPlugin
      */
     public function beforeSave($subject)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Model\Category::save'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Catalog\Model\Category::save', 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $subject);
         }
 
@@ -30,11 +27,8 @@ class CategoryPlugin extends AbstractPlugin
      */
     public function afterSave($subject)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Model\Category::save'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Catalog\Model\Category::save') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $subject);
         }
 

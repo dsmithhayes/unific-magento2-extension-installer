@@ -40,11 +40,8 @@ class CustomerPlugin extends AbstractPlugin
      */
     public function beforeCreateAccount($subject, $customer)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Api\AccountManagementInterface::createAccount'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::createAccount', 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $customer);
         }
 
@@ -58,13 +55,9 @@ class CustomerPlugin extends AbstractPlugin
      */
     public function afterCreateAccount($subject, $customer)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Api\AccountManagementInterface::createAccount'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::createAccount') as $request)
+        {
             $customerData = $this->customerFactory->create()->addFieldToFilter('entity_id', $customer->getId())->getFirstItem();
-
             $this->handleCondition($request->getId(), $request, $customerData);
         }
 

@@ -15,11 +15,8 @@ class CustomerSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'customer/login';
 
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::setCustomerDataAsLoggedIn'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Customer\Model\Session::setCustomerDataAsLoggedIn', 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $customer);
         }
 
@@ -35,11 +32,8 @@ class CustomerSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'customer/login';
 
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::setCustomerDataAsLoggedIn'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Customer\Model\Session::setCustomerDataAsLoggedIn') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $customer);
         }
 
@@ -54,11 +48,8 @@ class CustomerSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'customer/logout';
 
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::logout'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Customer\Model\Session::logout', 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $subject);
         }
 
@@ -73,13 +64,11 @@ class CustomerSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'customer/logout';
 
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Customer\Model\Session::logout'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Customer\Model\Session::logout') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $subject);
         }
+
 
         return $subject;
     }

@@ -8,11 +8,8 @@ class AdminUserPlugin extends AbstractPlugin
     {
         $this->subject = 'admin/user/create';
 
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\User\Model\User::save'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\User\Model\User::save', 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $user);
         }
 
@@ -23,11 +20,8 @@ class AdminUserPlugin extends AbstractPlugin
     {
         $this->subject = 'admin/user/create';
 
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\User\Model\User::save'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\User\Model\User::save') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $user);
         }
 

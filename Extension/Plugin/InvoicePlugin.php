@@ -13,11 +13,8 @@ class InvoicePlugin extends AbstractPlugin
      */
     public function beforeCapture($invoice)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Model\Order\Invoice::capture'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Sales\Model\Order\Invoice::capture', 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $invoice);
         }
 
@@ -30,11 +27,8 @@ class InvoicePlugin extends AbstractPlugin
      */
     public function afterCapture($invoice)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Model\Order\Invoice::capture'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Sales\Model\Order\Invoice::capture') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $invoice);
         }
 

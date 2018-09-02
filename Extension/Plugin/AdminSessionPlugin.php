@@ -13,11 +13,8 @@ class AdminSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'admin/login';
 
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Backend\Model\Auth\Session::processLogin'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Backend\Model\Auth\Session::processLogin', 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $subject);
         }
 
@@ -32,16 +29,12 @@ class AdminSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'admin/login';
 
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Backend\Model\Auth\Session::processLogin'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Backend\Model\Auth\Session::processLogin') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $subject);
         }
 
         return $subject;
-
     }
 
     /**
@@ -52,11 +45,8 @@ class AdminSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'admin/logout';
 
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Backend\Model\Auth\Session::processLogout'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Backend\Model\Auth\Session::processLogout', 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $subject);
         }
 
@@ -71,11 +61,8 @@ class AdminSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'admin/logout';
 
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Backend\Model\Auth\Session::processLogout'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Backend\Model\Auth\Session::processLogout') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $subject);
         }
 

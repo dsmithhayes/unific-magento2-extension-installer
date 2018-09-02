@@ -14,11 +14,8 @@ class CreditmemoPlugin extends AbstractPlugin
      */
     public function beforeSave($subject, $order)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\CreditmemoManagementInterface::save'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Sales\Api\CreditmemoManagementInterface::save', 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $order);
         }
 
@@ -32,11 +29,8 @@ class CreditmemoPlugin extends AbstractPlugin
      */
     public function afterSave($subject, $order)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\CreditmemoManagementInterface::save'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Sales\Api\CreditmemoManagementInterface::save') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $order);
         }
 

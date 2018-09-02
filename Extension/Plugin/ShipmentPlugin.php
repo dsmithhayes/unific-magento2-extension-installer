@@ -30,11 +30,8 @@ class ShipmentPlugin extends AbstractPlugin
                                   \Magento\Sales\Api\Data\ShipmentCreationArgumentsInterface $arguments = null
     )
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\ShipmentManagementInterface::save'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Sales\Api\ShipmentManagementInterface::save', 'before') as $request)
+        {
             $order = $this->objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             $this->handleCondition($request->getId(), $request, $order);
         }
@@ -64,11 +61,8 @@ class ShipmentPlugin extends AbstractPlugin
                                  array $packages = [],
                                  \Magento\Sales\Api\Data\ShipmentCreationArgumentsInterface $arguments = null)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Sales\Api\ShipmentManagementInterface::save'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Sales\Api\ShipmentManagementInterface::save') as $request)
+        {
             $order = $this->objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             $this->handleCondition($request->getId(), $request, $order);
         }

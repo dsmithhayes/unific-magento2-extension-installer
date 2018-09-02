@@ -13,14 +13,10 @@ class ProductPlugin extends AbstractPlugin
      */
     public function beforeSave(\Magento\Catalog\Model\Product $subject)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Model\Product::save'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Catalog\Model\Product::save', 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $subject);
         }
-
         return [$subject];
     }
 
@@ -30,11 +26,8 @@ class ProductPlugin extends AbstractPlugin
      */
     public function afterSave(\Magento\Catalog\Model\Product $subject)
     {
-        foreach ($this->getRequestCollection()
-                     ->addFieldToFilter('request_event', array('eq' => 'Magento\Catalog\Model\Product::save'))
-                     ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
-                 as $id => $request) {
-
+        foreach ($this->getRequestCollection('Magento\Catalog\Model\Product::save') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $subject);
         }
 
