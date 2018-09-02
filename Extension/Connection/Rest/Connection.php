@@ -56,8 +56,9 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
             $extraHeaders[$hmacKey] = $this->hmacHelper->generateHmac($data);
         }
 
+        $extraHeaders["Content-Type"] = 'application/json';
         $this->connection->getHttpClient()->addHeaders($extraHeaders);
-        $this->connection->setEncType('application/json;charset="utf-8"');
+
         $this->connection->setNoReset(true);
 
         return $this->connection;
