@@ -17,7 +17,7 @@ class OrderPlugin extends AbstractPlugin
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param Magento\Sales\Model\ResourceModel\Metadata $metadata
+     * @param \Magento\Sales\Model\ResourceModel\Metadata $metadata
      * @param \Magento\Sales\Api\Data\OrderExtensionFactory|null $orderExtensionFactory
      */
     public function __construct(
@@ -25,7 +25,7 @@ class OrderPlugin extends AbstractPlugin
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-        Magento\Sales\Model\ResourceModel\Metadata $metadata,
+        \Magento\Sales\Model\ResourceModel\Metadata $metadata,
         \Magento\Sales\Api\Data\OrderExtensionFactory $orderExtensionFactory = null
     )
     {
