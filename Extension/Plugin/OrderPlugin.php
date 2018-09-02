@@ -87,9 +87,8 @@ class OrderPlugin extends AbstractPlugin
         if ($extensionAttributes === null) {
             $extensionAttributes = $this->orderExtensionFactory->create();
         } elseif ($extensionAttributes->getShippingAssignments() !== null) {
-            return;
         }
-        
+
         /** @var ShippingAssignmentInterface $shippingAssignment */
         $shippingAssignments = \Magento\Framework\App\ObjectManager::getInstance()->get(
             \Magento\Sales\Model\Order\ShippingAssignmentBuilder::class
@@ -98,7 +97,6 @@ class OrderPlugin extends AbstractPlugin
         $shippingAssignments->setOrderId($fullOrder->getEntityId());
         $extensionAttributes->setShippingAssignments($shippingAssignments->create());
         $fullOrder->setExtensionAttributes($extensionAttributes);
-
 
         return $fullOrder;
     }
