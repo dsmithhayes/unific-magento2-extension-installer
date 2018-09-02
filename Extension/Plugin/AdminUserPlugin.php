@@ -13,7 +13,7 @@ class AdminUserPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $user);
+            $this->handleCondition($request->getId(), $request, $user);
         }
 
         return [$user];
@@ -28,7 +28,7 @@ class AdminUserPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $user);
+            $this->handleCondition($request->getId(), $request, $user);
         }
 
         return $user;

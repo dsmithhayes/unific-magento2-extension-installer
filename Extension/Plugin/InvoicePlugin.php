@@ -18,7 +18,7 @@ class InvoicePlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $invoice);
+            $this->handleCondition($request->getId(), $request, $invoice);
         }
 
         return [$invoice];
@@ -35,7 +35,7 @@ class InvoicePlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $invoice);
+            $this->handleCondition($request->getId(), $request, $invoice);
         }
 
         return $invoice;

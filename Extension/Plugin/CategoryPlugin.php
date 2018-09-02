@@ -18,7 +18,7 @@ class CategoryPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $subject);
+            $this->handleCondition($request->getId(), $request, $subject);
         }
 
         return [$subject];
@@ -35,7 +35,7 @@ class CategoryPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $subject);
+            $this->handleCondition($request->getId(), $request, $subject);
         }
 
         return $subject;

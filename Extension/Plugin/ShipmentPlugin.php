@@ -36,7 +36,7 @@ class ShipmentPlugin extends AbstractPlugin
                  as $id => $request) {
 
             $order = $this->objectManager->create('Magento\Sales\Model\Order')->load($orderId);
-            $this->handleCondition($id, $request, $order);
+            $this->handleCondition($request->getId(), $request, $order);
         }
 
         return [$orderId, $items, $notify, $appendComment, $comment, $tracks, $packages, $arguments];
@@ -70,7 +70,7 @@ class ShipmentPlugin extends AbstractPlugin
                  as $id => $request) {
 
             $order = $this->objectManager->create('Magento\Sales\Model\Order')->load($orderId);
-            $this->handleCondition($id, $request, $order);
+            $this->handleCondition($request->getId(), $request, $order);
         }
 
         return [$orderId, $items, $notify, $appendComment, $comment, $tracks, $packages, $arguments];

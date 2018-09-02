@@ -19,7 +19,7 @@ class CreditmemoPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $order);
+            $this->handleCondition($request->getId(), $request, $order);
         }
 
         return [$order];
@@ -37,7 +37,7 @@ class CreditmemoPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $order);
+            $this->handleCondition($request->getId(), $request, $order);
         }
 
         return $order;

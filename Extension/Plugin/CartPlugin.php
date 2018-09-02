@@ -19,7 +19,7 @@ class CartPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $quote);
+            $this->handleCondition($request->getId(), $request, $quote);
         }
 
         return [$quote];
@@ -37,7 +37,7 @@ class CartPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'after'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $quote);
+            $this->handleCondition($request->getId(), $request, $quote);
         }
 
         return $quote;

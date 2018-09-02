@@ -45,7 +45,7 @@ class CustomerPlugin extends AbstractPlugin
                      ->addFieldToFilter('request_event_execution', array('eq' => 'before'))
                  as $id => $request) {
 
-            $this->handleCondition($id, $request, $customer);
+            $this->handleCondition($request->getId(), $request, $customer);
         }
 
         return [$customer];
@@ -65,7 +65,7 @@ class CustomerPlugin extends AbstractPlugin
 
             $customerData = $this->customerFactory->create()->addFieldToFilter('entity_id', $customer->getId())->getFirstItem();
 
-            $this->handleCondition($id, $request, $customerData);
+            $this->handleCondition($request->getId(), $request, $customerData);
         }
 
         return $customer;
