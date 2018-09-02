@@ -67,8 +67,9 @@ class OrderPlugin extends AbstractPlugin
      */
     protected function getFullOrder($order)
     {
-        $order->load($order->getId());
+        $fullOrder = $this->orderRepository->get($order->getId());
+        $fullOrder->load($fullOrder->getId());
 
-        return $order;
+        return $fullOrder;
     }
 }
