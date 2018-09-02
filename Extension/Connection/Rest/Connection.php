@@ -57,7 +57,7 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
         }
 
         // Always send json
-        $extraHeaders['Content-type'] = 'application/json';
+        $extraHeaders['Content-Type'] = 'application/json';
 
         $this->connection->getHttpClient()->setHeaders($extraHeaders);
 
