@@ -8,6 +8,7 @@ class OrderPlugin extends AbstractPlugin
     protected $subject = 'order/create';
 
     protected $orderRepository;
+    protected $searchCriteriaBuilder;
 
     /**
      * OrderPlugin constructor.
@@ -15,12 +16,14 @@ class OrderPlugin extends AbstractPlugin
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
-        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
     )
     {
         $this->logger = $logger;
@@ -28,6 +31,7 @@ class OrderPlugin extends AbstractPlugin
         $this->restConnection = $restConnection;
 
         $this->orderRepository = $orderRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
 
         parent::__construct($logger, $mapping, $restConnection);
     }
@@ -67,9 +71,8 @@ class OrderPlugin extends AbstractPlugin
      */
     protected function getFullOrder($order)
     {
-        $fullOrder = $this->orderRepository->get($order->getId());
-        $fullOrder->load($fullOrder->getId());
-
-        return $fullOrder;
+        $criteria = $this->searchCriteriaBuilder->addFilter('entity_id', $order->getId(), 'eq')->create();
+        $orderResult = $this->orderRepository->getList($criteria);
+        return $orderResult->getFirstItem();
     }
 }
