@@ -20,9 +20,7 @@ class OrderPlugin extends AbstractPlugin
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
-        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-        \Unific\Extension\Model\ResourceModel\OrderMetadata $metadata,
-        \Magento\Sales\Api\Data\OrderExtensionFactory $orderExtensionFactory = null
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
     )
     {
         $this->logger = $logger;
