@@ -36,24 +36,28 @@ class CustomerPlugin extends AbstractPlugin
     /**
      * @param $subject
      * @param $customer
+     * @param null $password
+     * @param string $redirectUrl
      * @return array
      */
-    public function beforeCreateAccount($subject, $customer)
+    public function beforeCreateAccount($subject, $customer, $password = null, $redirectUrl = '')
     {
         foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::createAccount', 'before') as $request)
         {
             $this->handleCondition($request->getId(), $request, $customer);
         }
 
-        return [$customer];
+        return [$customer, $password, $redirectUrl];
     }
 
     /**
      * @param $subject
      * @param $customer
+     * @param null $password
+     * @param string $redirectUrl
      * @return mixed
      */
-    public function afterCreateAccount($subject, $customer)
+    public function afterCreateAccount($subject, $customer, $password = null, $redirectUrl = '')
     {
         foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::createAccount') as $request)
         {
