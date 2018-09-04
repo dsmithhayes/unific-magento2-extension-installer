@@ -53,6 +53,32 @@ class SetupManagement implements SetupManagementInterface
     protected $productCollectionFactory;
 
     /**
+     * @var \Magento\Framework\App\Cache\TypeListInterface
+     */
+    protected $cacheTypeList;
+
+    /**
+     * @var \Magento\Framework\App\Cache\Frontend\Pool
+     */
+    protected $cacheFrontendPool;
+
+    protected $cacheTypes = array(
+        'config',
+        'layout',
+        'block_html',
+        'collections',
+        'reflection',
+        'db_ddl',
+        'eav',
+        'config_integration',
+        'config_integration_api',
+        'full_page',
+        'translate',
+        'config_webservice'
+    );
+
+
+    /**
      * ModeManagement constructor.
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Config\ConfigResource\ConfigInterface $configInterface
@@ -63,6 +89,8 @@ class SetupManagement implements SetupManagementInterface
      * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerCollectionFactory
      * @param \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory
      * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -73,7 +101,9 @@ class SetupManagement implements SetupManagementInterface
         \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerCollectionFactory,
         \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory,
-        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
     )
     {
         $this->scopeConfig = $scopeConfig;
@@ -85,6 +115,8 @@ class SetupManagement implements SetupManagementInterface
         $this->customerCollectionFactory = $customerCollectionFactory;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->productCollectionFactory = $productCollectionFactory;
+        $this->cacheTypeList = $cacheTypeList;
+        $this->cacheFrontendPool = $cacheFrontendPool;
     }
 
     /**
@@ -97,6 +129,9 @@ class SetupManagement implements SetupManagementInterface
     public function getData(\Unific\Extension\Api\Data\IntegrationInterface $integration)
     {
         $this->configInterface->saveConfig('unific/extension/integration', $integration->getIntegrationId(), ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 0);
+
+        // Clear the caches to respect the config changes
+        $this->clearCache();
 
         $this->hmacInterface->setHmacHeader($this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         $this->hmacInterface->setHmacSecret($this->scopeConfig->getValue('unific/hmac/hmacSecret', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
@@ -111,5 +146,18 @@ class SetupManagement implements SetupManagementInterface
         $this->setupResponseInterface->setHmac($this->hmacInterface);
 
         return $this->setupResponseInterface;
+    }
+
+    /**
+     * Clear the cache
+     */
+    protected function clearCache()
+    {
+        foreach ($this->cacheTypes as $type) {
+            $this->cacheTypeList->cleanType($type);
+        }
+        foreach ($this->cacheFrontendPool as $cacheFrontend) {
+            $cacheFrontend->getBackend()->clean();
+        }
     }
 }
