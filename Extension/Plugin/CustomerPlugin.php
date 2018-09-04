@@ -42,7 +42,7 @@ class CustomerPlugin extends AbstractPlugin
      */
     public function beforeCreateAccount($subject, $customer, $password = null, $redirectUrl = '')
     {
-        foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::createAccount', 'before') as $request)
+        foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save', 'before') as $request)
         {
             $this->handleCondition($request->getId(), $request, $customer);
         }
@@ -59,7 +59,7 @@ class CustomerPlugin extends AbstractPlugin
      */
     public function afterCreateAccount($subject, $customer, $password = null, $redirectUrl = '')
     {
-        foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::createAccount') as $request)
+        foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save') as $request)
         {
             $customerData = $this->customerFactory->create()->addFieldToFilter('entity_id', $customer->getId())->getFirstItem();
             $this->handleCondition($request->getId(), $request, $customerData);
