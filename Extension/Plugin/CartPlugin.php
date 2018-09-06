@@ -9,31 +9,33 @@ class CartPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $quote
+     * @param $productInfo
+     * @param null $requestInfo
      * @return array
      */
-    public function beforeSave($subject, $quote)
+    public function beforeAddProduct($subject, $productInfo, $requestInfo = null)
     {
         foreach ($this->getRequestCollection('Magento\Quote\Api\CartManagementInterface::save', 'before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $quote);
+            $this->handleCondition($request->getId(), $request, $productInfo);
         }
 
-        return [$quote];
+        return [$productInfo, $requestInfo];
     }
 
     /**
      * @param $subject
-     * @param $quote
+     * @param $productInfo
+     * @param null $requestInfo
      * @return mixed
      */
-    public function afterSave($subject, $quote)
+    public function afterAddProduct($subject, $productInfo, $requestInfo = null)
     {
         foreach ($this->getRequestCollection('Magento\Quote\Api\CartManagementInterface::save') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $quote);
+            $this->handleCondition($request->getId(), $request, $productInfo);
         }
 
-        return $quote;
+        return [$productInfo. $requestInfo];
     }
 }

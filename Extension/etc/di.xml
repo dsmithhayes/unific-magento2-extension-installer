@@ -108,7 +108,7 @@
         <plugin name="admin_create_webhook" type="Unific\Extension\Plugin\AdminSessionPlugin" sortOrder="1"/>
     </type>
 
-    <type name="Magento\Quote\Api\CartManagementInterface">
+    <type name="Magento\Quote\Model\Quote">
         <plugin name="unific_quote_webhook" type="Unific\Extension\Plugin\CartPlugin" sortOrder="1"/>
     </type>
     <type name="Magento\Sales\Api\InvoiceManagementInterface">
