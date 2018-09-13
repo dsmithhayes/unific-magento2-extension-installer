@@ -35,17 +35,14 @@ class CartPlugin extends AbstractPlugin
      * @param $subject
      * @param $valid
      * @param $email
-     * @param null $websiteId
      * @return array
      */
-    public function beforeIsEmailAvailable($subject, $valid, $email, $websiteId = null)
+    public function beforeIsEmailAvailable($subject, $valid, $email)
     {
         foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::isEmailAvailable', 'before') as $request)
         {
             $emailObject = $this->dataObjectFactory->create();
-            $emailObject->setIsValid($valid);
             $emailObject->setEmail($email);
-            $emailObject->setWebsiteId($websiteId);
 
             $this->handleCondition($request->getId(), $request, $emailObject);
         }
@@ -57,17 +54,14 @@ class CartPlugin extends AbstractPlugin
      * @param $subject
      * @param $valid
      * @param $email
-     * @param null $websiteId
      * @return mixed
      */
-    public function afterIsEmailAvailable($subject, $valid, $email, $websiteId = null)
+    public function afterIsEmailAvailable($subject, $valid, $email)
     {
         foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::isEmailAvailable') as $request)
         {
             $emailObject = $this->dataObjectFactory->create();
-            $emailObject->setIsValid($valid);
             $emailObject->setEmail($email);
-            $emailObject->setWebsiteId($websiteId);
 
             $this->handleCondition($request->getId(), $request, $emailObject);
         }
