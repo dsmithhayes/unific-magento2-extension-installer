@@ -47,7 +47,7 @@ class CartPlugin extends AbstractPlugin
             $this->handleCondition($request->getId(), $request, $emailObject);
         }
 
-        return [$email, $websiteId];
+        return [$valid, $email];
     }
 
     /**
@@ -66,6 +66,6 @@ class CartPlugin extends AbstractPlugin
             $this->handleCondition($request->getId(), $request, $emailObject);
         }
 
-        return $email;
+        return $valid;
     }
 }
