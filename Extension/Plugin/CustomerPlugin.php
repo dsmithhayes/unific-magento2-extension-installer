@@ -36,35 +36,41 @@ class CustomerPlugin extends AbstractPlugin
     /**
      * @param $subject
      * @param $customer
-     * @param null $password
-     * @param string $redirectUrl
+     * @param null $passwordHash
      * @return array
      */
-    public function beforeCreateAccount($subject, $customer, $password = null, $redirectUrl = '')
+    public function beforeSave($subject, $customer, $passwordHash = null)
     {
         foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save', 'before') as $request)
         {
+            $this->setSubject($customer);
             $this->handleCondition($request->getId(), $request, $customer);
         }
 
-        return [$customer, $password, $redirectUrl];
+        return [$customer, $passwordHash];
     }
 
     /**
      * @param $subject
      * @param $customer
-     * @param null $password
-     * @param string $redirectUrl
+     * @param null $passwordHash
      * @return mixed
      */
-    public function afterCreateAccount($subject, $customer, $password = null, $redirectUrl = '')
+    public function afterSave($subject, $customer, $passwordHash = null)
     {
         foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save') as $request)
         {
             $customerData = $this->customerFactory->create()->addFieldToFilter('entity_id', $customer->getId())->getFirstItem();
+
+            $this->setSubject($customer);
             $this->handleCondition($request->getId(), $request, $customerData);
         }
 
         return $customer;
+    }
+
+    protected function setSubject($customer)
+    {
+
     }
 }

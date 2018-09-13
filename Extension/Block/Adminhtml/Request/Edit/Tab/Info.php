@@ -114,7 +114,7 @@ class Info extends Generic
                     'Magento\Customer\Model\Session::logout' => 'Customer logs out',
                     'Magento\Backend\Model\Auth\Session::processLogin' => 'Admin user logs in',
                     'Magento\Backend\Model\Auth\Session::processLogout' => 'Admin user logs out',
-                    'Magento\Customer\Api\CustomerRepositoryInterface' => 'Customer creates account' ,
+                    'Magento\Customer\Api\CustomerRepositoryInterface' => 'Customer is created or updated' ,
                     'Magento\User\Model\User::save' => 'Admin user is saved',
                     'Magento\Quote\Model\Quote::addProduct' => 'Cart is saved',
                     'Magento\Sales\Api\OrderManagementInterface::place' => 'Order is placed or updated',
