@@ -54,6 +54,8 @@ class OrderPlugin extends AbstractPlugin
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place', 'before') as $request)
         {
             $this->setExtensionData($order);
+            $this->setSubject($order);
+
             $this->handleCondition($request->getId(), $request,  $order);
         }
 
@@ -70,11 +72,20 @@ class OrderPlugin extends AbstractPlugin
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place') as $request)
         {
             $this->setExtensionData($order);
+            $this->setSubject($order);
 
             $this->handleCondition($request->getId(), $request,  $order);
         }
 
         return $order;
+    }
+
+    protected function setSubject($order)
+    {
+        if($order->getOriginalIncrementId())
+        {
+            $this->subject = 'order/update';
+        }
     }
 
     /**

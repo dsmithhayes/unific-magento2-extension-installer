@@ -95,10 +95,6 @@
         <plugin name="unific_order_api_webhook" type="Unific\Extension\Plugin\OrderPlugin" sortOrder="1"/>
     </type>
 
-    <type name="Magento\Sales\Api\Order">
-        <plugin name="unific_order_update_api_webhook" type="Unific\Extension\Plugin\OrderUpdatePlugin" sortOrder="1"/>
-    </type>
-
     <type name="Magento\Customer\Api\AccountManagementInterface">
         <plugin name="unific_customer_webhook" type="Unific\Extension\Plugin\CustomerPlugin" sortOrder="1"/>
     </type>
