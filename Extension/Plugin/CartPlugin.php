@@ -9,33 +9,31 @@ class CartPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $productInfo
-     * @param null $requestInfo
+     * @param $email
      * @return array
      */
-    public function beforeAddProduct($subject, $productInfo, $requestInfo = null)
+    public function beforeIsEmailAvailable($subject, $email)
     {
-        foreach ($this->getRequestCollection('Magento\Quote\Api\CartManagementInterface::save', 'before') as $request)
+        foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::isEmailAvailable', 'before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $productInfo);
+            $this->handleCondition($request->getId(), $request, array('email' => $email));
         }
 
-        return [$productInfo, $requestInfo];
+        return [$email];
     }
 
     /**
      * @param $subject
-     * @param $productInfo
-     * @param null $requestInfo
+     * @param $email
      * @return mixed
      */
-    public function afterAddProduct($subject, $productInfo, $requestInfo = null)
+    public function afterIsEmailAvailable($subject, $email)
     {
-        foreach ($this->getRequestCollection('Magento\Quote\Api\CartManagementInterface::save') as $request)
+        foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::isEmailAvailable') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $productInfo);
+            $this->handleCondition($request->getId(), $request, array('email' => $email));
         }
 
-        return $productInfo;
+        return $email;
     }
 }
