@@ -146,7 +146,7 @@ define([
                     case 'Magento\\Order\\Model\\Order\\Creditmemo::save':
                         mappingKey = 'creditmemo';
                         break;
-                    case 'Magento\\Quote\\Api\\CartManagementInterface::save':
+                    case 'Magento\\Customer\\Api\\AccountManagementInterface::isEmailAvailable':
                         mappingKey = 'cart';
                         break;
                     case 'Magento\\Shipment\\Model\\Shipment::save':

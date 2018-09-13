@@ -5,7 +5,7 @@ namespace Unific\Extension\Plugin;
 class CartPlugin extends AbstractPlugin
 {
     protected $entity = 'cart';
-    protected $subject = 'checkout/create';
+    protected $subject = 'cart/create';
 
     /**
      * @param $subject
