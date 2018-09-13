@@ -17,7 +17,11 @@ class CartPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::isEmailAvailable', 'before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, array('email' => $email));
+            $emailObject = new \Magento\Framework\DataObject();
+            $emailObject->setEmail($email);
+            $emailObject->setWebsiteId($websiteId);
+
+            $this->handleCondition($request->getId(), $request, $emailObject);
         }
 
         return [$email, $websiteId];
@@ -33,7 +37,11 @@ class CartPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::isEmailAvailable') as $request)
         {
-            $this->handleCondition($request->getId(), $request, array('email' => $email));
+            $emailObject = new \Magento\Framework\DataObject();
+            $emailObject->setEmail($email);
+            $emailObject->setWebsiteId($websiteId);
+
+            $this->handleCondition($request->getId(), $request, $emailObject);
         }
 
         return $email;
