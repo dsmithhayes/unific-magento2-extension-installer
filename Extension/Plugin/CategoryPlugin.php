@@ -15,6 +15,7 @@ class CategoryPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Catalog\Model\Category::save', 'before') as $request)
         {
+            $this->setSubject($subject);
             $this->handleCondition($request->getId(), $request, $subject);
         }
 
@@ -29,9 +30,18 @@ class CategoryPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Catalog\Model\Category::save') as $request)
         {
+            $this->setSubject($subject);
             $this->handleCondition($request->getId(), $request, $subject);
         }
 
         return $subject;
+    }
+
+    public function setSubject($category)
+    {
+        if($category->getCreatedAt() != $category->getUpdatedAt())
+        {
+            $this->subject = 'category/update';
+        }
     }
 }
