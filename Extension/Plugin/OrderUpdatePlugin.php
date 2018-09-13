@@ -51,7 +51,7 @@ class OrderUpdatePlugin extends AbstractPlugin
      */
     public function beforeSave($subject, $order)
     {
-        foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place', 'before') as $request)
+        foreach ($this->getRequestCollection('Magento\Sales\Api\Order::save', 'before') as $request)
         {
             $this->handleCondition($request->getId(), $request,  $order);
         }
@@ -66,7 +66,7 @@ class OrderUpdatePlugin extends AbstractPlugin
      */
     public function afterSave($subject, $order)
     {
-        foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place') as $request)
+        foreach ($this->getRequestCollection('Magento\Sales\Api\Order::save') as $request)
         {
             $this->handleCondition($request->getId(), $request,  $order);
         }
