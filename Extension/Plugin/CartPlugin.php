@@ -36,6 +36,6 @@ class CartPlugin extends AbstractPlugin
             $this->handleCondition($request->getId(), $request, $productInfo);
         }
 
-        return [$productInfo, $requestInfo];
+        return $productInfo;
     }
 }
