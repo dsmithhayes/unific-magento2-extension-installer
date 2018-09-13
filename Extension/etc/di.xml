@@ -110,7 +110,7 @@
         <plugin name="admin_create_webhook" type="Unific\Extension\Plugin\AdminSessionPlugin" sortOrder="1"/>
     </type>
 
-    <type name="Magento\Customer\Model\AccountManagement">
+    <type name="Magento\Customer\Api\AccountManagementInterface">
         <plugin name="unific_quote_webhook" type="Unific\Extension\Plugin\CartPlugin" sortOrder="1"/>
     </type>
     <type name="Magento\Sales\Api\InvoiceManagementInterface">

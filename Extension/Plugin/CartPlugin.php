@@ -10,26 +10,28 @@ class CartPlugin extends AbstractPlugin
     /**
      * @param $subject
      * @param $email
+     * @param null $websiteId
      * @return array
      */
-    public function beforeIsEmailAvailable($subject, $email)
+    public function beforeIsEmailAvailable($subject, $email, $websiteId = null)
     {
-        foreach ($this->getRequestCollection('Magento\Customer\Model\AccountManagement::isEmailAvailable', 'before') as $request)
+        foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::isEmailAvailable', 'before') as $request)
         {
             $this->handleCondition($request->getId(), $request, array('email' => $email));
         }
 
-        return [$email];
+        return [$email, $websiteId];
     }
 
     /**
      * @param $subject
      * @param $email
+     * @param null $websiteId
      * @return mixed
      */
-    public function afterIsEmailAvailable($subject, $email)
+    public function afterIsEmailAvailable($subject, $email, $websiteId = null)
     {
-        foreach ($this->getRequestCollection('Magento\Customer\Model\AccountManagement::isEmailAvailable') as $request)
+        foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::isEmailAvailable') as $request)
         {
             $this->handleCondition($request->getId(), $request, array('email' => $email));
         }
