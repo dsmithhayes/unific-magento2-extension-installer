@@ -116,7 +116,7 @@ class Info extends Generic
                     'Magento\Backend\Model\Auth\Session::processLogout' => 'Admin user logs out',
                     'Magento\Customer\Api\CustomerRepositoryInterface' => 'Customer is created or updated' ,
                     'Magento\User\Model\User::save' => 'Admin user is saved',
-                    'Magento\Customer\Api\CustomerRepositoryInterface::isEmailAvailable' => 'Email-Address of customer is known',
+                    'Magento\Customer\Api\AccountManagementInterface::isEmailAvailable' => 'Email-Address of customer is known',
                     'Magento\Sales\Api\OrderManagementInterface::place' => 'Order is placed or updated',
                     'Magento\Sales\Model\Order\Invoice::capture' => 'Invoice is captured',
                     'Magento\Sales\Api\CreditmemoManagementInterface::save' => 'Refund is created',
