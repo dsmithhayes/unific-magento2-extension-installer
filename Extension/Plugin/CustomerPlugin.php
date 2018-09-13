@@ -71,6 +71,9 @@ class CustomerPlugin extends AbstractPlugin
 
     protected function setSubject($customer)
     {
-
+        if($customer->getCreatedAt() != $customer->getUpdatedAt())
+        {
+            $this->subject = 'customer/update';
+        }
     }
 }
