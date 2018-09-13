@@ -15,6 +15,7 @@ class ProductPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Catalog\Model\Product::save', 'before') as $request)
         {
+            $this->setSubject($subject);
             $this->handleCondition($request->getId(), $request, $subject);
         }
         return [$subject];
@@ -28,9 +29,18 @@ class ProductPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Catalog\Model\Product::save') as $request)
         {
+            $this->setSubject($subject);
             $this->handleCondition($request->getId(), $request, $subject);
         }
 
         return $subject;
+    }
+
+    public function setSubject($product)
+    {
+        if($product->getCreatedAt() != $product->getUpdatedAt())
+        {
+            $this->subject = 'product/update';
+        }
     }
 }
