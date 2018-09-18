@@ -54,10 +54,16 @@ class OrderPlugin extends AbstractPlugin
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place', 'before') as $request)
         {
             $returnOrder = $this->orderRepository->get($order->getId());
+            $returnData = $returnOrder->getData();
+
+            foreach($returnOrder->getAllItems() as $item)
+            {
+                $returnData['items'][] = $item->getData();
+            }
 
             $this->setSubject($order);
 
-            $this->handleCondition($request->getId(), $request,  $returnOrder);
+            $this->handleCondition($request->getId(), $request,  $returnData);
         }
 
         return [$order];
@@ -73,10 +79,16 @@ class OrderPlugin extends AbstractPlugin
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place') as $request)
         {
             $returnOrder = $this->orderRepository->get($order->getId());
+            $returnData = $returnOrder->getData();
+
+            foreach($returnOrder->getAllItems() as $item)
+            {
+                $returnData['items'][] = $item->getData();
+            }
 
             $this->setSubject($order);
 
-            $this->handleCondition($request->getId(), $request,  $returnOrder);
+            $this->handleCondition($request->getId(), $request,  $returnData);
         }
 
         return $order;

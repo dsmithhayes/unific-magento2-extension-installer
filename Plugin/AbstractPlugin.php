@@ -65,7 +65,7 @@ class AbstractPlugin
                 $actionData = json_decode($condition['condition_action_params'], true);
                 $response = $this->restConnection->{$actionData['method']}(
                     $actionData['request_url'],
-                    $dataModel->getData(),
+                    is_array($dataModel) ? $dataModel : $dataModel->getData(),
                     array(
                         'X-SUBJECT' => $this->subject
                     )
