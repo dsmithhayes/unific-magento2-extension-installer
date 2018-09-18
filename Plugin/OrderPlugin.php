@@ -53,10 +53,11 @@ class OrderPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place', 'before') as $request)
         {
-            $this->setExtensionData($order);
+            $returnOrder = $this->orderRepository->get($order->getId());
+
             $this->setSubject($order);
 
-            $this->handleCondition($request->getId(), $request,  $order);
+            $this->handleCondition($request->getId(), $request,  $returnOrder);
         }
 
         return [$order];
@@ -71,10 +72,11 @@ class OrderPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place') as $request)
         {
-            $this->setExtensionData($order);
+            $returnOrder = $this->orderRepository->get($order->getId());
+
             $this->setSubject($order);
 
-            $this->handleCondition($request->getId(), $request,  $order);
+            $this->handleCondition($request->getId(), $request,  $returnOrder);
         }
 
         return $order;
@@ -86,29 +88,5 @@ class OrderPlugin extends AbstractPlugin
         {
             $this->subject = 'order/update';
         }
-    }
-
-    /**
-     * @param $id
-     */
-    protected function setExtensionData($order)
-    {
-        /** @var OrderExtensionInterface $extensionAttributes */
-        $extensionAttributes = $order->getExtensionAttributes();
-
-        if ($extensionAttributes === null) {
-            $extensionAttributes = $this->orderExtensionFactory->create();
-        } elseif ($extensionAttributes->getShippingAssignments() !== null) {
-            return;
-        }
-
-        /** @var ShippingAssignmentInterface $shippingAssignment */
-        $shippingAssignments = \Magento\Framework\App\ObjectManager::getInstance()->get(
-            \Magento\Sales\Model\Order\ShippingAssignmentBuilder::class
-        );
-
-        $shippingAssignments->setOrderId($order->getEntityId());
-        $extensionAttributes->setShippingAssignments($shippingAssignments->create());
-        $order->setExtensionAttributes($extensionAttributes);
     }
 }

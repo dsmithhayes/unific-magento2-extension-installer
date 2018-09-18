@@ -32,12 +32,11 @@ class CartPlugin extends AbstractPlugin
     }
 
     /**
-     * @param $subject
-     * @param $valid
      * @param $email
+     * @param $valid
      * @return array
      */
-    public function beforeIsEmailAvailable($subject, $valid, $email)
+    public function beforeIsEmailAvailable($email, $valid)
     {
         foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::isEmailAvailable', 'before') as $request)
         {
@@ -47,16 +46,15 @@ class CartPlugin extends AbstractPlugin
             $this->handleCondition($request->getId(), $request, $emailObject);
         }
 
-        return [$valid, $email];
+        return [$email, $valid];
     }
 
     /**
-     * @param $subject
-     * @param $valid
      * @param $email
+     * @param $valid
      * @return mixed
      */
-    public function afterIsEmailAvailable($subject, $valid, $email)
+    public function afterIsEmailAvailable($email, $valid)
     {
         foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::isEmailAvailable') as $request)
         {
