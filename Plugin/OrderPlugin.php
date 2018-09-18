@@ -9,37 +9,21 @@ class OrderPlugin extends AbstractPlugin
     protected $entity = 'order';
     protected $subject = 'order/create';
 
-    protected $orderRepository;
-    protected $searchCriteriaBuilder;
-
-    protected $metadata;
-    protected $orderExtensionFactory;
-
     /**
      * OrderPlugin constructor.
-     * @param Metadata $metadata
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Magento\Sales\Api\Data\OrderExtensionFactory $orderExtensionFactory
      */
     public function __construct(
-        \Unific\Extension\Model\ResourceModel\Metadata $metadata,
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
-        \Unific\Extension\Connection\Rest\Connection $restConnection,
-        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-        \Magento\Sales\Api\Data\OrderExtensionFactory $orderExtensionFactory
+        \Unific\Extension\Connection\Rest\Connection $restConnection
     )
     {
         $this->logger = $logger;
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;
-
-        $this->orderRepository = $orderRepository;
-        $this->metadata = $metadata;
-        $this->orderExtensionFactory = $orderExtensionFactory;
 
         parent::__construct($logger, $mapping, $restConnection);
     }
