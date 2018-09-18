@@ -90,6 +90,7 @@ class OrderPlugin extends AbstractPlugin
             $returnData['items'][] = $item->getData();
         }
 
+        $returnData['addresses'] = array();
         $returnData['addresses']['billing'] = $order->getBillingAddress()->getData();
         $returnData['addresses']['shipping'] = $order->getShippingAddress()->getData();
         $returnData['payment'] = $order->getPayment()->getData();
