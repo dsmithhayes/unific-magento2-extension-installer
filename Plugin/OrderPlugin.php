@@ -53,17 +53,8 @@ class OrderPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place', 'before') as $request)
         {
-            $returnOrder = $this->orderRepository->get($order->getId());
-            $returnData = $returnOrder->getData();
-
-            foreach($returnOrder->getAllItems() as $item)
-            {
-                $returnData['items'][] = $item->getData();
-            }
-
             $this->setSubject($order);
-
-            $this->handleCondition($request->getId(), $request,  $returnData);
+            $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
         }
 
         return [$order];
@@ -78,22 +69,37 @@ class OrderPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place') as $request)
         {
-            $returnOrder = $this->orderRepository->get($order->getId());
-            $returnData = $returnOrder->getData();
-
-            foreach($returnOrder->getAllItems() as $item)
-            {
-                $returnData['items'][] = $item->getData();
-            }
-
             $this->setSubject($order);
-
-            $this->handleCondition($request->getId(), $request,  $returnData);
+            $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
         }
 
         return $order;
     }
 
+    /**
+     * @param $order
+     * @return mixed
+     */
+    protected function getOrderInfo($order)
+    {
+        $returnData = $order->getData();
+
+        $returnData['items'] = array();
+        foreach($order->getAllItems() as $item)
+        {
+            $returnData['items'][] = $item->getData();
+        }
+
+        $returnData['addresses']['billing'] = $order->getBillingAddress()->getData();
+        $returnData['addresses']['shipping'] = $order->getShippingAddress()->getData();
+        $returnData['payment'] = $order->getPayment()->getData();
+
+        return $returnData;
+    }
+
+    /**
+     * @param $order
+     */
     protected function setSubject($order)
     {
         if($order->getOriginalIncrementId())
