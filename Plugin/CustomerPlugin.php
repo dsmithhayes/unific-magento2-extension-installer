@@ -45,7 +45,7 @@ class CustomerPlugin extends AbstractPlugin
         {
             $this->setSubject($customer);
 
-            $customerData = $this->customerRegistry->retreive($customer->getId());
+            $customerData = $this->customerRegistry->retrieve($customer->getId());
             $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
         }
 
@@ -64,7 +64,7 @@ class CustomerPlugin extends AbstractPlugin
         {
             $this->setSubject($customer);
 
-            $customerData = $this->customerRegistry->retreive($customer->getId());
+            $customerData = $this->customerRegistry->retrieve($customer->getId());
             $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
         }
 
