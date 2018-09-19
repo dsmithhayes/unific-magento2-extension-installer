@@ -10,6 +10,7 @@ class AbstractPlugin
     protected $restConnection;
 
     protected $collectionFactory;
+    protected $requestFactory;
 
     protected $entity = 'order';
     protected $subject = 'order/create';
@@ -20,18 +21,21 @@ class AbstractPlugin
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
      * @param \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory
+     * @param Unific\Extension\Model\RequestFactory $requestFactory
      */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
-        \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory
+        \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory,
+        Unific\Extension\Model\RequestFactory $requestFactory
     )
     {
         $this->logger = $logger;
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;
         $this->collectionFactory = $collectionFactory;
+        $this->requestFactory = $requestFactory;
     }
 
     /**
@@ -54,7 +58,7 @@ class AbstractPlugin
     public function handleCondition($id, $request, $dataModel)
     {
         // A plugin attaches the sub data
-        $model = $this->objectManager->create('Unific\Extension\Model\Request');
+        $model = $this->requestFactory->create();
         $model->load($id);
 
         $data = $model->getData();
