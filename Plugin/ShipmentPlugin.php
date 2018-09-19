@@ -39,7 +39,8 @@ class ShipmentPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($subject->getOrder()->getId()));
+            $order = $this->orderRepository->get($subject->getOrder()->getId());
+            $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
         }
     }
 
@@ -51,7 +52,30 @@ class ShipmentPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($subject->getOrder()->getId()));
+            $order = $this->orderRepository->get($subject->getOrder()->getId());
+            $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
         }
+    }
+
+    /**
+     * @param $order
+     * @return mixed
+     */
+    protected function getOrderInfo($order)
+    {
+        $returnData = $order->getData();
+
+        $returnData['items'] = array();
+        foreach($order->getAllItems() as $item)
+        {
+            $returnData['items'][] = $item->getData();
+        }
+
+        $returnData['addresses'] = array();
+        $returnData['addresses']['billing'] = $order->getBillingAddress()->getData();
+        $returnData['addresses']['shipping'] = $order->getShippingAddress()->getData();
+        $returnData['payment'] = $order->getPayment()->getData();
+
+        return $returnData;
     }
 }
