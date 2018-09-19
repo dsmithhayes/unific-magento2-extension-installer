@@ -41,8 +41,6 @@ class ShipmentPlugin extends AbstractPlugin
         {
             $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($subject->getOrder()->getId()));
         }
-
-        return [$subject];
     }
 
     /**
@@ -55,7 +53,5 @@ class ShipmentPlugin extends AbstractPlugin
         {
             $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($subject->getOrder()->getId()));
         }
-
-        return $subject;
     }
 }
