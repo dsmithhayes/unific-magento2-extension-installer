@@ -51,7 +51,7 @@ class RequestActions extends Column
                         'unific/request/edit',
                         ['id' => $item['id']]
                     ),
-                    'label' => __('Edit'),
+                    'label' => __('View'),
                     'hidden' => false,
                 ];
                 $item[$this->getData('name')]['delete'] = [
