@@ -2,7 +2,7 @@
 
 namespace Unific\Extension\Plugin;
 
-class CustomerAddrewssPlugin extends AbstractPlugin
+class CustomerAddressPlugin extends AbstractPlugin
 {
     protected $entity = 'customer';
     protected $subject = 'customer/create';
