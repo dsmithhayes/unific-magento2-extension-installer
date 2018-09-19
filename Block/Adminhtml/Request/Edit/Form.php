@@ -23,6 +23,8 @@ class Form extends Generic
         );
 
         $form->setUseContainer(true);
+        $form->setDisabled(true);
+
         $this->setForm($form);
 
         return parent::_prepareForm();
