@@ -43,7 +43,7 @@ class CreditmemoPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
-            $order = $this->orderRepository->get($subject->getOrder()->getId());
+            $order = $this->orderRepository->get($creditmemo->getOrderId());
             $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
         }
 
@@ -62,7 +62,7 @@ class CreditmemoPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $order = $this->orderRepository->get($subject->getOrder()->getId());
+            $order = $this->orderRepository->get($creditmemo->getOrderId());
             $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
         }
 
