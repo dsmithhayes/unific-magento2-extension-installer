@@ -50,7 +50,7 @@
         </resources>
     </route>
 
-    <route url="/V1/unific/webhook" method="DELETE">
+    <route url="/V1/unific/webhook/:uniqueId" method="DELETE">
         <service class="Unific\Extension\Api\WebhookManagementInterface" method="deleteWebhook"/>
         <resources>
             <resource ref="Unific_Extension::webhook"/>

@@ -79,14 +79,14 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param \Unific\Extension\Api\Data\WebhookInterface $webhook
+     * @param string $uniqueId
      * @return bool
      */
-    public function removeWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
+    public function removeWebhook($uniqueId)
     {
         $requestModel = $this->requestFactory->create();
         $requestCollection = $requestModel->getCollection();
-        $requestCollection->addFieldToFilter('unique_id', $webhook->getUniqueId());
+        $requestCollection->addFieldToFilter('unique_id', $uniqueId);
 
         if($requestCollection->getSize() > 0) {
             $requestModel = $requestCollection->getFirstItem();

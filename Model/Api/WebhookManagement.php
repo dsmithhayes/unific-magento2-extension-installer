@@ -68,12 +68,13 @@ class WebhookManagement implements WebhookManagementInterface
      *
      * @api
      *
+     * @param string $uniqueId
      * @return \Unific\Extension\Api\Data\WebhookInterface
      */
-    public function deleteWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
+    public function deleteWebhook($uniqueId)
     {
-        $this->webhookHelper->removeWebhook($webhook);
+        $this->webhookHelper->removeWebhook($uniqueId);
 
-        return $webhook;
+        return $uniqueId;
     }
 }

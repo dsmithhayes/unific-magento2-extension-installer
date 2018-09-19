@@ -28,8 +28,8 @@ interface WebhookManagementInterface
      *
      * @api
      *
-     * @param Data\WebhookInterface $webhook
+     * @param string $uniqueId
      * @return \Unific\Extension\Api\Data\WebhookInterface
      */
-    public function deleteWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook);
+    public function deleteWebhook($uniqueId);
 }
