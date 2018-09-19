@@ -81,8 +81,15 @@ class CustomerPlugin extends AbstractPlugin
 
         $returnData['addresses'] = array();
 
-        $returnData['billing_address'] = $customer->getDefaultBilling()->getData();
-        $returnData['shipping_address'] = $customer->getDefaultShipping()->getData();
+        if($customer->getDefaultBilling() != null)
+        {
+            $returnData['billing_address'] = $customer->getDefaultBilling()->getData();
+        }
+
+        if($customer->getDefaultShipping() != null)
+        {
+            $returnData['shipping_address'] = $customer->getDefaultShipping()->getData();
+        }
 
         foreach($customer->getAddresses() as $address)
         {
