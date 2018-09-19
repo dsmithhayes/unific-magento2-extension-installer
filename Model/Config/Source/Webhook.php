@@ -59,7 +59,7 @@ class Webhook implements \Magento\Framework\Option\ArrayInterface
         $optionArray = array();
         foreach($this->options as $key => $value)
         {
-            $optionArray[] = array('value' => $value, 'label' => $key);
+            $optionArray[] = array('value' => $key, 'label' => $value);
         }
 
         return $optionArray;
