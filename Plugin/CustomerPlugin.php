@@ -10,12 +10,12 @@ class CustomerPlugin extends AbstractPlugin
     protected $customerFactory;
 
     /**
-     * OrderPlugin constructor.
-     * @param \Unific\Extension\Logger\Logger $logger
-     * @param \Unific\Extension\Helper\Mapping $mapping
-     * @param \Unific\Extension\Connection\Rest\Connection $restConnection
-     * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerFactory
-     */
+ * OrderPlugin constructor.
+ * @param \Unific\Extension\Logger\Logger $logger
+ * @param \Unific\Extension\Helper\Mapping $mapping
+ * @param \Unific\Extension\Connection\Rest\Connection $restConnection
+ * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerFactory
+ */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
@@ -44,7 +44,7 @@ class CustomerPlugin extends AbstractPlugin
         foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save', 'before') as $request)
         {
             $this->setSubject($customer);
-            $this->handleCondition($request->getId(), $request, $customer);
+            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customer));
         }
 
         return [$customer, $passwordHash];
@@ -60,14 +60,36 @@ class CustomerPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save') as $request)
         {
-            $customerData = $this->customerFactory->create()->addFieldToFilter('entity_id', $customer->getId())->getFirstItem();
-
             $this->setSubject($customer);
-            $this->handleCondition($request->getId(), $request, $customerData);
+            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customer));
         }
 
         return $customer;
     }
+
+    /**
+     * @param $customer
+     * @return mixed
+     */
+    protected function getCustomerInfo($customer)
+    {
+        $returnData = $customer->getData();
+
+        $returnData['addresses'] = array();
+
+        $returnData['billing_address'] = $customer->getDefaultBilling()->getData();
+        $returnData['shipping_address'] = $customer->getDefaultShipping()->getData();
+
+        foreach($customer->getAddresses() as $address)
+        {
+            $returnData['addresses'][] = $address->getData();
+        }
+
+        $returnData['extension_attributes'] = $customer->getExtensionAttributes()->getData();
+
+        return $returnData;
+    }
+
 
     protected function setSubject($customer)
     {
