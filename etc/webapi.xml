@@ -49,4 +49,11 @@
             <resource ref="Unific_Extension::webhook"/>
         </resources>
     </route>
+
+    <route url="/V1/unific/webhook" method="DELETE">
+        <service class="Unific\Extension\Api\WebhookManagementInterface" method="deleteWebhook"/>
+        <resources>
+            <resource ref="Unific_Extension::webhook"/>
+        </resources>
+    </route>
 </routes>

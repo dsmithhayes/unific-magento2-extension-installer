@@ -84,6 +84,15 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function removeWebhook(\Unific\Extension\Api\Data\WebhookInterface $webhook)
     {
+        $requestModel = $this->requestFactory->create();
+        $requestCollection = $requestModel->getCollection();
+        $requestCollection->addFieldToFilter('unique_id', $webhook->getUniqueId());
+
+        if($requestCollection->getSize() > 0) {
+            $requestModel = $requestCollection->getFirstItem();
+            $requestModel->delete();
+        }
+
         return true;
     }
 
