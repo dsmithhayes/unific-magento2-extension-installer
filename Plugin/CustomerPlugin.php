@@ -7,20 +7,20 @@ class CustomerPlugin extends AbstractPlugin
     protected $entity = 'customer';
     protected $subject = 'customer/create';
 
-    protected $customerFactory;
+    protected $customerRegistry;
 
     /**
- * OrderPlugin constructor.
- * @param \Unific\Extension\Logger\Logger $logger
- * @param \Unific\Extension\Helper\Mapping $mapping
- * @param \Unific\Extension\Connection\Rest\Connection $restConnection
- * @param \Magento\Customer\Model\ResourceModel\CustomerFactory $customerFactory
- */
+     * OrderPlugin constructor.
+     * @param \Unific\Extension\Logger\Logger $logger
+     * @param \Unific\Extension\Helper\Mapping $mapping
+     * @param \Unific\Extension\Connection\Rest\Connection $restConnection
+     * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
+     */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
-        \Magento\Customer\Model\ResourceModel\CustomerFactory $customerFactory
+        \Magento\Customer\Model\CustomerRegistry $customerRegistry
     )
     {
         $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -28,7 +28,7 @@ class CustomerPlugin extends AbstractPlugin
         $this->logger = $logger;
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;
-        $this->customerFactory = $customerFactory;
+        $this->customerRegistry = $customerRegistry;
 
         parent::__construct($logger, $mapping, $restConnection);
     }
@@ -45,7 +45,7 @@ class CustomerPlugin extends AbstractPlugin
         {
             $this->setSubject($customer);
 
-            $customerData = $this->customerFactory->create()->load($customer->getId());
+            $customerData = $this->customerRegistry->retreive($customer->getId());
             $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
         }
 
@@ -64,7 +64,7 @@ class CustomerPlugin extends AbstractPlugin
         {
             $this->setSubject($customer);
 
-            $customerData = $this->customerFactory->create()->load($customer->getId());
+            $customerData = $this->customerRegistry->retreive($customer->getId());
             $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
         }
 
