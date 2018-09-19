@@ -28,7 +28,7 @@ class ShipmentPlugin extends AbstractPlugin
     {
         $this->orderRepository = $orderRepository;
 
-        parent::__construct($logger, $mapping, $restConnection, $requestFactory, $orderRepository);
+        parent::__construct($logger, $mapping, $restConnection, $collectionFactory, $requestFactory);
     }
 
     /**
