@@ -85,8 +85,6 @@ class CustomerPlugin extends AbstractPlugin
             $returnData['addresses'][] = $address->getData();
         }
 
-        $returnData['extension_attributes'] = $customer->getExtensionAttributes()->getData();
-
         return $returnData;
     }
 

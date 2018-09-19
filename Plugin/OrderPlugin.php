@@ -79,8 +79,6 @@ class OrderPlugin extends AbstractPlugin
         $returnData['addresses']['shipping'] = $order->getShippingAddress()->getData();
         $returnData['payment'] = $order->getPayment()->getData();
 
-        $returnData['extension_attributes'] = $order->getExtensionAttributes()->getData();
-
         return $returnData;
     }
 
