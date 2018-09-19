@@ -7,31 +7,83 @@ class InvoicePlugin extends AbstractPlugin
     protected $entity = 'invoice';
     protected $subject = 'order/invoice';
 
-    /**
-     * @param $invoice
-     * @return array
-     */
-    public function beforeCapture($invoice)
-    {
-        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
-        {
-            $this->handleCondition($request->getId(), $request, $invoice);
-        }
+    protected $orderRepository;
 
-        return [$invoice];
+    /**
+     * OrderPlugin constructor.
+     * @param \Unific\Extension\Logger\Logger $logger
+     * @param \Unific\Extension\Helper\Mapping $mapping
+     * @param \Unific\Extension\Connection\Rest\Connection $restConnection
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+     */
+    public function __construct(
+        \Unific\Extension\Logger\Logger $logger,
+        \Unific\Extension\Helper\Mapping $mapping,
+        \Unific\Extension\Connection\Rest\Connection $restConnection,
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+    )
+    {
+        $this->logger = $logger;
+        $this->mappingHelper = $mapping;
+        $this->restConnection = $restConnection;
+        $this->orderRepository = $orderRepository;
+
+        parent::__construct($logger, $mapping, $restConnection);
     }
 
     /**
-     * @param $invoice
+     * @param $subject
+     * @param $orderId
+     * @param bool $capture
+     * @param array $items
+     * @param bool $notify
+     * @param bool $appendComment
+     * @param \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment
+     * @param \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments
+     * @return array
+     */
+    public function beforeExecute($subject,
+                                  $orderId,
+                                  $capture = false,
+                                  array $items = [],
+                                  $notify = false,
+                                  $appendComment = false,
+                                  \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment = null,
+                                  \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments = null)
+    {
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        {
+            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($orderId));
+        }
+
+        return [$orderId, $capture, $items, $notify, $appendComment, $comment, $arguments];
+    }
+
+    /**
+     * @param $subject
+     * @param $orderId
+     * @param bool $capture
+     * @param array $items
+     * @param bool $notify
+     * @param bool $appendComment
+     * @param \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment
+     * @param \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments
      * @return mixed
      */
-    public function afterCapture($invoice)
+    public function afterExecute($subject,
+                                 $orderId,
+                                 $capture = false,
+                                 array $items = [],
+                                 $notify = false,
+                                 $appendComment = false,
+                                 \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment = null,
+                                 \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments = null)
     {
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $this->handleCondition($request->getId(), $request, $invoice);
+            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($orderId));
         }
 
-        return $invoice;
+        return [$orderId, $capture, $items, $notify, $appendComment, $comment, $arguments];
     }
 }

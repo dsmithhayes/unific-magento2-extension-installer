@@ -4,8 +4,6 @@ namespace Unific\Extension\Plugin;
 
 class AbstractPlugin
 {
-    protected $objectManager;
-
     protected $logger;
     protected $mappingHelper;
 
@@ -26,8 +24,6 @@ class AbstractPlugin
         \Unific\Extension\Connection\Rest\Connection $restConnection
     )
     {
-        $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-
         $this->logger = $logger;
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;

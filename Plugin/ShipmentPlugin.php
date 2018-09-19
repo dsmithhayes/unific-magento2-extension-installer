@@ -7,6 +7,30 @@ class ShipmentPlugin extends AbstractPlugin
     protected $entity = 'shipment';
     protected $subject = 'order/ship';
 
+    protected $orderRepository;
+
+    /**
+     * OrderPlugin constructor.
+     * @param \Unific\Extension\Logger\Logger $logger
+     * @param \Unific\Extension\Helper\Mapping $mapping
+     * @param \Unific\Extension\Connection\Rest\Connection $restConnection
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+     */
+    public function __construct(
+        \Unific\Extension\Logger\Logger $logger,
+        \Unific\Extension\Helper\Mapping $mapping,
+        \Unific\Extension\Connection\Rest\Connection $restConnection,
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+    )
+    {
+        $this->logger = $logger;
+        $this->mappingHelper = $mapping;
+        $this->restConnection = $restConnection;
+        $this->orderRepository = $orderRepository;
+
+        parent::__construct($logger, $mapping, $restConnection);
+    }
+
     /**
      * @param $subject
      * @param $orderId
@@ -32,8 +56,7 @@ class ShipmentPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
-            $order = $this->objectManager->create('Magento\Sales\Model\Order')->load($orderId);
-            $this->handleCondition($request->getId(), $request, $order);
+            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($orderId));
         }
 
         return [$orderId, $items, $notify, $appendComment, $comment, $tracks, $packages, $arguments];
@@ -63,8 +86,7 @@ class ShipmentPlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $order = $this->objectManager->create('Magento\Sales\Model\Order')->load($orderId);
-            $this->handleCondition($request->getId(), $request, $order);
+            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($orderId));
         }
 
         return [$orderId, $items, $notify, $appendComment, $comment, $tracks, $packages, $arguments];
