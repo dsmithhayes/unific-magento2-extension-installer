@@ -117,13 +117,13 @@
     <type name="Magento\Customer\Api\AccountManagementInterface">
         <plugin name="unific_quote_webhook" type="Unific\Extension\Plugin\CartPlugin" sortOrder="1"/>
     </type>
-    <type name="Magento\Sales\Api\InvoiceOrderInterface">
+    <type name="Magento\Sales\Model\Order\Invoice">
         <plugin name="unific_invoice_webhook" type="Unific\Extension\Plugin\InvoicePlugin" sortOrder="1"/>
     </type>
-    <type name="Magento\Sales\Api\RefundOrderInterface">
+    <type name="Magento\Sales\Api\CreditmemoManagementInterface">
         <plugin name="unific_credit_webhook" type="Unific\Extension\Plugin\CreditmemoPlugin" sortOrder="1"/>
     </type>
-    <type name="Magento\Sales\Api\ShipOrderInterface">
+    <type name="Magento\Sales\Model\Order\Shipment">
         <plugin name="unific_shipment_webhook" type="Unific\Extension\Plugin\ShipmentPlugin" sortOrder="1"/>
     </type>
 

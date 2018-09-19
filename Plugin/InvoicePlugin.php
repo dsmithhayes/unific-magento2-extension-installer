@@ -33,57 +33,25 @@ class InvoicePlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $orderId
-     * @param bool $capture
-     * @param array $items
-     * @param bool $notify
-     * @param bool $appendComment
-     * @param \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment
-     * @param \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments
-     * @return array
+     * @return void
      */
-    public function beforeExecute($subject,
-                                  $orderId,
-                                  $capture = false,
-                                  array $items = [],
-                                  $notify = false,
-                                  $appendComment = false,
-                                  \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment = null,
-                                  \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments = null)
+    public function beforeRegister($subject)
     {
         foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($orderId));
+            $this->handleCondition($request->getId(), $request,  $subject->getOrder());
         }
-
-        return [$orderId, $capture, $items, $notify, $appendComment, $comment, $arguments];
     }
 
     /**
      * @param $subject
-     * @param $orderId
-     * @param bool $capture
-     * @param array $items
-     * @param bool $notify
-     * @param bool $appendComment
-     * @param \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment
-     * @param \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments
      * @return mixed
      */
-    public function afterExecute($subject,
-                                 $orderId,
-                                 $capture = false,
-                                 array $items = [],
-                                 $notify = false,
-                                 $appendComment = false,
-                                 \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment = null,
-                                 \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments = null)
+    public function afterRegister($subject)
     {
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($orderId));
+            $this->handleCondition($request->getId(), $request,  $subject->getOrder());
         }
-
-        return [$orderId, $capture, $items, $notify, $appendComment, $comment, $arguments];
     }
 }

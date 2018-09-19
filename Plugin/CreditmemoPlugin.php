@@ -33,57 +33,37 @@ class CreditmemoPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $orderId
-     * @param bool $capture
-     * @param array $items
-     * @param bool $notify
-     * @param bool $appendComment
-     * @param \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment
-     * @param \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments
+     * @param \Magento\Sales\Api\Data\CreditmemoInterface $creditmemo
+     * @param bool $offlineRequested
      * @return array
      */
-    public function beforeExecute($subject,
-                                  $orderId,
-                                  $capture = false,
-                                  array $items = [],
-                                  $notify = false,
-                                  $appendComment = false,
-                                  \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment = null,
-                                  \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments = null)
+    public function beforeRefund($subject,
+                                 \Magento\Sales\Api\Data\CreditmemoInterface $creditmemo,
+                                 $offlineRequested = false)
     {
         foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($orderId));
+            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($creditmemo->getOrderId()));
         }
 
-        return [$orderId, $capture, $items, $notify, $appendComment, $comment, $arguments];
+        return [$creditmemo, $offlineRequested];
     }
 
     /**
      * @param $subject
-     * @param $orderId
-     * @param bool $capture
-     * @param array $items
-     * @param bool $notify
-     * @param bool $appendComment
-     * @param \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment
-     * @param \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments
+     * @param \Magento\Sales\Api\Data\CreditmemoInterface $creditmemo
+     * @param bool $offlineRequested
      * @return mixed
      */
     public function afterExecute($subject,
-                                 $orderId,
-                                 $capture = false,
-                                 array $items = [],
-                                 $notify = false,
-                                 $appendComment = false,
-                                 \Magento\Sales\Api\Data\InvoiceCommentCreationInterface $comment = null,
-                                 \Magento\Sales\Api\Data\InvoiceCreationArgumentsInterface $arguments = null)
+                                 \Magento\Sales\Api\Data\CreditmemoInterface $creditmemo,
+                                 $offlineRequested = false)
     {
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($orderId));
+            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($creditmemo->getOrderId()));
         }
 
-        return [$orderId, $capture, $items, $notify, $appendComment, $comment, $arguments];
+        return [$creditmemo, $offlineRequested];
     }
 }

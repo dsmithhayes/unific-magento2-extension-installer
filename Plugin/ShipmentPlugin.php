@@ -33,62 +33,25 @@ class ShipmentPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $orderId
-     * @param array $items
-     * @param bool $notify
-     * @param bool $appendComment
-     * @param \Magento\Sales\Api\Data\ShipmentCommentCreationInterface|null $comment
-     * @param array $tracks
-     * @param array $packages
-     * @param \Magento\Sales\Api\Data\ShipmentCreationArgumentsInterface|null $arguments
-     * @return array
+     * @return void
      */
-    public function beforeExecute($subject,
-                                  $orderId,
-                                  array $items = [],
-                                  $notify = false,
-                                  $appendComment = false,
-                                  \Magento\Sales\Api\Data\ShipmentCommentCreationInterface $comment = null,
-                                  array $tracks = [],
-                                  array $packages = [],
-                                  \Magento\Sales\Api\Data\ShipmentCreationArgumentsInterface $arguments = null
-    )
+    public function beforeRegister($subject)
     {
         foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($orderId));
+            $this->handleCondition($request->getId(), $request,  $subject->getOrder());
         }
-
-        return [$orderId, $items, $notify, $appendComment, $comment, $tracks, $packages, $arguments];
     }
 
     /**
      * @param $subject
-     * @param $orderId
-     * @param array $items
-     * @param bool $notify
-     * @param bool $appendComment
-     * @param \Magento\Sales\Api\Data\ShipmentCommentCreationInterface|null $comment
-     * @param array $tracks
-     * @param array $packages
-     * @param \Magento\Sales\Api\Data\ShipmentCreationArgumentsInterface|null $arguments
      * @return mixed
      */
-    public function afterExecute($subject,
-                                 $orderId,
-                                 array $items = [],
-                                 $notify = false,
-                                 $appendComment = false,
-                                 \Magento\Sales\Api\Data\ShipmentCommentCreationInterface $comment = null,
-                                 array $tracks = [],
-                                 array $packages = [],
-                                 \Magento\Sales\Api\Data\ShipmentCreationArgumentsInterface $arguments = null)
+    public function afterRegister($subject)
     {
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($orderId));
+            $this->handleCondition($request->getId(), $request,  $subject->getOrder());
         }
-
-        return [$orderId, $items, $notify, $appendComment, $comment, $tracks, $packages, $arguments];
     }
 }
