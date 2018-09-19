@@ -7,20 +7,20 @@ class CustomerPlugin extends AbstractPlugin
     protected $entity = 'customer';
     protected $subject = 'customer/create';
 
-    protected $customerRepository;
+    protected $customerFactory;
 
     /**
-     * OrderPlugin constructor.
-     * @param \Unific\Extension\Logger\Logger $logger
-     * @param \Unific\Extension\Helper\Mapping $mapping
-     * @param \Unific\Extension\Connection\Rest\Connection $restConnection
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     */
+ * OrderPlugin constructor.
+ * @param \Unific\Extension\Logger\Logger $logger
+ * @param \Unific\Extension\Helper\Mapping $mapping
+ * @param \Unific\Extension\Connection\Rest\Connection $restConnection
+ * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerFactory
+ */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
-        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+        \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerFactory
     )
     {
         $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -28,7 +28,7 @@ class CustomerPlugin extends AbstractPlugin
         $this->logger = $logger;
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;
-        $this->customerRepository = $customerRepository;
+        $this->customerFactory = $customerFactory;
 
         parent::__construct($logger, $mapping, $restConnection);
     }
@@ -44,7 +44,9 @@ class CustomerPlugin extends AbstractPlugin
         foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save', 'before') as $request)
         {
             $this->setSubject($customer);
-            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($this->customerRepository->getById($customer->getId())));
+
+            $customerData = $this->customerFactory->create()->load($customer->getId());
+            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
         }
 
         return [$customer, $passwordHash];
@@ -61,7 +63,9 @@ class CustomerPlugin extends AbstractPlugin
         foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save') as $request)
         {
             $this->setSubject($customer);
-            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($this->customerRepository->getById($customer->getId())));
+
+            $customerData = $this->customerFactory->create()->load($customer->getId());
+            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customer));
         }
 
         return $customer;
