@@ -54,14 +54,6 @@ class RequestActions extends Column
                     'label' => __('View'),
                     'hidden' => false,
                 ];
-                $item[$this->getData('name')]['delete'] = [
-                    'href' => $this->urlBuilder->getUrl(
-                        'unific/request/delete',
-                        ['id' => $item['id']]
-                    ),
-                    'label' => __('Delete'),
-                    'hidden' => false,
-                ];
             }
         }
 

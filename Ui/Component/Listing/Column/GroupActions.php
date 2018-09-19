@@ -51,15 +51,7 @@ class GroupActions extends Column
                         'unific/request/index',
                         ['id' => $item['id']]
                     ),
-                    'label' => __('Requests'),
-                    'hidden' => false,
-                ];
-                $item[$this->getData('name')]['edit'] = [
-                    'href' => $this->urlBuilder->getUrl(
-                        'unific/group/edit',
-                        ['id' => $item['id']]
-                    ),
-                    'label' => __('View'),
+                    'label' => __('View Requests'),
                     'hidden' => false,
                 ];
             }
