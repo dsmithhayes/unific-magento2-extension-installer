@@ -17,18 +17,19 @@ class AbstractPlugin
 
     /**
      * OrderPlugin constructor.
+     *
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
      * @param \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory
-     * @param Unific\Extension\Model\RequestFactory $requestFactory
+     * @param \Unific\Extension\Model\RequestFactory $requestFactory
      */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
         \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory,
-        Unific\Extension\Model\RequestFactory $requestFactory
+        \Unific\Extension\Model\RequestFactory $requestFactory
     )
     {
         $this->logger = $logger;
