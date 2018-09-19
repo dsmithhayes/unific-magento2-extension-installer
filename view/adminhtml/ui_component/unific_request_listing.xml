@@ -18,9 +18,6 @@
     </argument>
 
     <settings>
-        <buttons>
-            <button name="add" class="Unific\Extension\Block\Adminhtml\RequestButton"/>
-        </buttons>
         <spinner>unific_group_columns</spinner>
         <deps>
             <dep>unific_request_listing.unific_request_listing_data_source</dep>
