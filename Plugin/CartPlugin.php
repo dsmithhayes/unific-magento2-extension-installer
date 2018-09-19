@@ -38,7 +38,7 @@ class CartPlugin extends AbstractPlugin
      */
     public function beforeIsEmailAvailable($email, $valid)
     {
-        foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::isEmailAvailable', 'before') as $request)
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
             $emailObject = $this->dataObjectFactory->create();
             $emailObject->setEmail($email);
@@ -56,7 +56,7 @@ class CartPlugin extends AbstractPlugin
      */
     public function afterIsEmailAvailable($email, $valid)
     {
-        foreach ($this->getRequestCollection('Magento\Customer\Api\AccountManagementInterface::isEmailAvailable') as $request)
+        foreach ($this->getRequestCollection($this->subject) as $request)
         {
             $emailObject = $this->dataObjectFactory->create();
             $emailObject->setEmail($email);

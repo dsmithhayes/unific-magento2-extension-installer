@@ -9,31 +9,33 @@ class CreditmemoPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $order
+     * @param \Magento\Sales\Api\Data\CreditmemoInterface $creditmemo
+     * @param bool $offlineRequested
      * @return array
      */
-    public function beforeSave($subject, $order)
+    public function beforeRefund($subject, \Magento\Sales\Api\Data\CreditmemoInterface $creditmemo, $offlineRequested = false)
     {
         foreach ($this->getRequestCollection('Magento\Sales\Api\CreditmemoManagementInterface::save', 'before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $order);
+            $this->handleCondition($request->getId(), $request, $creditmemo);
         }
 
-        return [$order];
+        return [$creditmemo, $offlineRequested];
     }
 
     /**
      * @param $subject
-     * @param $order
+     * @param \Magento\Sales\Api\Data\CreditmemoInterface $creditmemo
+     * @param bool $offlineRequested
      * @return mixed
      */
-    public function afterSave($subject, $order)
+    public function afterRefund($subject, \Magento\Sales\Api\Data\CreditmemoInterface $creditmemo, $offlineRequested = false)
     {
         foreach ($this->getRequestCollection('Magento\Sales\Api\CreditmemoManagementInterface::save') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $order);
+            $this->handleCondition($request->getId(), $request, $creditmemo);
         }
 
-        return $order;
+        return $creditmemo;
     }
 }

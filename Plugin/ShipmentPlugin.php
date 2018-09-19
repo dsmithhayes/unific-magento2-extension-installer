@@ -5,7 +5,7 @@ namespace Unific\Extension\Plugin;
 class ShipmentPlugin extends AbstractPlugin
 {
     protected $entity = 'shipment';
-    protected $subject = 'shipment/create';
+    protected $subject = 'order/ship';
 
     /**
      * @param $subject
@@ -30,7 +30,7 @@ class ShipmentPlugin extends AbstractPlugin
                                   \Magento\Sales\Api\Data\ShipmentCreationArgumentsInterface $arguments = null
     )
     {
-        foreach ($this->getRequestCollection('Magento\Sales\Api\ShipmentManagementInterface::save', 'before') as $request)
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
             $order = $this->objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             $this->handleCondition($request->getId(), $request, $order);
@@ -61,7 +61,7 @@ class ShipmentPlugin extends AbstractPlugin
                                  array $packages = [],
                                  \Magento\Sales\Api\Data\ShipmentCreationArgumentsInterface $arguments = null)
     {
-        foreach ($this->getRequestCollection('Magento\Sales\Api\ShipmentManagementInterface::save') as $request)
+        foreach ($this->getRequestCollection($this->subject) as $request)
         {
             $order = $this->objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             $this->handleCondition($request->getId(), $request, $order);

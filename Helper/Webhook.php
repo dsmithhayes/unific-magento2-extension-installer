@@ -8,32 +8,6 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * Mapping the external actoin to an internal event
-     *
-     * @var array
-     */
-    private $actionmapping = array(
-        'customer/login' => 'Magento\Customer\Model\Session::setCustomerDataAsLoggedIn',
-        'customer/logout' => 'Magento\Customer\Model\Session::logout',
-        'admin/login' => 'Magento\Backend\Model\Auth\Session::processLogin',
-        'admin/logout' => 'Magento\Backend\Model\Auth\Session::processLogout',
-        'customer/create' => 'Magento\Customer\Api\CustomerRepositoryInterface::save',
-        'customer/update' => 'Magento\Customer\Api\CustomerRepositoryInterface::save',
-        'admin/user/create' => 'Magento\User\Model\User::save',
-        'cart/create' => 'Magento\Customer\Api\AccountManagementInterface::isEmailAvailable',
-        'cart/update' => 'Magento\Customer\Api\AccountManagementInterface::isEmailAvailable',
-        'order/create' => 'Magento\Sales\Api\OrderManagementInterface::place',
-        'order/update' => 'Magento\Sales\Api\OrderManagementInterface::place',
-        'invoice/create' => 'Magento\Sales\Model\Order\Invoice::capture',
-        'creditmemo/create' => 'Magento\Sales\Api\CreditmemoManagementInterface::save',
-        'shipment/create' => 'Magento\Sales\Api\ShipmentManagementInterface::save',
-        'category/create' => 'Magento\Catalog\Model\Category::save',
-        'category/update' => 'Magento\Catalog\Model\Category::save',
-        'product/create' => 'Magento\Catalog\Model\Product::save',
-        'product/update' => 'Magento\Catalog\Model\Product::save'
-    );
-
-    /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $scopeConfig;
@@ -67,6 +41,8 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
      */
     private $groupFactory;
 
+    protected $webhookConfig;
+
     /**
      * Request constructor.
      * @param \Magento\Framework\App\Helper\Context $context
@@ -77,6 +53,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Unific\Extension\Model\ConditionFactory $conditionFactory
      * @param \Unific\Extension\Model\ResponseConditionFactory $responseConditionFactory
      * @param \Unific\Extension\Model\ResponseMappingFactory $responseMappingFactory
+     * @param \Unific\Extension\Model\Config\Source\Webhook $webhookConfig
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -86,7 +63,8 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
         \Unific\Extension\Model\MappingFactory $mappingFactory,
         \Unific\Extension\Model\ConditionFactory $conditionFactory,
         \Unific\Extension\Model\ResponseConditionFactory $responseConditionFactory,
-        \Unific\Extension\Model\ResponseMappingFactory $responseMappingFactory)
+        \Unific\Extension\Model\ResponseMappingFactory $responseMappingFactory,
+        \Unific\Extension\Model\Config\Source\Webhook $webhookConfig)
     {
         parent::__construct($context);
 
@@ -97,6 +75,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
         $this->responseConditionFactory = $responseConditionFactory;
         $this->responseMappingFactory = $responseMappingFactory;
         $this->groupFactory = $groupFactory;
+        $this->webhookConfig = $webhookConfig;
     }
 
     /**
@@ -178,11 +157,7 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
         $requestModel->setUniqueId($webhook->getUniqueId());
         $requestModel->setGroupId($group->getId());
         $requestModel->setDescription($webhook->getDescription());
-
-        if(isset($this->actionmapping[$webhook->getEvent()]))
-        {
-            $requestModel->setRequestEvent($this->actionmapping[$webhook->getEvent()]);
-        }
+        $requestModel->setRequestEvent($webhook->getEvent());
 
         $requestModel->setRequestEventExecution($webhook->getEventExecution());
         $requestModel->save();

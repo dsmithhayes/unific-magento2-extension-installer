@@ -13,9 +13,10 @@ class CategoryPlugin extends AbstractPlugin
      */
     public function beforeSave($subject)
     {
-        foreach ($this->getRequestCollection('Magento\Catalog\Model\Category::save', 'before') as $request)
+        $this->setSubject($subject);
+
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
-            $this->setSubject($subject);
             $this->handleCondition($request->getId(), $request, $subject);
         }
 
@@ -28,9 +29,10 @@ class CategoryPlugin extends AbstractPlugin
      */
     public function afterSave($subject)
     {
-        foreach ($this->getRequestCollection('Magento\Catalog\Model\Category::save') as $request)
+        $this->setSubject($subject);
+
+        foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $this->setSubject($subject);
             $this->handleCondition($request->getId(), $request, $subject);
         }
 

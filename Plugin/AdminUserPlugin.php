@@ -8,7 +8,7 @@ class AdminUserPlugin extends AbstractPlugin
     {
         $this->subject = 'admin/user/create';
 
-        foreach ($this->getRequestCollection('Magento\User\Model\User::save', 'before') as $request)
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
             $this->handleCondition($request->getId(), $request, $user);
         }
@@ -20,7 +20,7 @@ class AdminUserPlugin extends AbstractPlugin
     {
         $this->subject = 'admin/user/create';
 
-        foreach ($this->getRequestCollection('Magento\User\Model\User::save') as $request)
+        foreach ($this->getRequestCollection($this->subject) as $request)
         {
             $this->handleCondition($request->getId(), $request, $user);
         }

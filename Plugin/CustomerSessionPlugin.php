@@ -15,7 +15,7 @@ class CustomerSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'customer/login';
 
-        foreach ($this->getRequestCollection('Magento\Customer\Model\Session::setCustomerDataAsLoggedIn', 'before') as $request)
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
             $this->handleCondition($request->getId(), $request, $customer);
         }
@@ -32,7 +32,7 @@ class CustomerSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'customer/login';
 
-        foreach ($this->getRequestCollection('Magento\Customer\Model\Session::setCustomerDataAsLoggedIn') as $request)
+        foreach ($this->getRequestCollection($this->subject) as $request)
         {
             $this->handleCondition($request->getId(), $request, $customer);
         }
@@ -48,7 +48,7 @@ class CustomerSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'customer/logout';
 
-        foreach ($this->getRequestCollection('Magento\Customer\Model\Session::logout', 'before') as $request)
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
             $this->handleCondition($request->getId(), $request, $subject);
         }
@@ -64,7 +64,7 @@ class CustomerSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'customer/logout';
 
-        foreach ($this->getRequestCollection('Magento\Customer\Model\Session::logout') as $request)
+        foreach ($this->getRequestCollection($this->subject) as $request)
         {
             $this->handleCondition($request->getId(), $request, $subject);
         }

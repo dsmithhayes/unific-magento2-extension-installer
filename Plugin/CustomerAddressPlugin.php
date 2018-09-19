@@ -41,11 +41,11 @@ class CustomerAddressPlugin extends AbstractPlugin
      */
     public function beforeSave($subject, $address)
     {
-        foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save', 'before') as $request)
-        {
-            $customerData = $this->customerRegistry->retrieve($address->getCustomerId());
-            $this->setSubject($customerData);
+        $customerData = $this->customerRegistry->retrieve($address->getCustomerId());
+        $this->setSubject($customerData);
 
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        {
             $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
         }
 
@@ -60,11 +60,11 @@ class CustomerAddressPlugin extends AbstractPlugin
      */
     public function afterSave($subject, $address)
     {
-        foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save') as $request)
-        {
-            $customerData = $this->customerRegistry->retrieve($address->getCustomerId());
-            $this->setSubject($customerData);
+        $customerData = $this->customerRegistry->retrieve($address->getCustomerId());
+        $this->setSubject($customerData);
 
+        foreach ($this->getRequestCollection($this->subject) as $request)
+        {
             $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
         }
 

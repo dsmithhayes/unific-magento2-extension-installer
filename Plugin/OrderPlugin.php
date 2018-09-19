@@ -35,9 +35,10 @@ class OrderPlugin extends AbstractPlugin
      */
     public function beforePlace($subject, $order)
     {
-        foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place', 'before') as $request)
+        $this->setSubject($order);
+
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
-            $this->setSubject($order);
             $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
         }
 
@@ -51,9 +52,44 @@ class OrderPlugin extends AbstractPlugin
      */
     public function afterPlace($subject, $order)
     {
-        foreach ($this->getRequestCollection('Magento\Sales\Api\OrderManagementInterface::place') as $request)
+        $this->setSubject($order);
+
+        foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $this->setSubject($order);
+            $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
+        }
+
+        return $order;
+    }
+
+    /**
+     * @param $subject
+     * @param $order
+     * @return array
+     */
+    public function beforeCancel($subject, $order)
+    {
+        $this->subject = 'order/cancel';
+
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        {
+            $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
+        }
+
+        return [$order];
+    }
+
+    /**
+     * @param $subject
+     * @param $order
+     * @return mixed
+     */
+    public function afterCancel($subject, $order)
+    {
+        $this->subject = 'order/cancel';
+
+        foreach ($this->getRequestCollection($this->subject) as $request)
+        {
             $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
         }
 

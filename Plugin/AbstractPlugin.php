@@ -38,7 +38,7 @@ class AbstractPlugin
      * @param string $eventExecution
      * @return mixed
      */
-    public function getRequestCollection($eventFilter = 'Magento\Sales\Api\OrderManagementInterface::place', $eventExecution = 'after')
+    public function getRequestCollection($eventFilter = 'order/create', $eventExecution = 'after')
     {
         return $this->objectManager->create('\Unific\Extension\Model\ResourceModel\Request\Grid\Collection')
             ->addFieldToFilter('request_event', array('eq' => $eventFilter))

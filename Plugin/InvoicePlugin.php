@@ -5,7 +5,7 @@ namespace Unific\Extension\Plugin;
 class InvoicePlugin extends AbstractPlugin
 {
     protected $entity = 'invoice';
-    protected $subject = 'invoice/create';
+    protected $subject = 'order/invoice';
 
     /**
      * @param $invoice
@@ -13,7 +13,7 @@ class InvoicePlugin extends AbstractPlugin
      */
     public function beforeCapture($invoice)
     {
-        foreach ($this->getRequestCollection('Magento\Sales\Model\Order\Invoice::capture', 'before') as $request)
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
             $this->handleCondition($request->getId(), $request, $invoice);
         }
@@ -27,7 +27,7 @@ class InvoicePlugin extends AbstractPlugin
      */
     public function afterCapture($invoice)
     {
-        foreach ($this->getRequestCollection('Magento\Sales\Model\Order\Invoice::capture') as $request)
+        foreach ($this->getRequestCollection($this->subject) as $request)
         {
             $this->handleCondition($request->getId(), $request, $invoice);
         }

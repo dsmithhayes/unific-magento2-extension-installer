@@ -13,9 +13,10 @@ class ProductPlugin extends AbstractPlugin
      */
     public function beforeSave(\Magento\Catalog\Model\Product $subject)
     {
-        foreach ($this->getRequestCollection('Magento\Catalog\Model\Product::save', 'before') as $request)
+        $this->setSubject($subject);
+
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
-            $this->setSubject($subject);
             $this->handleCondition($request->getId(), $request, $subject);
         }
         return [$subject];
@@ -27,9 +28,10 @@ class ProductPlugin extends AbstractPlugin
      */
     public function afterSave(\Magento\Catalog\Model\Product $subject)
     {
-        foreach ($this->getRequestCollection('Magento\Catalog\Model\Product::save') as $request)
+        $this->setSubject($subject);
+
+        foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $this->setSubject($subject);
             $this->handleCondition($request->getId(), $request, $subject);
         }
 

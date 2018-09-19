@@ -109,21 +109,7 @@ class Info extends Generic
                 'required' => true,
                 'onchange' => 'jQuery(\'.request_event_info\').parent().parent().hide();if(this.value.indexOf(\'::\') < 0) { jQuery(\'.request_event_info_\' + this.value).parent().parent().show(); }',
                 'onload' => 'jQuery(this).trigger(\'change\')',
-                'values' => array(
-                    'Magento\Customer\Model\Session::setCustomerDataAsLoggedIn' => 'Customer logs in',
-                    'Magento\Customer\Model\Session::logout' => 'Customer logs out',
-                    'Magento\Backend\Model\Auth\Session::processLogin' => 'Admin user logs in',
-                    'Magento\Backend\Model\Auth\Session::processLogout' => 'Admin user logs out',
-                    'Magento\Customer\Api\CustomerRepositoryInterface' => 'Customer is created or updated' ,
-                    'Magento\User\Model\User::save' => 'Admin user is saved',
-                    'Magento\Customer\Api\AccountManagementInterface::isEmailAvailable' => 'Email-Address of customer is known',
-                    'Magento\Sales\Api\OrderManagementInterface::place' => 'Order is placed or updated',
-                    'Magento\Sales\Model\Order\Invoice::capture' => 'Invoice is captured',
-                    'Magento\Sales\Api\CreditmemoManagementInterface::save' => 'Refund is created',
-                    'Magento\Sales\Api\ShipmentManagementInterface::save' => 'Shipment is created',
-                    'Magento\Catalog\Model\Category::save' => 'Category is saved',
-                    'Magento\Catalog\Api\ProductManagementInterface::save' => 'Product is saved',
-                )
+                'source_model' => "Unific\Extension\Model\Config\Source\Webhook"
             ]
         );
 

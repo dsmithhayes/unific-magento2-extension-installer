@@ -41,10 +41,10 @@ class CustomerPlugin extends AbstractPlugin
      */
     public function beforeSave($subject, $customer, $passwordHash = null)
     {
-        foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save', 'before') as $request)
-        {
-            $this->setSubject($customer);
+        $this->setSubject($customer);
 
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        {
             $customerData = $this->customerRegistry->retrieve($customer->getId());
             $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
         }
@@ -60,10 +60,10 @@ class CustomerPlugin extends AbstractPlugin
      */
     public function afterSave($subject, $customer, $passwordHash = null)
     {
-        foreach ($this->getRequestCollection('Magento\Customer\Api\CustomerRepositoryInterface::save') as $request)
-        {
-            $this->setSubject($customer);
+        $this->setSubject($customer);
 
+        foreach ($this->getRequestCollection($this->subject) as $request)
+        {
             $customerData = $this->customerRegistry->retrieve($customer->getId());
             $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
         }

@@ -123,7 +123,7 @@
     <type name="Magento\Sales\Api\CreditmemoManagementInterface">
         <plugin name="unific_credit_webhook" type="Unific\Extension\Plugin\CreditmemoPlugin" sortOrder="1"/>
     </type>
-    <type name="Magento\Sales\Api\ShipmentManagementInterface">
+    <type name="Magento\Sales\Api\ShipOrderInterface">
         <plugin name="unific_shipment_webhook" type="Unific\Extension\Plugin\ShipmentPlugin" sortOrder="1"/>
     </type>
 

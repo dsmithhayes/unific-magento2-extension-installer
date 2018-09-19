@@ -4,6 +4,7 @@ namespace Unific\Extension\Plugin;
 
 class AdminSessionPlugin extends AbstractPlugin
 {
+    protected $subject = 'admin/login';
 
     /**
      * @param $subject
@@ -11,9 +12,7 @@ class AdminSessionPlugin extends AbstractPlugin
      */
     public function beforeProcessLogin($subject)
     {
-        $this->subject = 'admin/login';
-
-        foreach ($this->getRequestCollection('Magento\Backend\Model\Auth\Session::processLogin', 'before') as $request)
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
             $this->handleCondition($request->getId(), $request, $subject);
         }
@@ -27,9 +26,7 @@ class AdminSessionPlugin extends AbstractPlugin
      */
     public function afterProcessLogin($subject)
     {
-        $this->subject = 'admin/login';
-
-        foreach ($this->getRequestCollection('Magento\Backend\Model\Auth\Session::processLogin') as $request)
+        foreach ($this->getRequestCollection($this->subject) as $request)
         {
             $this->handleCondition($request->getId(), $request, $subject);
         }
@@ -45,7 +42,7 @@ class AdminSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'admin/logout';
 
-        foreach ($this->getRequestCollection('Magento\Backend\Model\Auth\Session::processLogout', 'before') as $request)
+        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
             $this->handleCondition($request->getId(), $request, $subject);
         }
@@ -61,7 +58,7 @@ class AdminSessionPlugin extends AbstractPlugin
     {
         $this->subject = 'admin/logout';
 
-        foreach ($this->getRequestCollection('Magento\Backend\Model\Auth\Session::processLogout') as $request)
+        foreach ($this->getRequestCollection($this->subject) as $request)
         {
             $this->handleCondition($request->getId(), $request, $subject);
         }
