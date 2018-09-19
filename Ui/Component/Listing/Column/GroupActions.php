@@ -51,7 +51,7 @@ class GroupActions extends Column
                         'unific/request/index',
                         ['id' => $item['id']]
                     ),
-                    'label' => __('View Requests'),
+                    'label' => __('Requests'),
                     'hidden' => false,
                 ];
             }

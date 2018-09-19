@@ -26,6 +26,10 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
+
+        $this->removeButton('reset');
+        $this->removeButton('save');
+        $this->removeButton('delete');
     }
 
     /**
