@@ -77,4 +77,18 @@ class WebhookManagement implements WebhookManagementInterface
 
         return $uniqueId;
     }
+
+    /**
+     * Deletes all existing webhooks
+     *
+     * @api
+     *
+     * @return \Unific\Extension\Api\Data\WebhookInterface
+     */
+    public function deleteAllWebhooks()
+    {
+        $this->webhookHelper->removeAllWebhooks();
+
+        return true;
+    }
 }

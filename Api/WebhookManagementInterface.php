@@ -32,4 +32,13 @@ interface WebhookManagementInterface
      * @return \Unific\Extension\Api\Data\WebhookInterface
      */
     public function deleteWebhook($uniqueId);
+
+    /**
+     * Deletes an existing webhook
+     *
+     * @api
+     *
+     * @return \Unific\Extension\Api\Data\WebhookInterface
+     */
+    public function deleteAllWebhooks();
 }

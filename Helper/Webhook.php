@@ -97,6 +97,18 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * @return bool
+     */
+    public function removeAllWebhooks()
+    {
+        $requestModel = $this->requestFactory->create();
+        $requestCollection = $requestModel->getCollection();
+        $requestCollection->walk('delete');
+
+        return true;
+    }
+
+    /**
      * @param \Unific\Extension\Api\Data\WebhookInterface $webhook
      * @return mixed
      */

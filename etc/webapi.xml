@@ -56,4 +56,11 @@
             <resource ref="Unific_Extension::webhook"/>
         </resources>
     </route>
+
+    <route url="/V1/unific/webhook/purge" method="DELETE">
+        <service class="Unific\Extension\Api\WebhookManagementInterface" method="deleteAllWebhooks"/>
+        <resources>
+            <resource ref="Unific_Extension::webhook"/>
+        </resources>
+    </route>
 </routes>
