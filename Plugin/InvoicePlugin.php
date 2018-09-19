@@ -41,6 +41,8 @@ class InvoicePlugin extends AbstractPlugin
         {
             $this->handleCondition($request->getId(), $request,  $subject->getOrder());
         }
+
+        return [$subject];
     }
 
     /**
@@ -53,5 +55,7 @@ class InvoicePlugin extends AbstractPlugin
         {
             $this->handleCondition($request->getId(), $request,  $subject->getOrder());
         }
+
+        return $subject;
     }
 }
