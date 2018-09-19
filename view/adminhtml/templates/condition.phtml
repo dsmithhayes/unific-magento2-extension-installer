@@ -70,7 +70,7 @@
                             <select name="request_condition[value][<%- data.id %>][type]"
                                     class="required-option request_condition_type" data-role="request_condition_type"
                                     data-inputs="request_condition_value_<%- data.id %>"
-                                    id="request_condition_type_<%- data.id %>">
+                                    id="request_condition_type_<%- data.id %>" readonly="true">
                                 <option id="request_condition_always" data-type="input" data-has-values="false"
                                         data-input-type="input" data-source=".request-mapping-internal"
                                         data-target="#request_condition_type_<%- data.id %>_value" value="always">
@@ -93,12 +93,12 @@
                                 </option>
                             </select>
                             <select name="request_condition[value][<%- data.id %>][type_value]" class="required-option"
-                                    style="display: none;" id="request_condition_type_<%- data.id %>_value">
+                                    style="display: none;" id="request_condition_type_<%- data.id %>_value" readonly="true">
                             </select>
                         </td>
                         <td>
                             <select name="request_condition[value][<%- data.id %>][comparison]"
-                                    id="request_condition_comparison_<%- data.id %>" class="required-option">
+                                    id="request_condition_comparison_<%- data.id %>" class="required-option" readonly="true">
                                 <option value="eq">is equal to</option>
                                 <option value="neq">is not equal to</option>
                                 <option value="contains">contains</option>
@@ -107,12 +107,12 @@
                         </td>
                         <td id="request_condition_value_<%- data.id %>">
                             <select id="request_condition_value_<%- data.id %>_select"
-                                    name="request_condition[value][<%- data.id %>][select_value]" style="display:none;">
+                                    name="request_condition[value][<%- data.id %>][select_value]" style="display:none;" readonly="true">
                                 <option>Please select your option...</option>
                             </select>
                             <input id="request_condition_value_<%- data.id %>_input" value="<%- data.condition_value %>"
                                    type="text" name="request_condition[value][<%- data.id %>][value]"
-                                   class="input-text"/>
+                                   class="input-text" readonly="true" />
                         </td>
                     </tr>
                     </tbody>
@@ -128,7 +128,7 @@
                     <tr>
                         <td>
                             <select name="request_condition[value][<%- data.id %>][action]"
-                                    id="request_condition_action_<%- data.id %>" class="required-option">
+                                    id="request_condition_action_<%- data.id %>" class="required-option" readonly="true">
                                 <option value="nothing">do nothing</option>
                                 <option value="continue">continue with next condition</option>
                                 <option value="error">display error</option>
@@ -151,7 +151,7 @@
                         <td>
                             <input name="request_condition[value][<%- data.id %>][action_params][error]"
                                    value="<%- data.action_params.value %>" class="input-text action-error" type="text"
-                                   placeholder="The user will see this error" style="width: 500px;"/>
+                                   placeholder="The user will see this error" style="width: 500px;" readonly="true" />
                         </td>
                     </tr>
                     </tbody>
@@ -169,19 +169,19 @@
                     <tr>
                         <td>
                             <select name="request_condition[value][<%- data.id %>][action_params][protocol]"
-                                    id="action-request-<%- data.id %>" class="required-option">
+                                    id="action-request-<%- data.id %>" class="required-option" readonly="true">
                                 <option value="soap">SOAP Request</option>
                                 <option value="rest">REST Request</option>
                             </select>
 
                             <input name="request_condition[value][<%- data.id %>][action_params][request_url]"
                                    value="<%- data.action_params.request_url %>" class="input-text"
-                                   style="width: 500px;" type="text" placeholder="Enter the request URL"/>
+                                   style="width: 500px;" type="text" placeholder="Enter the request URL" readonly="true" />
 
                             <select name="request_condition[value][<%- data.id %>][action_params][method]"
                                     id="action-request-method-<%- data.id %>"
                                     class="required-option action-request-<%- data.id %> action-request-<%- data.id %>-rest"
-                                    style="display: none;">
+                                    style="display: none;" readonly="true">
                                 <option value="get">GET</option>
                                 <option value="post">POST</option>
                                 <option value="put">PUT</option>
@@ -191,14 +191,14 @@
                             <input name="request_condition[value][<%- data.id %>][action_params][soap_method]"
                                    type="text" value="<%- data.action_params.soap_method %>"
                                    class="input-text action-request-<%- data.id %> action-request-<%- data.id %>-soap"
-                                   placeholder="Enter the SOAP method" style="display: none;"/>
+                                   placeholder="Enter the SOAP method" style="display: none;" readonly="true"/>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </td>
             <td id="delete_button_container_request_condition_<%- data.id %>" class="col-delete">
-                <input type="hidden" class="delete-flag" name="request_condition[delete][<%- data.id %>]" value=""/>
+                <input type="hidden" class="delete-flag" name="request_condition[delete][<%- data.id %>]" value="" readonly="true" />
             </td>
         </tr>
     </script>

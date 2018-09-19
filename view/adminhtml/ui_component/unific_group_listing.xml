@@ -17,15 +17,6 @@
         </item>
         <!-- define column type -->
         <item name="spinner" xsi:type="string">unific_group_columns</item>
-        <!-- Button to add new item -->
-        <item name="buttons" xsi:type="array">
-            <item name="add" xsi:type="array">
-                <item name="name" xsi:type="string">add</item>
-                <item name="label" xsi:type="string" translate="true">Add New Group</item>
-                <item name="class" xsi:type="string">primary</item>
-                <item name="url" xsi:type="string">*/*/new</item>
-            </item>
-        </item>
     </argument>
     <!-- Data source -->
     <dataSource name="unific_group_listing_data_source">

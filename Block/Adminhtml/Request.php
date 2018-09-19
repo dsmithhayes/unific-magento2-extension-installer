@@ -32,16 +32,6 @@ class Request extends \Magento\Backend\Block\Widget\Container
      */
     protected function _prepareLayout()
     {
-        $addButtonProps = [
-            'id' => 'add_new_request',
-            'label' => __('Add Request'),
-            'class' => 'add',
-            'href' => $this->getUrl('extension/request/create', array('group' => $this->getRequest()->getParam('group'))),
-            'button_class' => '',
-            'class_name' => 'Magento\Backend\Block\Widget\Button',
-        ];
-        $this->buttonList->add('add_new', $addButtonProps);
-
         return parent::_prepareLayout();
     }
 }
