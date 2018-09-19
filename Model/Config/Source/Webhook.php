@@ -3,7 +3,7 @@
  * Used in creating options for Server Type config value selection
  *
  */
-namespace Wizkunde\WebSSO\Model\Config\Source;
+namespace Unific\Extension\Model\Config\Source;
 
 class Webhook implements \Magento\Framework\Option\ArrayInterface
 {
