@@ -65,7 +65,7 @@ class CustomerPlugin extends AbstractPlugin
             $this->setSubject($customer);
 
             $customerData = $this->customerFactory->create()->load($customer->getId());
-            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customer));
+            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
         }
 
         return $customer;
