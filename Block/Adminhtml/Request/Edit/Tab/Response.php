@@ -51,6 +51,7 @@ class Response extends Generic
                 'label' => __('Name'),
                 'title' => __('Name'),
                 'required' => true,
+                'readonly' => true
             ]
         );
 
@@ -62,6 +63,7 @@ class Response extends Generic
                 'label' => __('Response Description'),
                 'title' => __('Response Description'),
                 'required' => false,
+                'readonly' => true
             ]
         );
 

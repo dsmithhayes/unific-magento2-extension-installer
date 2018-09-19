@@ -83,6 +83,7 @@ class Info extends Generic
                 'label' => __('Name'),
                 'title' => __('Name'),
                 'required' => true,
+                'readonly' => true
             ]
         );
 
@@ -94,6 +95,7 @@ class Info extends Generic
                 'label' => __('Unique ID'),
                 'title' => __('Unique ID'),
                 'required' => true,
+                'readonly' => true
             ]
         );
 
@@ -105,6 +107,7 @@ class Info extends Generic
                 'label' => __('Request Description'),
                 'title' => __('Request Description'),
                 'required' => false,
+                'readonly' => true
             ]
         );
 
@@ -118,7 +121,8 @@ class Info extends Generic
                 'values' => array(
                     'before' => 'Before',
                     'after' => 'After'
-                )
+                ),
+                'readonly' => true
             ]
         );
 
@@ -133,7 +137,8 @@ class Info extends Generic
                 'required' => true,
                 'onchange' => 'jQuery(\'.request_event_info\').parent().parent().hide();if(this.value.indexOf(\'::\') < 0) { jQuery(\'.request_event_info_\' + this.value).parent().parent().show(); }',
                 'onload' => 'jQuery(this).trigger(\'change\')',
-                'values' => $this->webhookSource->toOptionArray()
+                'values' => $this->webhookSource->toOptionArray(),
+                'readonly' => true
             ]
         );
 
@@ -146,7 +151,8 @@ class Info extends Generic
                 'title' => __('Request URL'),
                 'class' => 'request_event_info request_event_info_url',
                 'required' => false,
-                'placeholder' => '/extension/request/index'
+                'placeholder' => '/extension/request/index',
+                'readonly' => true
             ]
         );
 
@@ -159,7 +165,8 @@ class Info extends Generic
                 'title' => __('Event Class'),
                 'class' => 'request_event_info request_event_info_other',
                 'required' => false,
-                'placeholder' => 'Magento\Customer\Model\Session'
+                'placeholder' => 'Magento\Customer\Model\Session',
+                'readonly' => true
             ]
         );
 
@@ -172,7 +179,8 @@ class Info extends Generic
                 'title' => __('Event Class Method'),
                 'class' => 'request_event_info request_event_info_other',
                 'required' => false,
-                'placeholder' => 'setCustomerAsLoggedIn'
+                'placeholder' => 'setCustomerAsLoggedIn',
+                'readonly' => true
             ]
         );
 

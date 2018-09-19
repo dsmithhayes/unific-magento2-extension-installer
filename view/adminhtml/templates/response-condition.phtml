@@ -32,13 +32,6 @@
             </tr>
             <tr>
                 <th colspan="4" class="col-actions-add">
-                    <button id="add_new_response_condition_button" data-action="add_new_row"
-                            title="<?php /* @escapeNotVerified */
-                            echo __('Add Response Condition'); ?>"
-                            type="button" class="action- scalable add">
-                        <span><?php /* @escapeNotVerified */
-                            echo __('Add Response Condition'); ?></span>
-                    </button>
                 </th>
             </tr>
             </tfoot>
@@ -206,13 +199,6 @@
             </td>
             <td id="delete_button_container_response_condition_<%- data.id %>" class="col-delete">
                 <input type="hidden" class="delete-flag" name="response_condition[delete][<%- data.id %>]" value=""/>
-                <button id="delete_button_<%- data.id %>" title="<?php /* @escapeNotVerified */
-                echo __('Delete') ?>" type="button"
-                        class="action- scalable delete delete-option"
-                >
-                    <span><?php /* @escapeNotVerified */
-                        echo __('Delete') ?></span>
-                </button>
             </td>
         </tr>
     </script>

@@ -82,13 +82,6 @@
             </tr>
             <tr>
                 <th colspan="5" class="col-actions-add">
-                    <button id="add_new_request_mapping_button" data-action="add_new_row"
-                            title="<?php /* @escapeNotVerified */
-                            echo __('Add Mapping'); ?>"
-                            type="button" class="action- scalable add">
-                        <span><?php /* @escapeNotVerified */
-                            echo __('Add Mapping'); ?></span>
-                    </button>
                 </th>
             </tr>
             </tfoot>
@@ -130,13 +123,6 @@
                 </select></td>
             <td id="delete_button_container_request_mapping_<%- data.id %>" class="col-delete">
                 <input type="hidden" class="delete-flag" name="request_mapping[delete][<%- data.id %>]" value=""/>
-                <button id="delete_button_<%- data.id %>" title="<?php /* @escapeNotVerified */
-                echo __('Delete') ?>" type="button"
-                        class="action- scalable delete delete-option"
-                >
-                    <span><?php /* @escapeNotVerified */
-                        echo __('Delete') ?></span>
-                </button>
             </td>
         </tr>
     </script>
