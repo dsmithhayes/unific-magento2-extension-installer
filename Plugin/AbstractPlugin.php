@@ -9,6 +9,8 @@ class AbstractPlugin
 
     protected $restConnection;
 
+    protected $collectionFactory;
+
     protected $entity = 'order';
     protected $subject = 'order/create';
 
@@ -17,16 +19,19 @@ class AbstractPlugin
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
+     * @param \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory
      */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
-        \Unific\Extension\Connection\Rest\Connection $restConnection
+        \Unific\Extension\Connection\Rest\Connection $restConnection,
+        \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory
     )
     {
         $this->logger = $logger;
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;
+        $this->collectionFactory = $collectionFactory;
     }
 
     /**
@@ -36,7 +41,7 @@ class AbstractPlugin
      */
     public function getRequestCollection($eventFilter = 'order/create', $eventExecution = 'after')
     {
-        return $this->objectManager->create('\Unific\Extension\Model\ResourceModel\Request\Grid\Collection')
+        return $this->collectionFactory->create()
             ->addFieldToFilter('request_event', array('eq' => $eventFilter))
             ->addFieldToFilter('request_event_execution', array('eq' => $eventExecution))->load();
     }
