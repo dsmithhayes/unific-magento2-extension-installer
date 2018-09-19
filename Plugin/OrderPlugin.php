@@ -9,6 +9,8 @@ class OrderPlugin extends AbstractPlugin
     protected $entity = 'order';
     protected $subject = 'order/create';
 
+    protected $orderRepository;
+
     /**
      * OrderPlugin constructor.
      * @param \Unific\Extension\Logger\Logger $logger
@@ -18,12 +20,14 @@ class OrderPlugin extends AbstractPlugin
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
-        \Unific\Extension\Connection\Rest\Connection $restConnection
+        \Unific\Extension\Connection\Rest\Connection $restConnection,
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
     )
     {
         $this->logger = $logger;
         $this->mappingHelper = $mapping;
         $this->restConnection = $restConnection;
+        $this->orderRepository = $orderRepository;
 
         parent::__construct($logger, $mapping, $restConnection);
     }
@@ -50,9 +54,9 @@ class OrderPlugin extends AbstractPlugin
      * @param $order
      * @return mixed
      */
-    public function afterPlace($subject, $order)
+    public function afterPlace($subject, $id)
     {
-        $this->setSubject($order);
+        $this->setSubject($subject);
 
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
@@ -64,36 +68,40 @@ class OrderPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $order
+     * @param $id
      * @return array
      */
-    public function beforeCancel($subject, $order)
+    public function beforeCancel($subject, $id)
     {
         $this->subject = 'order/cancel';
+
+        $order = $this->orderRepository->get($id);
 
         foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
             $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
         }
 
-        return [$order];
+        return [$id];
     }
 
     /**
      * @param $subject
-     * @param $order
+     * @param $id
      * @return mixed
      */
-    public function afterCancel($subject, $order)
+    public function afterCancel($subject, $id)
     {
         $this->subject = 'order/cancel';
+
+        $order = $this->orderRepository->get($id);
 
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
             $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
         }
 
-        return $order;
+        return $id;
     }
 
     /**

@@ -35,8 +35,7 @@ class CustomerAddressPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $customer
-     * @param null $passwordHash
+     * @param $address
      * @return array
      */
     public function beforeSave($subject, $address)
@@ -54,8 +53,7 @@ class CustomerAddressPlugin extends AbstractPlugin
 
     /**
      * @param $subject
-     * @param $customer
-     * @param null $passwordHash
+     * @param $address
      * @return mixed
      */
     public function afterSave($subject, $address)
