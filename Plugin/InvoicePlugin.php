@@ -39,7 +39,7 @@ class InvoicePlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $subject->getOrder());
+            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($subject->getOrder()->getId()));
         }
 
         return [$subject];
@@ -53,7 +53,7 @@ class InvoicePlugin extends AbstractPlugin
     {
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $subject->getOrder());
+            $this->handleCondition($request->getId(), $request,  $this->orderRepository->get($subject->getOrder()->getId()));
         }
 
         return $subject;

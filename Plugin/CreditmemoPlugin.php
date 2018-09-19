@@ -55,7 +55,7 @@ class CreditmemoPlugin extends AbstractPlugin
      * @param bool $offlineRequested
      * @return mixed
      */
-    public function afterExecute($subject,
+    public function afterRefund($subject,
                                  \Magento\Sales\Api\Data\CreditmemoInterface $creditmemo,
                                  $offlineRequested = false)
     {
