@@ -7,6 +7,30 @@ use Magento\Backend\Block\Widget\Form\Generic;
 class Info extends Generic
 {
     /**
+     * @var \Unific\Extension\Model\Config\Source\Webhook
+     */
+    protected $webhookSource;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Unific\Extension\Model\Config\Source\Webhook $webhookSource
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Unific\Extension\Model\Config\Source\Webhook $webhookSource,
+        array $data = []
+    ) {
+        $this->webhookSource = $webhookSource;
+
+        parent::__construct($context, $registry, $formFactory, $data);
+    }
+
+    /**
      * Retrieve template object
      *
      * @return \Magento\Newsletter\Model\Template
@@ -109,7 +133,7 @@ class Info extends Generic
                 'required' => true,
                 'onchange' => 'jQuery(\'.request_event_info\').parent().parent().hide();if(this.value.indexOf(\'::\') < 0) { jQuery(\'.request_event_info_\' + this.value).parent().parent().show(); }',
                 'onload' => 'jQuery(this).trigger(\'change\')',
-                'source_model' => "Unific\Extension\Model\Config\Source\Webhook"
+                'values' => $this->webhookSource->toOptionArray()
             ]
         );
 
