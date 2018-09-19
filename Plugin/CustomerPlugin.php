@@ -10,27 +10,25 @@ class CustomerPlugin extends AbstractPlugin
     protected $customerRegistry;
 
     /**
-     * OrderPlugin constructor.
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
+     * @param \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory
+     * @param \Unific\Extension\Model\RequestFactory $requestFactory
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
+        \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory,
+        \Unific\Extension\Model\RequestFactory $requestFactory,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry
     )
     {
-        $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-
-        $this->logger = $logger;
-        $this->mappingHelper = $mapping;
-        $this->restConnection = $restConnection;
         $this->customerRegistry = $customerRegistry;
 
-        parent::__construct($logger, $mapping, $restConnection);
+        parent::__construct($logger, $mapping, $restConnection, $collectionFactory, $requestFactory);
     }
 
     /**

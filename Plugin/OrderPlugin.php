@@ -12,24 +12,25 @@ class OrderPlugin extends AbstractPlugin
     protected $orderRepository;
 
     /**
-     * OrderPlugin constructor.
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Mapping $mapping
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
+     * @param \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory
+     * @param \Unific\Extension\Model\RequestFactory $requestFactory
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      */
     public function __construct(
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Mapping $mapping,
         \Unific\Extension\Connection\Rest\Connection $restConnection,
+        \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory,
+        \Unific\Extension\Model\RequestFactory $requestFactory,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
     )
     {
-        $this->logger = $logger;
-        $this->mappingHelper = $mapping;
-        $this->restConnection = $restConnection;
         $this->orderRepository = $orderRepository;
 
-        parent::__construct($logger, $mapping, $restConnection);
+        parent::__construct($logger, $mapping, $restConnection, $collectionFactory, $requestFactory);
     }
 
     /**
