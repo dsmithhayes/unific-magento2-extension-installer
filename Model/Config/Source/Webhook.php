@@ -40,7 +40,7 @@ class Webhook implements \Magento\Framework\Option\ArrayInterface
         'order/create' => 'Create an Order',
         'order/cancel' => 'Cancel an Order',
         'order/update' => 'Update an Order',
-        'invoice/create' => 'Invoice an Order',
+        'order/invoice' => 'Invoice an Order',
         'order/refund' => 'Refund an Order',
         'order/ship' => 'Ship an Order',
         'category/create' => 'Create a Category',
