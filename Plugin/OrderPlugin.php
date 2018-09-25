@@ -57,7 +57,7 @@ class OrderPlugin extends AbstractPlugin
      */
     public function afterPlace($subject, $order)
     {
-        $this->setSubject($subject);
+        $this->setSubject($order);
 
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
