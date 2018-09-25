@@ -31,13 +31,15 @@ class CartPlugin extends AbstractPlugin
         parent::__construct($logger, $mapping, $restConnection, $collectionFactory, $requestFactory);
     }
 
+
     /**
      * @param $subject
-     * @param $valid
+     * @param callable $proceed
      * @param $email
+     * @param null $websiteId
      * @return array
      */
-    public function beforeIsEmailAvailable($subject, $valid, $email)
+    public function aroundIsEmailAvailable($subject, callable $proceed, $email, $websiteId = null)
     {
         foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
@@ -47,17 +49,8 @@ class CartPlugin extends AbstractPlugin
             $this->handleCondition($request->getId(), $request, $emailObject);
         }
 
-        return [$valid, $email];
-    }
+        $returnValue = $proceed($email, $websiteId);
 
-    /**
-     * @param $subject
-     * @param $valid
-     * @param $email
-     * @return mixed
-     */
-    public function afterIsEmailAvailable($subject, $valid, $email)
-    {
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
             $emailObject = $this->dataObjectFactory->create();
@@ -66,6 +59,6 @@ class CartPlugin extends AbstractPlugin
             $this->handleCondition($request->getId(), $request, $emailObject);
         }
 
-        return $valid;
+        return $returnValue;
     }
 }
