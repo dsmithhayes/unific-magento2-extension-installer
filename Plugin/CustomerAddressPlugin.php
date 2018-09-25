@@ -38,12 +38,15 @@ class CustomerAddressPlugin extends AbstractPlugin
      */
     public function beforeSave($subject, $address)
     {
-        $customerData = $this->customerRegistry->retrieve($address->getCustomerId());
-        $this->setSubject($customerData);
-
-        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        if($address->getCustomerId())
         {
-            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
+            $customerData = $this->customerRegistry->retrieve($address->getCustomerId());
+            $this->setSubject($customerData);
+
+            foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+            {
+                $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
+            }
         }
 
         return [$address];
@@ -56,13 +59,17 @@ class CustomerAddressPlugin extends AbstractPlugin
      */
     public function afterSave($subject, $address)
     {
-        $customerData = $this->customerRegistry->retrieve($address->getCustomerId());
-        $this->setSubject($customerData);
-
-        foreach ($this->getRequestCollection($this->subject) as $request)
+        if($address->getCustomerId())
         {
-            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
+            $customerData = $this->customerRegistry->retrieve($address->getCustomerId());
+            $this->setSubject($customerData);
+
+            foreach ($this->getRequestCollection($this->subject) as $request)
+            {
+                $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
+            }
         }
+
 
         return $address;
     }

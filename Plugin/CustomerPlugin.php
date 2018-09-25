@@ -43,8 +43,12 @@ class CustomerPlugin extends AbstractPlugin
 
         foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
-            $customerData = $this->customerRegistry->retrieve($customer->getId());
-            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
+            if($customer && $customer->getId() != null)
+            {
+                $customerData = $this->customerRegistry->retrieve($customer->getId());
+                $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
+            }
+
         }
 
         return [$customer, $passwordHash];
@@ -62,8 +66,11 @@ class CustomerPlugin extends AbstractPlugin
 
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
-            $customerData = $this->customerRegistry->retrieve($customer->getId());
-            $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
+            if($customer && $customer->getId() != null)
+            {
+                $customerData = $this->customerRegistry->retrieve($customer->getId());
+                $this->handleCondition($request->getId(), $request, $this->getCustomerInfo($customerData));
+            }
         }
 
         return $customer;
