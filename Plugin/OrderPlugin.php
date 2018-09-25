@@ -55,7 +55,7 @@ class OrderPlugin extends AbstractPlugin
      * @param $order
      * @return mixed
      */
-    public function afterPlace($subject, $id)
+    public function afterPlace($subject, $order)
     {
         $this->setSubject($subject);
 
