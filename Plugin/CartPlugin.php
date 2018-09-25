@@ -32,11 +32,12 @@ class CartPlugin extends AbstractPlugin
     }
 
     /**
-     * @param $email
+     * @param $subject
      * @param $valid
+     * @param $email
      * @return array
      */
-    public function beforeIsEmailAvailable($email, $valid)
+    public function beforeIsEmailAvailable($subject, $valid, $email)
     {
         foreach ($this->getRequestCollection($this->subject, 'before') as $request)
         {
@@ -46,15 +47,16 @@ class CartPlugin extends AbstractPlugin
             $this->handleCondition($request->getId(), $request, $emailObject);
         }
 
-        return [$email, $valid];
+        return [$valid, $email];
     }
 
     /**
-     * @param $email
+     * @param $subject
      * @param $valid
+     * @param $email
      * @return mixed
      */
-    public function afterIsEmailAvailable($email, $valid)
+    public function afterIsEmailAvailable($subject, $valid, $email)
     {
         foreach ($this->getRequestCollection($this->subject) as $request)
         {
