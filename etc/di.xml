@@ -213,7 +213,7 @@
             <argument name="eventObject" xsi:type="string">unific_response_mapping_collection</argument>
             <argument name="resourceModel" xsi:type="string">Unific\Extension\Model\ResourceModel\ResponseMapping
             </argument>
-        </arguments>vi di
+        </arguments>
     </type>
 
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
