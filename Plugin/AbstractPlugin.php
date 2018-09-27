@@ -52,6 +52,11 @@ class AbstractPlugin
         \Magento\Quote\Model\QuoteFactory $quoteFactory
     )
     {
+        $this->collectionFactory = $collectionFactory;
+        $this->restConnection = $restConnection;
+        $this->mappingHelper = $mapping;
+        $this->logger = $logger;
+
         $this->orderRepository = $orderRepository;
         $this->customerRegistry = $customerRegistry;
         $this->dataObjectFactory = $dataObjectFactory;
