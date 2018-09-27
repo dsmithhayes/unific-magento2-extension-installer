@@ -144,9 +144,37 @@ class AbstractPlugin
                 return array_merge($this->getInvoiceInfo(), $extraData);
             case 'cart':
                 return array_merge($this->getCartInfo(), $extraData);
+            case 'product':
+                return array_merge($this->getProductInfo(), $extraData);
+            case 'category':
+                return array_merge($this->getCategoryInfo(), $extraData);
             default:
                 return array_merge($this->getOrderInfo(), $extraData);
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getProductInfo()
+    {
+        if($this->product == null) return array();
+
+        $returnData = $this->product->getData();
+
+        return $returnData;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCategoryInfo()
+    {
+        if($this->category == null) return array();
+
+        $returnData = $this->category->getData();
+
+        return $returnData;
     }
 
     /**
