@@ -196,6 +196,32 @@
                     </tr>
                     </tbody>
                 </table>
+                <table id="request_condition_action_<%- data.id %>-table-webhook"
+                       class="request_condition_action_<%- data.id %>-table" style="display:none;">
+                    <thead>
+                    <tr>
+                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
+                                echo __('Webhook') ?></span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <select name="request_condition[value][<%- data.id %>][action_params][webhook]"
+                                    id="action-webhook-<%- data.id %>" class="required-option">
+                                <option value="order">Send Order</option>
+                                <option value="customer">Send Customer</option>
+                                <option value="invoice">Send Invoice</option>
+                                <option value="category">Send Category</option>
+                                <option value="product">Send Product</option>
+                                <option value="refund">Send Credit Memo</option>
+                                <option value="shipment">Send Shipment</option>
+                                <option value="cart">Send Cart</option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </td>
             <td id="delete_button_container_request_condition_<%- data.id %>" class="col-delete">
                 <input type="hidden" class="delete-flag" name="request_condition[delete][<%- data.id %>]" value=""/>
