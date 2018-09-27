@@ -25,14 +25,14 @@ class OrderPlugin extends AbstractPlugin
 
         $result = $proceed($order);
 
-        if($order->getCustomerId() != null)
+        if($result->getCustomerId() != null)
         {
-            $this->customer = $this->customerRegistry->retreive($order->getCustomerId());
+            $this->customer = $this->customerRegistry->retreive($result->getCustomerId());
         }
 
-        if($order->getQuoteId() != null)
+        if($result->getQuoteId() != null)
         {
-            $this->quote = $this->quoteFactory->create()->load($order->getQuoteId());
+            $this->quote = $this->quoteFactory->create()->load($result->getQuoteId());
         }
 
         foreach ($this->getRequestCollection() as $request)
