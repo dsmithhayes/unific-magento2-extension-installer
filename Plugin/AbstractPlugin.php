@@ -153,14 +153,25 @@ class AbstractPlugin
      */
     protected function getCustomerInfo()
     {
-        if($this->customer == null) return array();
+        $returnData = array();
 
-        $returnData = $this->customer->getData();
+        if($this->customer == null) {
+            if($this->order != null)
+            {
+                $returnData['email'] = $this->order->getCustomerEmail();
+                $returnData['addresses'] = array();
+                $returnData['addresses']['billing'] = $this->order->getBillingAddress()->getData();
+                $returnData['addresses']['shipping'] = $this->order->getShippingAddress()->getData();
+                $returnData['payment'] = $this->order->getPayment()->getData();
+            }
+        } else {
+            $returnData = $this->customer->getData();
 
-        $returnData['addresses'] = array();
-        foreach($this->customer->getAddresses() as $address)
-        {
-            $returnData['addresses'][] = $address->getData();
+            $returnData['addresses'] = array();
+            foreach($this->customer->getAddresses() as $address)
+            {
+                $returnData['addresses'][] = $address->getData();
+            }
         }
 
         return $returnData;
