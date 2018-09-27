@@ -4,7 +4,7 @@ namespace Unific\Extension\Plugin;
 
 class ShipmentPlugin extends AbstractPlugin
 {
-    protected $entity = 'shipment';
+    protected $entity = 'order';
     protected $subject = 'order/ship';
 
     /**

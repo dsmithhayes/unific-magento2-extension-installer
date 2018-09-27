@@ -4,7 +4,7 @@ namespace Unific\Extension\Plugin;
 
 class InvoicePlugin extends AbstractPlugin
 {
-    protected $entity = 'invoice';
+    protected $entity = 'order';
     protected $subject = 'order/invoice';
 
     /**
