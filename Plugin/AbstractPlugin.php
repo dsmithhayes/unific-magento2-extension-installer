@@ -64,7 +64,6 @@ class AbstractPlugin
     }
 
     /**
-     * @param string $eventFilter
      * @param string $eventExecution
      * @return mixed
      */
@@ -78,7 +77,6 @@ class AbstractPlugin
     /**
      * @param $id
      * @param $request
-     * @param $dataModel
      */
     public function handleConditions($id, $request)
     {
