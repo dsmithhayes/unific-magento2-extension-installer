@@ -14,7 +14,7 @@ class CustomerPlugin extends AbstractPlugin
      * @param null $passwordHash
      * @return array
      */
-    public function aroundave($subject, callable $proceed, $customer, $passwordHash = null)
+    public function aroundSave($subject, callable $proceed, $customer, $passwordHash = null)
     {
         $this->setSubject($customer);
 
