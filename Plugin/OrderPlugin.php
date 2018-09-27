@@ -17,8 +17,16 @@ class OrderPlugin extends AbstractPlugin
     {
         $this->setSubject($order);
         $this->order = $order;
-        $this->customer = $this->customerRegistry->retreive($order->getCustomerId());
-        $this->quote = $this->quoteFactory->create()->load($order->getQuoteId());
+
+        if($order->getCustomerId() != null)
+        {
+            $this->customer = $this->customerRegistry->retreive($order->getCustomerId());
+        }
+
+        if($order->getQuoteId() != null)
+        {
+            $this->quote = $this->quoteFactory->create()->load($order->getQuoteId());
+        }
 
         foreach ($this->getRequestCollection('before') as $request)
         {
