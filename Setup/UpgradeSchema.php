@@ -37,6 +37,42 @@ class UpgradeSchema implements  UpgradeSchemaInterface
             }
         }
 
+        if (version_compare($context->getVersion(), '1.0.3') < 0) {
+
+            // Declare data
+            $columns = [
+                'webhook' => [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'nullable' => true,
+                    'comment' => 'Webhook to send',
+                ],
+            ];
+
+            // Get module table
+            $tableName = $setup->getTable('unific_extension_request_condition');
+
+            // Check if the table already exists
+            if ($setup->getConnection()->isTableExists($tableName) == true) {
+                $connection = $setup->getConnection();
+                foreach ($columns as $name => $definition) {
+                    $connection->addColumn($tableName, $name, $definition);
+                }
+
+            }
+
+            // Get module table
+            $tableName = $setup->getTable('unific_extension_response_condition');
+
+            // Check if the table already exists
+            if ($setup->getConnection()->isTableExists($tableName) == true) {
+                $connection = $setup->getConnection();
+                foreach ($columns as $name => $definition) {
+                    $connection->addColumn($tableName, $name, $definition);
+                }
+
+            }
+        }
+
         $setup->endSetup();
     }
 }

@@ -8,61 +8,50 @@ class AdminSessionPlugin extends AbstractPlugin
 
     /**
      * @param $subject
+     * @param callable $proceed
      * @return array
      */
-    public function beforeProcessLogin($subject)
+    public function aroundProcessLogin($subject, callable $proceed)
     {
-        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        $this->adminUser = $subject;
+
+        foreach ($this->getRequestCollection('before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $subject);
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return [$subject];
+        $result = $proceed();
+
+        foreach ($this->getRequestCollection() as $request)
+        {
+            $this->handleConditions($request->getId(), $request);
+        }
+
+        return $result;
     }
 
     /**
      * @param $subject
+     * @param callable $proceed
      * @return array
      */
-    public function afterProcessLogin($subject)
-    {
-        foreach ($this->getRequestCollection($this->subject) as $request)
-        {
-            $this->handleCondition($request->getId(), $request, $subject);
-        }
-
-        return $subject;
-    }
-
-    /**
-     * @param $subject
-     * @return array
-     */
-    public function beforeProcessLogout($subject)
+    public function aroundProcessLogout($subject, callable $proceed)
     {
         $this->subject = 'admin/logout';
+        $this->adminUser = $subject;
 
-        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        foreach ($this->getRequestCollection('before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $subject);
+            $this->handleConditions($request->getId(), $request, $subject);
         }
 
-        return [$subject];
-    }
+        $result = $proceed();
 
-    /**
-     * @param $subject
-     * @return array
-     */
-    public function afterProcessLogout($subject)
-    {
-        $this->subject = 'admin/logout';
-
-        foreach ($this->getRequestCollection($this->subject) as $request)
+        foreach ($this->getRequestCollection() as $request)
         {
-            $this->handleCondition($request->getId(), $request, $subject);
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return $subject;
+        return $result;
     }
 }

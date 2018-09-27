@@ -9,33 +9,27 @@ class ProductPlugin extends AbstractPlugin
 
     /**
      * @param \Magento\Catalog\Model\Product $subject
+     * @param callable $proceed
      * @return array
      */
-    public function beforeSave(\Magento\Catalog\Model\Product $subject)
+    public function aroundSave(\Magento\Catalog\Model\Product $subject, callable $proceed)
     {
         $this->setSubject($subject);
+        $this->product = $subject;
 
-        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        foreach ($this->getRequestCollection('before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $subject);
-        }
-        return [$subject];
-    }
-
-    /**
-     * @param \Magento\Catalog\Model\Product $subject
-     * @return mixed
-     */
-    public function afterSave(\Magento\Catalog\Model\Product $subject)
-    {
-        $this->setSubject($subject);
-
-        foreach ($this->getRequestCollection($this->subject) as $request)
-        {
-            $this->handleCondition($request->getId(), $request, $subject);
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return $subject;
+        $result = $proceed();
+
+        foreach ($this->getRequestCollection() as $request)
+        {
+            $this->handleConditions($request->getId(), $request);
+        }
+
+        return $result;
     }
 
     public function setSubject($product)

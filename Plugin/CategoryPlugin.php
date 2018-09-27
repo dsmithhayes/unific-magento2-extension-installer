@@ -9,34 +9,27 @@ class CategoryPlugin extends AbstractPlugin
 
     /**
      * @param $subject
+     * @param callable $proceed
      * @return array
      */
-    public function beforeSave($subject)
+    public function aroundSave($subject, callable $proceed)
     {
         $this->setSubject($subject);
+        $this->category = $subject;
 
-        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        foreach ($this->getRequestCollection('before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $subject);
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return [$subject];
-    }
+        $result = $proceed();
 
-    /**
-     * @param $subject
-     * @return mixed
-     */
-    public function afterSave($subject)
-    {
-        $this->setSubject($subject);
-
-        foreach ($this->getRequestCollection($this->subject) as $request)
+        foreach ($this->getRequestCollection() as $request)
         {
-            $this->handleCondition($request->getId(), $request, $subject);
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return $subject;
+        return $result;
     }
 
     public function setSubject($category)

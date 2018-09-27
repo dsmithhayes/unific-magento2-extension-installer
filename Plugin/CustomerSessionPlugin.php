@@ -8,68 +8,50 @@ class CustomerSessionPlugin extends AbstractPlugin
 
     /**
      * @param $subject
+     * @param callable $proceed
      * @param $customer
      * @return array
      */
-    public function beforeSetCustomerDataAsLoggedIn($subject, $customer)
+    public function aroundSetCustomerDataAsLoggedIn($subject, callable $proceed, $customer)
     {
         $this->subject = 'customer/login';
 
-        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        foreach ($this->getRequestCollection('before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $customer);
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return [$customer];
+        $result = $proceed($customer);
+
+        foreach ($this->getRequestCollection() as $request)
+        {
+            $this->handleConditions($request->getId(), $request);
+        }
+
+        return $result;
     }
 
     /**
      * @param $subject
-     * @param $customer
-     * @return mixed
-     */
-    public function afterSetCustomerDataAsLoggedIn($subject, $customer)
-    {
-        $this->subject = 'customer/login';
-
-        foreach ($this->getRequestCollection($this->subject) as $request)
-        {
-            $this->handleCondition($request->getId(), $request, $customer);
-        }
-
-        return $customer;
-    }
-
-    /**
-     * @param $subject
+     * @param callable $proceed
      * @return array
      */
-    public function beforeLogout($subject)
+    public function aroundLogout($subject, callable $proceed)
     {
         $this->subject = 'customer/logout';
 
-        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        foreach ($this->getRequestCollection('before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $subject);
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return [$subject];
-    }
+        $result = $proceed();
 
-    /**
-     * @param $subject
-     * @return mixed
-     */
-    public function afterLogout($subject)
-    {
-        $this->subject = 'customer/logout';
-
-        foreach ($this->getRequestCollection($this->subject) as $request)
+        foreach ($this->getRequestCollection() as $request)
         {
-            $this->handleCondition($request->getId(), $request, $subject);
+            $this->handleConditions($request->getId(), $request);
         }
 
-
-        return $subject;
+        return $result;
     }
 }

@@ -2,129 +2,63 @@
 
 namespace Unific\Extension\Plugin;
 
-use Unific\Extension\Model\ResourceModel\Metadata;
-
 class OrderPlugin extends AbstractPlugin
 {
     protected $entity = 'order';
     protected $subject = 'order/create';
 
-    protected $orderRepository;
-
-    /**
-     * @param \Unific\Extension\Logger\Logger $logger
-     * @param \Unific\Extension\Helper\Mapping $mapping
-     * @param \Unific\Extension\Connection\Rest\Connection $restConnection
-     * @param \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory
-     * @param \Unific\Extension\Model\RequestFactory $requestFactory
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     */
-    public function __construct(
-        \Unific\Extension\Logger\Logger $logger,
-        \Unific\Extension\Helper\Mapping $mapping,
-        \Unific\Extension\Connection\Rest\Connection $restConnection,
-        \Unific\Extension\Model\ResourceModel\Request\Grid\CollectionFactory $collectionFactory,
-        \Unific\Extension\Model\RequestFactory $requestFactory,
-        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-    )
-    {
-        $this->orderRepository = $orderRepository;
-
-        parent::__construct($logger, $mapping, $restConnection, $collectionFactory, $requestFactory);
-    }
-
     /**
      * @param $subject
+     * @param callable $proceed
      * @param $order
      * @return array
      */
-    public function beforePlace($subject, $order)
+    public function aroundPlace($subject, callable $proceed, $order)
     {
         $this->setSubject($order);
+        $this->order = $order;
+        $this->customer = $this->customerRegistry->retreive($order->getCustomerId());
+        $this->quote = $this->quoteFactory->create()->load($order->getQuoteId());
 
-        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        foreach ($this->getRequestCollection('before') as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return [$order];
+        $result = $proceed($order);
+
+        foreach ($this->getRequestCollection() as $request)
+        {
+            $this->handleConditions($request->getId(), $request);
+        }
+
+        return $result;
     }
 
     /**
      * @param $subject
-     * @param $order
-     * @return mixed
-     */
-    public function afterPlace($subject, $order)
-    {
-        $this->setSubject($order);
-
-        foreach ($this->getRequestCollection($this->subject) as $request)
-        {
-            $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
-        }
-
-        return $order;
-    }
-
-    /**
-     * @param $subject
+     * @param callable $proceed
      * @param $id
      * @return array
      */
-    public function beforeCancel($subject, $id)
+    public function aroundCancel($subject, callable $proceed, $id)
     {
         $this->subject = 'order/cancel';
+        $this->order = $this->orderRepository->get($id);
 
-        $order = $this->orderRepository->get($id);
-
-        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        foreach ($this->getRequestCollection('before') as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return [$id];
-    }
+        $result = $proceed($id);
 
-    /**
-     * @param $subject
-     * @param $id
-     * @return mixed
-     */
-    public function afterCancel($subject, $id)
-    {
-        $this->subject = 'order/cancel';
-
-        $order = $this->orderRepository->get($id);
-
-        foreach ($this->getRequestCollection($this->subject) as $request)
+        foreach ($this->getRequestCollection() as $request)
         {
-            $this->handleCondition($request->getId(), $request,  $this->getOrderInfo($order));
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return $id;
-    }
-
-    /**
-     * @param $order
-     * @return mixed
-     */
-    protected function getOrderInfo($order)
-    {
-        $returnData = $order->getData();
-
-        $returnData['items'] = array();
-        foreach($order->getAllItems() as $item)
-        {
-            $returnData['items'][] = $item->getData();
-        }
-
-        $returnData['addresses'] = array();
-        $returnData['addresses']['billing'] = $order->getBillingAddress()->getData();
-        $returnData['addresses']['shipping'] = $order->getShippingAddress()->getData();
-        $returnData['payment'] = $order->getPayment()->getData();
-
-        return $returnData;
+        return $result;
     }
 
     /**

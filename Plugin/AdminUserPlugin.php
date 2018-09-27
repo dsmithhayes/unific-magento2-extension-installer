@@ -4,28 +4,29 @@ namespace Unific\Extension\Plugin;
 
 class AdminUserPlugin extends AbstractPlugin
 {
-    public function beforeSave($subject, $user)
+    /**
+     * @param $subject
+     * @param callable $proceed
+     * @param $user
+     * @return mixed
+     */
+    public function aroundSave($subject, callable $proceed, $user)
     {
         $this->subject = 'admin/user/create';
+        $this->adminUser = $user;
 
-        foreach ($this->getRequestCollection($this->subject, 'before') as $request)
+        foreach ($this->getRequestCollection('before') as $request)
         {
-            $this->handleCondition($request->getId(), $request, $user);
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return [$user];
-    }
+        $result = $proceed($user);
 
-    public function afterSave($subject, $user)
-    {
-        $this->subject = 'admin/user/create';
-
-        foreach ($this->getRequestCollection($this->subject) as $request)
+        foreach ($this->getRequestCollection() as $request)
         {
-            $this->handleCondition($request->getId(), $request, $user);
+            $this->handleConditions($request->getId(), $request);
         }
 
-        return $user;
-
+        return $result;
     }
 }
