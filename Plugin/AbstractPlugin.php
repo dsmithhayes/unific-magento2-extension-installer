@@ -99,7 +99,7 @@ class AbstractPlugin
                         $actionData['request_url'],
                         $this->getWebhookData($actionData['webhook']),
                         array(
-                            'X-SUBJECT' => $this->subject
+                            'X-SUBJECT' => $this->getWebhookSubject($actionData)
                         )
                     );
                 } catch(\Exception $e)
@@ -110,6 +110,24 @@ class AbstractPlugin
                 $this->logger->info($response->getBody());
             }
         }
+    }
+
+    /**
+     * @param array $actionData
+     * @return string
+     */
+    protected function getWebhookSubject(array $actionData)
+    {
+        return ($this->isEventEntity($actionData)) ? $this->subject : $actionData['webhook'] . '/update';
+    }
+
+    /**
+     * @param array $actionData
+     * @return bool
+     */
+    protected function isEventEntity(array $actionData)
+    {
+        return $actionData['webhook'] == $this->entity;
     }
 
     /**
