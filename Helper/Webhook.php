@@ -215,7 +215,8 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
                         json_encode([
                             'protocol' => $condition->getRequest()->getProtocol(),
                             'request_url' => $condition->getRequest()->getUrl(),
-                            'method' => $condition->getRequest()->getType()
+                            'method' => $condition->getRequest()->getType(),
+                            'webhook'  => $condition->getRequest()->getWebhook()
                         ]));
                 }
 
@@ -255,7 +256,8 @@ class Webhook extends \Magento\Framework\App\Helper\AbstractHelper
                         json_encode([
                             'protocol' => $condition->getRequest()->getProtocol(),
                             'response_url' => $condition->getRequest()->getUrl(),
-                            'method' => $condition->getRequest()->getType()
+                            'method' => $condition->getRequest()->getType(),
+                            'webhook'  => $condition->getRequest()->getWebhook()
                         ]));
                 }
 
