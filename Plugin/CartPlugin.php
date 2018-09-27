@@ -11,10 +11,10 @@ class CartPlugin extends AbstractPlugin
      * @param $subject
      * @param callable $proceed
      * @param $cartId
-     * @param \Magento\Quote\Api\Data\EstimateAddressInterface $address
+     * @param \Magento\Quote\Model\Quote\Address $address
      * @return array
      */
-    public function aroundEstimateByExtendedAddress($subject, callable $proceed, $cartId, \Magento\Quote\Api\Data\EstimateAddressInterface $address)
+    public function aroundEstimateByExtendedAddress($subject, callable $proceed, $cartId, \Magento\Quote\Model\Quote\Address $address)
     {
         $this->quote = $this->quoteFactory->create()->load($cartId);
 
