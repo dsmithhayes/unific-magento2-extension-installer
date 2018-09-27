@@ -21,6 +21,7 @@ class CartPlugin extends AbstractPlugin
         $returnValue = $proceed($cartId, $address);
 
         $addressData = array();
+        $addressData['class'] = get_class($subject);
         $addressData['addresses'] = array();
         $addressData['addresses']['billing'] = $address->getData();
         $addressData['addresses']['shipping'] = $address->getData();
