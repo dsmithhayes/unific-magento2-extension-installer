@@ -95,7 +95,7 @@ class AbstractPlugin
                 $actionData = json_decode($condition['condition_action_params'], true);
                 $response = $this->restConnection->{$actionData['method']}(
                     $actionData['request_url'],
-                    $this->getWebhookData($condition['webhook']),
+                    $this->getWebhookData($actionData['webhook']),
                     array(
                         'X-SUBJECT' => $this->subject
                     )
