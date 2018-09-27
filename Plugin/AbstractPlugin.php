@@ -93,13 +93,19 @@ class AbstractPlugin
             if($condition['condition_action'] == 'request')
             {
                 $actionData = json_decode($condition['condition_action_params'], true);
-                $response = $this->restConnection->{$actionData['method']}(
-                    $actionData['request_url'],
-                    $this->getWebhookData($actionData['webhook']),
-                    array(
-                        'X-SUBJECT' => $this->subject
-                    )
-                );
+
+                try {
+                    $response = $this->restConnection->{$actionData['method']}(
+                        $actionData['request_url'],
+                        $this->getWebhookData($actionData['webhook']),
+                        array(
+                            'X-SUBJECT' => $this->subject
+                        )
+                    );
+                } catch(\Exception $e)
+                {
+                    $this->logger->error('Exception ' . $e->getCode() . ': ' . $e->getMessage());
+                }
 
                 $this->logger->info($response->getBody());
             }
@@ -151,6 +157,18 @@ class AbstractPlugin
         if($this->quote == null) return array();
 
         $returnData = $this->quote->getData();
+
+        return $returnData;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getInvoiceInfo()
+    {
+        if($this->invoice == null) return array();
+
+        $returnData = $this->invoice->getData();
 
         return $returnData;
     }
