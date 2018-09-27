@@ -20,9 +20,14 @@ class CartPlugin extends AbstractPlugin
 
         $returnValue = $proceed($cartId, $address);
 
+        $addressData = array();
+        $addressData['addresses'] = array();
+        $addressData['addresses']['billing'] = $address->getData();
+        $addressData['addresses']['shipping'] = $address->getData();
+
         foreach ($this->getRequestCollection() as $request)
         {
-            $this->handleConditions($request->getId(), $request, array('address' => $address->getData()));
+            $this->handleConditions($request->getId(), $request, $addressData);
         }
 
         return $returnValue;
