@@ -18,6 +18,13 @@ class OrderPlugin extends AbstractPlugin
         $this->setSubject($order);
         $this->order = $order;
 
+        foreach ($this->getRequestCollection('before') as $request)
+        {
+            $this->handleConditions($request->getId(), $request);
+        }
+
+        $result = $proceed($order);
+
         if($order->getCustomerId() != null)
         {
             $this->customer = $this->customerRegistry->retreive($order->getCustomerId());
@@ -27,13 +34,6 @@ class OrderPlugin extends AbstractPlugin
         {
             $this->quote = $this->quoteFactory->create()->load($order->getQuoteId());
         }
-
-        foreach ($this->getRequestCollection('before') as $request)
-        {
-            $this->handleConditions($request->getId(), $request);
-        }
-
-        $result = $proceed($order);
 
         foreach ($this->getRequestCollection() as $request)
         {
