@@ -186,6 +186,12 @@ class AbstractPlugin
 
         $returnData = $this->quote->getData();
 
+        $returnData['items'] = array();
+        foreach($this->quote->getAllItems() as $item)
+        {
+            $returnData['items'][] = $item->getData();
+        }
+
         return $returnData;
     }
 
