@@ -10,8 +10,8 @@ class CartPlugin extends AbstractPlugin
     /**
      * @param $subject
      * @param callable $proceed
-     * @param $email
-     * @param null $websiteId
+     * @param $cartId
+     * @param \Magento\Quote\Api\Data\EstimateAddressInterface $address
      * @return array
      */
     public function aroundEstimateByExtendedAddress($subject, callable $proceed, $cartId, \Magento\Quote\Api\Data\EstimateAddressInterface $address)
