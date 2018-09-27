@@ -72,7 +72,7 @@ class AbstractPlugin
     {
         return $this->collectionFactory->create()
             ->addFieldToFilter('request_event', array('eq' => $this->subject))
-            ->addFieldToFilter('request_event_execution', array('eq' => $this->subject))->load();
+            ->addFieldToFilter('request_event_execution', array('eq' => $eventExecution))->load();
     }
 
     /**
