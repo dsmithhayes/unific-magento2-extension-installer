@@ -16,12 +16,16 @@ class CartPlugin extends AbstractPlugin
      */
     public function aroundEstimateByExtendedAddress($subject, callable $proceed, $cartId, \Magento\Quote\Model\Quote\Address $address)
     {
+        if(!$subject instanceof \Magento\Quote\Model\ShippingMethodManagement\Interceptor)
+        {
+            return $proceed($cartId, $address);
+        }
+
         $this->quote = $this->quoteFactory->create()->load($cartId);
 
         $returnValue = $proceed($cartId, $address);
 
         $addressData = array();
-        $addressData['class'] = get_class($subject);
         $addressData['addresses'] = array();
         $addressData['addresses']['billing'] = $address->getData();
         $addressData['addresses']['shipping'] = $address->getData();
