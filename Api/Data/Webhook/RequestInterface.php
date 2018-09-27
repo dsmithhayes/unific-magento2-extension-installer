@@ -38,4 +38,15 @@ interface RequestInterface extends ExtensibleDataInterface
      * @return void
      */
     public function setType($type = "get");
+
+    /**
+     * @return mixed
+     */
+    public function getWebhook();
+
+    /**
+     * @param string $type
+     * @return void
+     */
+    public function setWebhook($webhook = "order");
 }

@@ -7,6 +7,23 @@ class Request implements \Unific\Extension\Api\Data\Webhook\RequestInterface
     protected $protocol = 'rest';
     protected $url = '';
     protected $type = 'get';
+    protected $webhook = 'order';
+
+    /**
+     * @return string
+     */
+    public function getWebhook()
+    {
+        return $this->webhook;
+    }
+
+    /**
+     * @param string $webhook
+     */
+    public function setWebhook($webhook = 'order')
+    {
+        $this->webhook = $webhook;
+    }
 
     /**
      * @return string
