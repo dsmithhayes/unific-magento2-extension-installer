@@ -186,6 +186,11 @@ class AbstractPlugin
 
         $returnData = $this->quote->getData();
 
+        if($this->order != null)
+        {
+            $returnData['customer_email'] = $this->order->getCustomerEmail();
+        }
+
         $returnData['items'] = array();
         foreach($this->quote->getAllItems() as $item)
         {
