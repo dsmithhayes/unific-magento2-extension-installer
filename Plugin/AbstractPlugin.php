@@ -101,12 +101,13 @@ class AbstractPlugin
                             'X-SUBJECT' => $this->getWebhookSubject($actionData)
                         )
                     );
+
+                    $this->logger->info($response->getBody());
                 } catch(\Exception $e)
                 {
                     $this->logger->error('Exception ' . $e->getCode() . ': ' . $e->getMessage());
                 }
 
-                $this->logger->info($response->getBody());
             }
         }
     }
