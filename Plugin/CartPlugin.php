@@ -14,24 +14,15 @@ class CartPlugin extends AbstractPlugin
      * @param null $websiteId
      * @return array
      */
-    public function aroundIsEmailAvailable($subject, callable $proceed, $email, $websiteId = null)
+    public function aroundEstimateByExtendedAddress($subject, callable $proceed, $cartId, \Magento\Quote\Api\Data\EstimateAddressInterface $address)
     {
-        $emailObject = $this->dataObjectFactory->create();
-        $emailObject->setEmail($email);
+        $this->quote = $this->quoteFactory->create()->load($cartId);
 
-        // Workaround, @todo
-        $this->quote = $emailObject;
-
-        foreach ($this->getRequestCollection('before') as $request)
-        {
-            $this->handleConditions($request->getId(), $request);
-        }
-
-        $returnValue = $proceed($email, $websiteId);
+        $returnValue = $proceed($cartId, $address);
 
         foreach ($this->getRequestCollection() as $request)
         {
-            $this->handleConditions($request->getId(), $request);
+            $this->handleConditions($request->getId(), $request, array('address' => $address->getData()));
         }
 
         return $returnValue;

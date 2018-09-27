@@ -79,7 +79,7 @@ class AbstractPlugin
      * @param $id
      * @param $request
      */
-    public function handleConditions($id, $request)
+    public function handleConditions($id, $request, $extraData = array())
     {
         // A plugin attaches the sub data
         $model = $this->requestFactory->create();
@@ -96,7 +96,7 @@ class AbstractPlugin
                 try {
                     $response = $this->restConnection->{$actionData['method']}(
                         $actionData['request_url'],
-                        $this->getWebhookData($actionData['webhook']),
+                        $this->getWebhookData($actionData['webhook'], $extraData),
                         array(
                             'X-SUBJECT' => $this->getWebhookSubject($actionData)
                         )
@@ -133,18 +133,18 @@ class AbstractPlugin
      * @param string $type
      * @return array|mixed
      */
-    protected function getWebhookData($type = 'order')
+    protected function getWebhookData($type = 'order', $extraData = array())
     {
         switch($type)
         {
             case 'customer':
-                return $this->getCustomerInfo();
+                return array_merge($this->getCustomerInfo(), $extraData);
             case 'invoice':
-                return $this->getInvoiceInfo();
+                return array_merge($this->getInvoiceInfo(), $extraData);
             case 'cart':
-                return $this->getCartInfo();
+                return array_merge($this->getCartInfo(), $extraData);
             default:
-                return $this->getOrderInfo();
+                return array_merge($this->getOrderInfo(), $extraData);
         }
     }
 
