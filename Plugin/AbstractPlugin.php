@@ -56,6 +56,7 @@ class AbstractPlugin
         $this->restConnection = $restConnection;
         $this->mappingHelper = $mapping;
         $this->logger = $logger;
+        $this->requestFactory = $requestFactory;
 
         $this->orderRepository = $orderRepository;
         $this->customerRegistry = $customerRegistry;

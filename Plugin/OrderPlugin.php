@@ -18,9 +18,9 @@ class OrderPlugin extends AbstractPlugin
         $this->setSubject($order);
         $this->order = $order;
 
-        if($order->getQuoteId() != null)
+        if($this->order->getQuoteId() != null)
         {
-            $this->quote = $this->quoteFactory->create()->load($order->getQuoteId());
+            $this->quote = $this->quoteFactory->create()->load($this->order->getQuoteId());
         }
 
         foreach ($this->getRequestCollection('before') as $request)
@@ -28,11 +28,11 @@ class OrderPlugin extends AbstractPlugin
             $this->handleConditions($request->getId(), $request);
         }
 
-        $result = $proceed($order);
+        $this->order = $proceed($order);
 
-        if($result->getCustomerId() != null)
+        if($this->order->getCustomerId() != null)
         {
-            $this->customer = $this->customerRegistry->retrieve($result->getCustomerId());
+            $this->customer = $this->customerRegistry->retrieve($this->order->getCustomerId());
         }
 
         foreach ($this->getRequestCollection() as $request)
@@ -40,7 +40,7 @@ class OrderPlugin extends AbstractPlugin
             $this->handleConditions($request->getId(), $request);
         }
 
-        return $result;
+        return $this->order;
     }
 
     /**
