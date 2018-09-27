@@ -111,6 +111,12 @@ define([
                                 jQuery(this).attr('selected', 'selected');
                             }
                         });
+
+                        jQuery('#action-' + config.prefix + '-webhook-' + data.id + ' option').each(function () {
+                            if (jQuery(this).val() == data.condition_action_params.webhook) {
+                                jQuery(this).attr('selected', 'selected');
+                            }
+                        });
                     }
               }
 

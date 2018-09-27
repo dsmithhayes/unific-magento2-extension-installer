@@ -192,23 +192,10 @@
                                    type="text" value="<%- data.action_params.soap_method %>"
                                    class="input-text action-request-<%- data.id %> action-request-<%- data.id %>-soap"
                                    placeholder="Enter the SOAP method" style="display: none;"/>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table id="request_condition_action_<%- data.id %>-table-webhook"
-                       class="request_condition_action_<%- data.id %>-table" style="display:none;">
-                    <thead>
-                    <tr>
-                        <th class="col-default control-table-actions-th"><span><?php /* @escapeNotVerified */
-                                echo __('Webhook') ?></span></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>
+
+
                             <select name="request_condition[value][<%- data.id %>][action_params][webhook]"
-                                    id="action-webhook-<%- data.id %>" class="required-option">
+                                    id="action-request-webhook-<%- data.id %>" class="required-option">
                                 <option value="order">Send Order</option>
                                 <option value="customer">Send Customer</option>
                                 <option value="invoice">Send Invoice</option>
