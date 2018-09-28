@@ -2,9 +2,9 @@
     <admin_user>
         <username />
     </admin_user>
-    <cart>
+    <checkout>
         <email />
-    </cart>
+    </checkout>
     <order>
         <entity_id>
             <external>order_id</external>

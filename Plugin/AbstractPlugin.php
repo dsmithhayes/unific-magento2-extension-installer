@@ -142,7 +142,7 @@ class AbstractPlugin
                 return array_merge($this->getCustomerInfo(), $extraData);
             case 'invoice':
                 return array_merge($this->getInvoiceInfo(), $extraData);
-            case 'cart':
+            case 'checkout':
                 return array_merge($this->getCartInfo(), $extraData);
             case 'product':
                 return array_merge($this->getProductInfo(), $extraData);
