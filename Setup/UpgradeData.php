@@ -62,6 +62,19 @@ class UpgradeData implements UpgradeDataInterface
 
         $this->unificHelper->createApiUser();
 
+        if($this->scopeConfig->getValue('unific/extension/integration_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == null ||
+            $this->scopeConfig->getValue('unific/extension/integration_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '')
+        {
+            $this->configWriter->save('unific/extension/integration_key', 'X-UNIFIC-INTEGRATION-ID');
+        }
+
+        if($this->scopeConfig->getValue('unific/extension/schedule', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == null ||
+            $this->scopeConfig->getValue('unific/extension/schedule', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '')
+        {
+            $this->configWriter->save('unific/extension/schedule', '*/5 * * * *');
+        }
+
+
         if($this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == null ||
             $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '')
         {
