@@ -62,13 +62,17 @@ class UpgradeData implements UpgradeDataInterface
 
         $this->unificHelper->createApiUser();
 
-        if($this->scopeConfig->getValue('unific/hmac/hmacSecret', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == null ||
-            $this->scopeConfig->getValue('unific/hmac/hmacSecret', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '')
+        if($this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == null ||
+            $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '')
         {
-            // Persist the hmac data
             $this->configWriter->save('unific/hmac/hmacEnable', true);
             $this->configWriter->save('unific/hmac/hmacHeader', 'X-Magento-Unific-Hmac');
             $this->configWriter->save('unific/hmac/hmacAlgorithm', 'sha256');
+        }
+
+        if($this->scopeConfig->getValue('unific/hmac/hmacSecret', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == null ||
+            $this->scopeConfig->getValue('unific/hmac/hmacSecret', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == '')
+        {
             $this->configWriter->save('unific/hmac/hmacSecret', $this->hmacHelper->generateSecret());
         }
 
