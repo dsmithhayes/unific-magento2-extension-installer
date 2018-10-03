@@ -39,4 +39,12 @@ class Hmac extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }
+
+    /**
+     * @return string
+     */
+    public function generateSecret()
+    {
+        return md5(uniqid(rand(), true));
+    }
 }
