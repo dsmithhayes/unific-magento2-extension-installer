@@ -93,12 +93,28 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $messageModel = $this->queueFactory->create();
 
+        switch($requestType)
+        {
+            case \Zend_Http_Client::POST:
+                $type = 'post';
+                break;
+            case \Zend_Http_Client::PUT:
+                $type = 'put';
+                break;
+            case \Zend_Http_Client::DELETE:
+                $type = 'delete';
+                break;
+            default:
+                $type = 'get';
+                break;
+        }
+
         $messageModel->setData(array(
             'guid' => $guid == null ? $this->guidHelper->generateGuid() : $guid,
             'url' => $url,
             'headers' => json_encode($extraHeaders),
             'message' => json_encode($data),
-            'request_type' => $requestType,
+            'request_type' => $type,
             'response_http_code' => $responseHttpCode,
             'retry_amount' => $retryAmount,
             'max_retry_amount' => $maxRetryAmount,
