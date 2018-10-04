@@ -5,7 +5,7 @@ namespace Unific\Extension\Helper;
 use Magento\Framework\Exception\InputException;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
-class Queue extends \Magento\Framework\App\Helper\AbstractHelper
+class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 {
     protected $logger;
     protected $restConnection;
