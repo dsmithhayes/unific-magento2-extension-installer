@@ -32,7 +32,7 @@ class ModeManagement implements ModeManagementInterface
      */
     public function setMode($mode)
     {
-        $this->scopeConfig->setValue('unific/extension/mode', $mode, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $this->scopeConfig->saveConfig('unific/extension/mode', $mode, \Magento\Store\Model\ScopeInterface::SCOPE_TYPE_DEFAULT, 0);
 
         return true;
     }
