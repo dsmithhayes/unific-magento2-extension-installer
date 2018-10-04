@@ -39,6 +39,7 @@ class Connection implements ConnectionInterface
      * @param \Unific\Extension\Helper\Hmac $hmacHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Unific\Extension\Model\Message\QueueFactory $queueFactory
+     * @param \Unific\Extension\Helper\Message\Queue $queueHelper
      */
     public function __construct(
             \Unific\Extension\Helper\Hmac $hmacHelper,
