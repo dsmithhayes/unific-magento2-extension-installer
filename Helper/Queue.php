@@ -56,8 +56,6 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
             foreach($collection as $queueItem)
             {
-                $this->logger->info('trying to send: ' . $queueItem->getGuid());
-
                 switch($queueItem->getRequestType())
                 {
                     case 'POST':
