@@ -60,13 +60,13 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
                 switch($queueItem->getRequestType())
                 {
-                    case 'post':
+                    case 'POST':
                         $type = \Zend_Http_Client::POST;
                         break;
-                    case 'put':
+                    case 'PUT':
                         $type = \Zend_Http_Client::PUT;
                         break;
-                    case 'delete':
+                    case 'DELETE':
                         $type = \Zend_Http_Client::DELETE;
                         break;
                     default:
