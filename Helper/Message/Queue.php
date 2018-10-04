@@ -12,12 +12,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
     public $queueMode = \Unific\Extension\Helper\Message\Queue::QUEUE_MODE_LIVE;
 
-    /*
-     * \Unific\Extension\Helper\Audit\Log
-     *
-     * Write logs to the audit log on failures
-     */
-    protected $auditLog;
+    protected $logger;
 
     /**
      * \Unific\Extension\Helper\Request
@@ -36,7 +31,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Unific\Extension\Helper\Request $requestHelper
-     * @param \Unific\Extension\Helper\Audit\Log $auditLog
+     * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Guid $guidHelper
      * @param \Unific\Extension\Model\Message\QueueFactory $queueFactory
      */
@@ -44,13 +39,13 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Unific\Extension\Helper\Request $requestHelper,
-        \Unific\Extension\Helper\Audit\Log $auditLog,
+        \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Guid $guidHelper,
         \Unific\Extension\Model\Message\QueueFactory $queueFactory)
     {
         parent::__construct($context);
 
-        $this->auditLog = $auditLog;
+        $this->logger = $logger;
         $this->requestHelper = $requestHelper;
         $this->scopeConfig = $scopeConfig;
         $this->guidHelper = $guidHelper;
@@ -110,9 +105,9 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
             'historical' => (int) $historical
         ));
 
-        $this->auditLog->log('Before saving to queue', $messageModel->getData());
+        $this->logger->info('Before saving to queue: ', json_encode($messageModel->getData()));
         $messageModel->save();
-        $this->auditLog->log('After saving to queue', $messageModel->getData());
+        $this->logger->info('After saving to queue: ', json_encode($messageModel->getData()));
 
         return $messageModel->getData('guid');
     }

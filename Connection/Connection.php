@@ -55,8 +55,6 @@ class Connection implements ConnectionInterface
 
     public function setup()
     {
-        $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-
         return $this;
     }
 
@@ -84,22 +82,6 @@ class Connection implements ConnectionInterface
     public function setConnection($connection)
     {
         $this->connection = $connection;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getObjectManager()
-    {
-        return $this->objectManager;
-    }
-
-    /**
-     * @param mixed $objectManager
-     */
-    public function setObjectManager($objectManager)
-    {
-        $this->objectManager = $objectManager;
     }
 
     public function getHmacHelper()
