@@ -111,11 +111,11 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         ));
 
         try {
-            $this->auditLog->log('Saving to queue');
+            $this->auditLog->log('Saving to queue', array());
             $messageModel->save();
         } catch (\Exception $e)
         {
-            $this->auditLog->log($e->getMessage());
+            $this->auditLog->log($e->getMessage(), $messageModel->getData());
         }
 
         return $messageModel->getData('guid');
