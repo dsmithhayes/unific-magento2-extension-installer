@@ -11,15 +11,20 @@ class ModeManagement implements ModeManagementInterface
      */
     protected $scopeConfig;
 
+    protected $configWriter;
+
     /**
      * ModeManagement constructor.
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ConfigResource\ConfigInterface $configWriter
      */
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ConfigResource\ConfigInterface $configWriter
     )
     {
         $this->scopeConfig = $scopeConfig;
+        $this->configWriter = $configWriter;
     }
 
     /**
@@ -32,7 +37,7 @@ class ModeManagement implements ModeManagementInterface
      */
     public function setMode($mode)
     {
-        $this->scopeConfig->saveConfig('unific/extension/mode', $mode, \Magento\Store\Model\ScopeInterface::SCOPE_TYPE_DEFAULT, 0);
+        $this->configWriter->saveConfig('unific/extension/mode', $mode, \Magento\Store\Model\ScopeInterface::SCOPE_TYPE_DEFAULT, 0);
 
         return true;
     }
