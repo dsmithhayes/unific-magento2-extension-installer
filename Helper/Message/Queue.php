@@ -106,7 +106,14 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         ));
 
         $this->logger->info('Before saving to queue: ', $messageModel->getData());
-        $messageModel->save();
+
+        try {
+            $messageModel->save();
+        } catch(\Exception $e)
+        {
+            $this->logger->info('Cant save queue: ' . $e->getMessage());
+        }
+
         $this->logger->info('After saving to queue: ', $messageModel->getData());
 
         return $messageModel->getData('guid');
