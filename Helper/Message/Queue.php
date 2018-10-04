@@ -110,13 +110,9 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
             'historical' => (int) $historical
         ));
 
-        try {
-            $this->auditLog->log('Saving to queue', array());
-            $messageModel->save();
-        } catch (\Exception $e)
-        {
-            $this->auditLog->log($e->getMessage(), $messageModel->getData());
-        }
+        $this->auditLog->log('Before saving to queue', $messageModel->getData());
+        $messageModel->save();
+        $this->auditLog->log('After saving to queue', $messageModel->getData());
 
         return $messageModel->getData('guid');
     }
