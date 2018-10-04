@@ -73,6 +73,41 @@ class UpgradeSchema implements  UpgradeSchemaInterface
             }
         }
 
+        if (version_compare($context->getVersion(), '1.0.8') < 0) {
+
+            // Get module table
+            $tableName = $setup->getTable('unific_extension_message_queue');
+
+            // Check if the table already exists
+            if ($setup->getConnection()->isTableExists($tableName) == true) {
+                // Declare data
+                $columns = [
+                    'headers' => [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => false,
+                        'comment' => 'Headers to send for the request',
+                    ],
+                    'url' => [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => false,
+                        'comment' => 'URL to send data to',
+                    ],
+                    'historical' => [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                        'nullable' => false,
+                        'default' => 0,
+                        'comment' => 'A historical entry',
+                    ],
+                ];
+
+                $connection = $setup->getConnection();
+                foreach ($columns as $name => $definition) {
+                    $connection->addColumn($tableName, $name, $definition);
+                }
+
+            }
+        }
+
         $setup->endSetup();
     }
 }

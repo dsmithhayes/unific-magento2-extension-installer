@@ -6,14 +6,9 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
-    <group id="unific_cron">
-        <job name="unific_abandoned_cart" instance="Unific\Extension\Helper\Cart" method="sendCartWebhook">
-            <schedule>0 3 * * *</schedule>
-        </job>
-    </group>
     <group id="unific_message">
         <job name="unific_message_queue" instance="Unific\Extension\Helper\Queue" method="process">
-            <schedule>*/5 * * * *</schedule>
+            <schedule>*/10 * * * *</schedule>
         </job>
     </group>
 </config>

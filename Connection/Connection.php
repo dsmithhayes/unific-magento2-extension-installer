@@ -29,19 +29,27 @@ class Connection implements ConnectionInterface
 
     protected $scopeConfig;
 
+    protected $queueFactory;
+
+    protected $queueHelper;
+
     /**
      * Connection constructor.
      *
      * @param \Unific\Extension\Helper\Hmac $hmacHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Unific\Extension\Model\Message\QueueFactory $queueFactory
      */
     public function __construct(
             \Unific\Extension\Helper\Hmac $hmacHelper,
-            \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-
+            \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+            \Unific\Extension\Model\Message\QueueFactory $queueFactory,
+            \Unific\Extension\Helper\Message\Queue $queueHelper
     ) {
         $this->hmacHelper = $hmacHelper;
         $this->scopeConfig = $scopeConfig;
+        $this->queueFactory = $queueFactory;
+        $this->queueHelper = $queueHelper;
     }
 
     public function setup()
@@ -49,6 +57,29 @@ class Connection implements ConnectionInterface
         $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
         return $this;
+    }
+
+    /**
+     * @param $url
+     * @param $jsonExtraHeaders
+     * @param $jsonData
+     * @param $requestType
+     * @param int $responseHttpCode
+     * @return bool
+     */
+    public function queueData($url, $jsonExtraHeaders, $jsonData, $requestType = \Zend_Http_Client::POST, $responseHttpCode = 200)
+    {
+        $queueModel = $this->queueFactory->create();
+        $queueModel->setData(array(
+            'url' => $url,
+            'headers' => $jsonExtraHeaders,
+            'message' => $jsonData,
+            'request_type' => $requestType,
+            'response_http_code' => $responseHttpCode
+        ));
+        $queueModel->save();
+
+        return true;
     }
 
     public function doRequest()

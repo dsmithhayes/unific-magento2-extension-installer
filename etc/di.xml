@@ -45,6 +45,7 @@
 
     <type name="Unific\Extension\Helper\Audit\Log"/>
     <type name="Unific\Extension\Helper\Guid"/>
+    <type name="Unific\Extension\Helper\Historical"/>
 
     <type name="Unific\Extension\Helper\Message\Queue">
         <arguments>
@@ -55,6 +56,7 @@
         </arguments>
     </type>
 
+    <preference for="Unific\Extension\Api\HistoricalManagementInterface" type="Unific\Extension\Model\Api\HistoricalManagement" />
     <preference for="Unific\Extension\Api\ModeManagementInterface" type="Unific\Extension\Model\Api\ModeManagement" />
     <preference for="Unific\Extension\Api\ReportManagementInterface" type="Unific\Extension\Model\Api\ReportManagement" />
     <preference for="Unific\Extension\Api\WebhookManagementInterface" type="Unific\Extension\Model\Api\WebhookManagement" />

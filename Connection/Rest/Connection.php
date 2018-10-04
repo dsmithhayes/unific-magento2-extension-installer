@@ -78,10 +78,39 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      * @param $url
      * @param array $data
      * @param array $extraHeaders
+     * @param bool $queue
+     * @param $requestType
+     * @return mixed
      */
-    public function post($url, $data = array(), $extraHeaders = array())
+    public function executeRequest($url, $data = array(), $extraHeaders = array(), $queue = false, $requestType = \Zend_Http_Client::POST)
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->setRawData(json_encode($data))->request(\Zend_Http_Client::POST);
+        // Ensure the request is always sent to the queue if its in burst mode
+        if($queue || $this->scopeConfig->getValue('unific/extension/mode') == 'burst')
+        {
+            return $this->queueHelper->queue($url, $data, $extraHeaders, $requestType);
+        } else {
+            return $this->sendData($url, $data, $extraHeaders, $requestType);
+        }
+    }
+
+    /**
+     * @param $url
+     * @param array $data
+     * @param array $extraHeaders
+     * @param bool $queue
+     * @param $requestType
+     * @return bool
+     */
+    public function sendData($url, $data = array(), $extraHeaders = array(), $requestType = \Zend_Http_Client::POST)
+    {
+        if($requestType == \Zend_Http_Client::GET)
+        {
+            $this->initConnection($url, $data, $extraHeaders)->setParameterGet($data)->request($requestType);
+        } else {
+            $this->initConnection($url, $data, $extraHeaders)->setRawData(json_encode($data))->request($requestType);
+        }
+
+        // @todo If last response is not in 200 range, (re) queue the data
 
         return $this->connection->getHttpClient()->getLastResponse();
     }
@@ -90,35 +119,47 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      * @param $url
      * @param array $data
      * @param array $extraHeaders
+     * @param bool $queue
+     * @return
      */
-    public function get($url, $data = array(), $extraHeaders = array())
+    public function post($url, $data = array(), $extraHeaders = array(), $queue = false)
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->setParameterGet($data)->request(\Zend_Http_Client::GET);
-
-        return $this->connection->getHttpClient()->getLastResponse();
+        return $this->executeRequest($url,  $data, $extraHeaders, $queue, \Zend_Http_Client::POST);
     }
 
     /**
      * @param $url
      * @param array $data
      * @param array $extraHeaders
+     * @param bool $queue
+     * @return
      */
-    public function put($url, $data = array(), $extraHeaders = array())
+    public function get($url, $data = array(), $extraHeaders = array(), $queue = false)
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->setRawData(json_encode($data))->request(\Zend_Http_Client::PUT);
-
-        return $this->connection->getHttpClient()->getLastResponse();
+        return $this->executeRequest($url, $data, $extraHeaders, $queue, \Zend_Http_Client::GET);
     }
 
     /**
      * @param $url
      * @param array $data
      * @param array $extraHeaders
+     * @param bool $queue
+     * @return
      */
-    public function delete($url, $data = array(), $extraHeaders = array())
+    public function put($url, $data = array(), $extraHeaders = array(), $queue = false)
     {
-        $result = $this->initConnection($url, $data, $extraHeaders)->setRawData(json_encode($data))->request(\Zend_Http_Client::DELETE);
+        return $this->executeRequest($url, $data, $extraHeaders, $queue, \Zend_Http_Client::PUT);
+    }
 
-        return $this->connection->getHttpClient()->getLastResponse();
+    /**
+     * @param $url
+     * @param array $data
+     * @param array $extraHeaders
+     * @param bool $queue
+     * @return
+     */
+    public function delete($url, $data = array(), $extraHeaders = array(), $queue = false)
+    {
+        return $this->executeRequest($url, $data, $extraHeaders, $queue, \Zend_Http_Client::DELETE);
     }
 }

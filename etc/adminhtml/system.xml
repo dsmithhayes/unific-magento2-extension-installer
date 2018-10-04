@@ -10,6 +10,10 @@
             <group id="extension" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
                    showInStore="1">
                 <label>General Settings</label>
+                <field id="endpoint" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Unific Integration Endpoint</label>
+                </field>
                 <field id="integration_key" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Unific Integration Identifier Key</label>
@@ -18,14 +22,11 @@
                        showInStore="1">
                     <label>Unific Integration Identifier</label>
                 </field>
+
                 <field id="mode" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Operation Mode</label>
                     <source_model>Unific\Extension\Model\Config\Source\Mode</source_model>
-                </field>
-                <field id="schedule" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
-                       showInStore="1">
-                    <label>Burst schedule (cron syntax)</label>
                 </field>
             </group>
 

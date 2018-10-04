@@ -13,8 +13,6 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
     public $queueMode = \Unific\Extension\Helper\Message\Queue::QUEUE_MODE_LIVE;
 
-    protected $objectManager;
-
     /*
      * \Unific\Extension\Helper\Audit\Log
      *
@@ -32,28 +30,32 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected $guidHelper;
 
+    protected $queueFactory;
+
     /**
      * Queue constructor.
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Unific\Extension\Helper\Request $requestHelper
      * @param \Unific\Extension\Helper\Audit\Log $auditLog
+     * @param \Unific\Extension\Helper\Guid $guidHelper
+     * @param \Unific\Extension\Model\Message\QueueFactory $queueFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Unific\Extension\Helper\Request $requestHelper,
         \Unific\Extension\Helper\Audit\Log $auditLog,
-        \Unific\Extension\Helper\Guid $guidHelper)
+        \Unific\Extension\Helper\Guid $guidHelper,
+        \Unific\Extension\Model\Message\QueueFactory $queueFactory)
     {
         parent::__construct($context);
-
-        $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
         $this->auditLog = $auditLog;
         $this->requestHelper = $requestHelper;
         $this->scopeConfig = $scopeConfig;
         $this->guidHelper = $guidHelper;
+        $this->queueFactory = $queueFactory;
     }
 
     /**
@@ -71,36 +73,41 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Queue a message for sending
      *
-     * @param array $data
      * @param $url
+     * @param $extraHeaders
+     * @param array $data
      * @param $requestType
+     * @param int $responseHttpCode
+     * @param int $retryAmount
+     * @param int $maxRetryAmount
+     * @param null $guid
+     * @param null $error
+     * @return
      */
-    public function queue(array $data, $url, $requestType = \Zend\Http\Request::METHOD_POST)
+    public function queue($url,
+                          $extraHeaders,
+                          $data,
+                          $requestType = \Zend_Http_Client::POST,
+                          $responseHttpCode = 200,
+                          $retryAmount = 0,
+                          $maxRetryAmount = 20,
+                          $guid = null,
+                          $error = null
+    )
     {
-        $messageModel = $this->objectManager->create('Unific\Extension\Model\Message\Queue');
-        $messageModel->setGuid($this->guidHelper->generateGuid());
+        $messageModel = $this->queueFactory->create();
+        $messageModel->setGuid($guid == null ? $this->guidHelper->generateGuid() : $guid);
         $messageModel->setMessage(json_encode($data));
         $messageModel->setRequestType($requestType);
-        $messageModel->setRetryAmount(0);
-        $messageModel->setMaxRetryAmount(20);
+        $messageModel->setUrl($url);
+        $messageModel->setHeaders(json_encode($extraHeaders));
+        $messageModel->setResponseHttpCode($responseHttpCode);
+        $messageModel->setRetryAmount($retryAmount);
+        $messageModel->setMaxRetryAmount($maxRetryAmount);
 
-        switch ($this->scopeConfig->getValue('unific/extension/mode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
-            case \Unific\Extension\Model\Message\Queue::QUEUE_MODE_BURST:
-                /** Lets save this to MySQL */
-                $messageModel->save();
+        $messageModel->save();
 
-                /** From here on a pickup script will handle the message */
-                break;
-            default:
-                /** Lets send this immediately */
-                $status = $this->requestHelper->sendMessage($messageModel, $url, $requestType);
-
-                if ($status['code'] !== 200) {
-                    $this->requeue($messageModel);
-                }
-
-                break;
-        }
+        return $messageModel->getGuid();
     }
 
     /**
