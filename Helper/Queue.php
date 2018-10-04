@@ -46,11 +46,15 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function sendDataFromQueue($isHistorical = false, $size = 100)
     {
+        $this->logger->info('Getting ready to send queue');
+
         $collection = $this->queueCollectionFactory->create();
         $collection->addFieldToFilter('historical', array('eq', (int) $isHistorical));
 
         if($collection->getSize() > 0)
         {
+            $this->logger->info('Items in queue: ' . $collection->getSize());
+
             $collection->setPageSize($size);
             $collection->setCurPage(1);
             $collection->load();
