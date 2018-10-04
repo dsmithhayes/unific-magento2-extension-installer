@@ -80,14 +80,15 @@ class Connection extends \Unific\Extension\Connection\Connection implements Conn
      * @param array $extraHeaders
      * @param bool $queue
      * @param $requestType
+     * @param bool $historical
      * @return mixed
      */
-    public function executeRequest($url, $data = array(), $extraHeaders = array(), $queue = false, $requestType = \Zend_Http_Client::POST)
+    public function executeRequest($url, $data = array(), $extraHeaders = array(), $queue = false, $requestType = \Zend_Http_Client::POST, $historical = false)
     {
         // Ensure the request is always sent to the queue if its in burst mode
         if($queue || $this->scopeConfig->getValue('unific/extension/mode') == 'burst')
         {
-            return $this->queueHelper->queue($url, $data, $extraHeaders, $requestType);
+            return $this->queueHelper->queue($url, $data, $extraHeaders, $requestType, $historical);
         } else {
             return $this->sendData($url, $data, $extraHeaders, $requestType);
         }

@@ -59,29 +59,6 @@ class Connection implements ConnectionInterface
         return $this;
     }
 
-    /**
-     * @param $url
-     * @param $jsonExtraHeaders
-     * @param $jsonData
-     * @param $requestType
-     * @param int $responseHttpCode
-     * @return bool
-     */
-    public function queueData($url, $jsonExtraHeaders, $jsonData, $requestType = \Zend_Http_Client::POST, $responseHttpCode = 200)
-    {
-        $queueModel = $this->queueFactory->create();
-        $queueModel->setData(array(
-            'url' => $url,
-            'headers' => $jsonExtraHeaders,
-            'message' => $jsonData,
-            'request_type' => $requestType,
-            'response_http_code' => $responseHttpCode
-        ));
-        $queueModel->save();
-
-        return true;
-    }
-
     public function doRequest()
     {
         return $this;

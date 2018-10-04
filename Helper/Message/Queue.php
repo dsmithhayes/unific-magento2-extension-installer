@@ -4,7 +4,6 @@ namespace Unific\Extension\Helper\Message;
 
 use Magento\Framework\Exception\InputException;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Unific\Extension\Helper\Audit\Log;
 
 class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -77,6 +76,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      * @param $extraHeaders
      * @param array $data
      * @param $requestType
+     * @param bool $historical
      * @param int $responseHttpCode
      * @param int $retryAmount
      * @param int $maxRetryAmount
@@ -88,6 +88,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
                           $extraHeaders,
                           $data,
                           $requestType = \Zend_Http_Client::POST,
+                          $historical = false,
                           $responseHttpCode = 200,
                           $retryAmount = 0,
                           $maxRetryAmount = 20,
@@ -96,18 +97,22 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
     )
     {
         $messageModel = $this->queueFactory->create();
-        $messageModel->setGuid($guid == null ? $this->guidHelper->generateGuid() : $guid);
-        $messageModel->setMessage(json_encode($data));
-        $messageModel->setRequestType($requestType);
-        $messageModel->setUrl($url);
-        $messageModel->setHeaders(json_encode($extraHeaders));
-        $messageModel->setResponseHttpCode($responseHttpCode);
-        $messageModel->setRetryAmount($retryAmount);
-        $messageModel->setMaxRetryAmount($maxRetryAmount);
+
+        $messageModel->setData(array(
+            'guid' => $guid == null ? $this->guidHelper->generateGuid() : $guid,
+            'url' => $url,
+            'headers' => json_encode($extraHeaders),
+            'message' => json_encode($data),
+            'request_type' => $requestType,
+            'response_http_code' => $responseHttpCode,
+            'retry_amount' => $retryAmount,
+            'max_retry_amount' => $maxRetryAmount,
+            'historical' => (int) $historical
+        ));
 
         $messageModel->save();
 
-        return $messageModel->getGuid();
+        return $messageModel->getData('guid');
     }
 
     /**
