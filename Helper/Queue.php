@@ -51,37 +51,31 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $collection = $this->queueCollectionFactory->create();
         $collection->addFieldToFilter('historical', array('eq', (int) $isHistorical));
+        $collection->setPageSize($size);
+        $collection->setCurPage(1);
 
-        if($collection->getSize() > 0)
+        foreach($collection as $queueItem)
         {
-            $collection->setPageSize($size);
-            $collection->setCurPage(1);
-
-            foreach($collection as $queueItem)
+            switch($queueItem->getRequestType())
             {
-                switch($queueItem->getRequestType())
-                {
-                    case 'POST':
-                        $type = \Zend_Http_Client::POST;
-                        break;
-                    case 'PUT':
-                        $type = \Zend_Http_Client::PUT;
-                        break;
-                    case 'DELETE':
-                        $type = \Zend_Http_Client::DELETE;
-                        break;
-                    default:
-                        $type = \Zend_Http_Client::GET;
-                        break;
-                }
-
-                $this->restConnection->sendData($queueItem->getUrl(), json_decode($queueItem->getMessage(), true), json_decode($queueItem->getHeaders(), true), $type);
+                case 'POST':
+                    $type = \Zend_Http_Client::POST;
+                    break;
+                case 'PUT':
+                    $type = \Zend_Http_Client::PUT;
+                    break;
+                case 'DELETE':
+                    $type = \Zend_Http_Client::DELETE;
+                    break;
+                default:
+                    $type = \Zend_Http_Client::GET;
+                    break;
             }
 
-            // Remove it from the database for now
-            $collection->walk('delete');
-        } else {
-            $this->logger->info('nothing to send');
+            $this->restConnection->sendData($queueItem->getUrl(), json_decode($queueItem->getMessage(), true), json_decode($queueItem->getHeaders(), true), $type);
         }
+
+        // Remove it from the database for now
+        $collection->walk('delete');
     }
 }
