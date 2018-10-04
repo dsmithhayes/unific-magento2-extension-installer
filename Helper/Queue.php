@@ -32,8 +32,6 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function process()
     {
-        $this->logger->info('Processing message queue');
-
         // Every time this triggers, process 100 entities from the message queue
         // Then send 10 historical entries too, which have 10 entities in them
         $this->sendDataFromQueue(false, 100);
@@ -51,8 +49,6 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         $collection = $this->queueCollectionFactory->create();
         $collection->addFieldToFilter('historical', array('eq', (int) $isHistorical));
 
-        $this->logger->info('Queue size: ' . $collection->getSize());
-
         if($collection->getSize() > 0)
         {
             $collection->setPageSize($size);
@@ -61,6 +57,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
             foreach($collection->getAllItems() as $queueItem)
             {
+                $this->logger->info('trying to send: ' . $queueItem->getGuid());
                 $this->restConnection->sendData($queueItem->getUrl(), json_decode($queueItem->getMessage(), true), json_decode($queueItem->getHeaders()), strtoupper($queueItem->getRequestType()));
             }
 
