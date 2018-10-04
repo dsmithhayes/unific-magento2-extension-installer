@@ -10,7 +10,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
     const QUEUE_MODE_LIVE = 'live';
     const QUEUE_MODE_BURST = 'burst';
 
-    public $queueMode = \Unific\Extension\Helper\Queue::QUEUE_MODE_LIVE;
+    public $queueMode = Queue::QUEUE_MODE_LIVE;
 
     protected $logger;
 
