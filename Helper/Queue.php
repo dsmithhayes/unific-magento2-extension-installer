@@ -51,6 +51,8 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         $collection = $this->queueCollectionFactory->create();
         $collection->addFieldToFilter('historical', array('eq', (int) $isHistorical));
 
+        $this->logger->info('Queue size: ' . $collection->getSize());
+
         if($collection->getSize() > 0)
         {
             $collection->setPageSize($size);
