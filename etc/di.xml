@@ -52,7 +52,9 @@
     <preference for="Unific\Extension\Api\ReportManagementInterface" type="Unific\Extension\Model\Api\ReportManagement" />
     <preference for="Unific\Extension\Api\WebhookManagementInterface" type="Unific\Extension\Model\Api\WebhookManagement" />
     <preference for="Unific\Extension\Api\SetupManagementInterface" type="Unific\Extension\Model\Api\SetupManagement" />
+    <preference for="Unific\Extension\Api\QueueRepositoryInterface" type="Unific\Extension\Model\Message\QueueRepository" />
 
+    <preference for="Unific\Extension\Api\Data\QueueInterface" type="Unific\Extension\Model\Message\Queue" />
     <preference for="Unific\Extension\Api\Data\IntegrationInterface" type="Unific\Extension\Model\Api\Data\Integration" />
     <preference for="Unific\Extension\Api\Data\HmacInterface" type="Unific\Extension\Model\Api\Data\Hmac" />
     <preference for="Unific\Extension\Api\Data\TotalsInterface" type="Unific\Extension\Model\Api\Data\Totals" />

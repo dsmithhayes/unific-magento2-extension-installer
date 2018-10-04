@@ -26,6 +26,8 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected $queueFactory;
 
+    protected $queueRepository;
+
     /**
      * Queue constructor.
      * @param \Magento\Framework\App\Helper\Context $context
@@ -34,6 +36,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Guid $guidHelper
      * @param \Unific\Extension\Model\Message\QueueFactory $queueFactory
+     * @param \Unific\Extension\Api\QueueRepositoryInterface $queueRepository
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -41,7 +44,8 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         \Unific\Extension\Helper\Request $requestHelper,
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Guid $guidHelper,
-        \Unific\Extension\Model\Message\QueueFactory $queueFactory)
+        \Unific\Extension\Model\Message\QueueFactory $queueFactory,
+        \Unific\Extension\Api\QueueRepositoryInterface $queueRepository)
     {
         parent::__construct($context);
 
@@ -50,6 +54,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         $this->scopeConfig = $scopeConfig;
         $this->guidHelper = $guidHelper;
         $this->queueFactory = $queueFactory;
+        $this->queueRepository = $queueRepository;
     }
 
     /**
@@ -68,8 +73,8 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      * Queue a message for sending
      *
      * @param $url
-     * @param $extraHeaders
      * @param array $data
+     * @param $extraHeaders
      * @param $requestType
      * @param bool $historical
      * @param int $responseHttpCode
@@ -80,8 +85,8 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      * @return
      */
     public function queue($url,
-                          $extraHeaders,
                           $data,
+                          $extraHeaders,
                           $requestType = \Zend_Http_Client::POST,
                           $historical = false,
                           $responseHttpCode = 200,
@@ -93,46 +98,19 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $messageModel = $this->queueFactory->create();
 
-        switch($requestType)
-        {
-            case \Zend_Http_Client::POST:
-                $type = 'post';
-                break;
-            case \Zend_Http_Client::PUT:
-                $type = 'put';
-                break;
-            case \Zend_Http_Client::DELETE:
-                $type = 'delete';
-                break;
-            default:
-                $type = 'get';
-                break;
-        }
+        $messageModel->setGuid($guid == null ? $this->guidHelper->generateGuid() : $guid);
+        $messageModel->setUrl($url);
+        $messageModel->setHeaders(json_encode($extraHeaders));
+        $messageModel->setMessage(json_encode($data));
+        $messageModel->setRequestType($requestType);
+        $messageModel->setResponseHttpCode($responseHttpCode);
+        $messageModel->setRetryAmount($retryAmount);
+        $messageModel->setMaxRetryAmount($maxRetryAmount);
+        $messageModel->setHistorical($historical);
 
-        $messageModel->setData(array(
-            'guid' => $guid == null ? $this->guidHelper->generateGuid() : $guid,
-            'url' => $url,
-            'headers' => json_encode($extraHeaders),
-            'message' => json_encode($data),
-            'request_type' => $type,
-            'response_http_code' => $responseHttpCode,
-            'retry_amount' => $retryAmount,
-            'max_retry_amount' => $maxRetryAmount,
-            'historical' => (int) $historical
-        ));
+        $this->queueRepository->save($messageModel);
 
-        $this->logger->info('Before saving to queue: ', $messageModel->getData());
-
-        try {
-            $messageModel->save();
-        } catch(\Exception $e)
-        {
-            $this->logger->info('Cant save queue: ' . $e->getMessage());
-        }
-
-        $this->logger->info('After saving to queue: ', $messageModel->getData());
-
-        return $messageModel->getData('guid');
+        return $messageModel->getGuid();
     }
 
     /**
