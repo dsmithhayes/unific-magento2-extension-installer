@@ -37,7 +37,7 @@
             <resource ref="Unific_Extension::mode"/>
         </resources>
     </route>
-    <route url="/V1/unific/mode/:mode" method="POST">
+    <route url="/V1/unific/mode/:mode" method="GET">
         <service class="Unific\Extension\Api\ModeManagementInterface" method="setMode"/>
         <resources>
             <resource ref="Unific_Extension::mode"/>
