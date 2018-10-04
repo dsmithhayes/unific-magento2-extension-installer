@@ -44,7 +44,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      * @param bool $isHistorical
      * @param int $size
      */
-    protected function getDataFromQueue($isHistorical = false, $size = 100)
+    protected function sendDataFromQueue($isHistorical = false, $size = 100)
     {
         $collection = $this->queueCollectionFactory->create();
         $collection->addFieldToFilter('historical', array('eq', (int) $isHistorical));
