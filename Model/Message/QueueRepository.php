@@ -1,6 +1,6 @@
 <?php
 
-namespace VinaiKopp\Kitchen\Model;
+namespace Unific\Extension\Model\Message;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Unific\Extension\Api\Data\QueueInterface;
