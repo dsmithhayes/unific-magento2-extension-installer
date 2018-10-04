@@ -47,15 +47,6 @@
     <type name="Unific\Extension\Helper\Guid"/>
     <type name="Unific\Extension\Helper\Historical"/>
 
-    <type name="Unific\Extension\Helper\Message\Queue">
-        <arguments>
-            <argument name="scopeConfig" xsi:type="object">\Magento\Framework\App\Config\ScopeConfigInterface</argument>
-            <argument name="requestHelper" xsi:type="object">\Unific\Extension\Helper\Request</argument>
-            <argument name="auditLog" xsi:type="object">\Unific\Extension\Helper\Audit\Log</argument>
-            <argument name="guidHelper" xsi:type="object">\Unific\Extension\Helper\Guid</argument>
-        </arguments>
-    </type>
-
     <preference for="Unific\Extension\Api\HistoricalManagementInterface" type="Unific\Extension\Model\Api\HistoricalManagement" />
     <preference for="Unific\Extension\Api\ModeManagementInterface" type="Unific\Extension\Model\Api\ModeManagement" />
     <preference for="Unific\Extension\Api\ReportManagementInterface" type="Unific\Extension\Model\Api\ReportManagement" />
