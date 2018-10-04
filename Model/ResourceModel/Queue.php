@@ -12,6 +12,7 @@ class Queue extends AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('unific_extension_message_queue');
+        $this->_init('unific_extension_message_queue', 'guid');
+        $this->_isPkAutoIncrement = false;
     }
 }
