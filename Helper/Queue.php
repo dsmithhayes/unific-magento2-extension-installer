@@ -74,7 +74,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
                         break;
                 }
 
-                $this->restConnection->sendData($queueItem->getUrl(), json_decode($queueItem->getMessage(), true), json_decode($queueItem->getHeaders()), $type);
+                $this->restConnection->sendData($queueItem->getUrl(), json_decode($queueItem->getMessage(), true), json_decode($queueItem->getHeaders(), true), $type);
             }
 
             // Remove it from the database for now
