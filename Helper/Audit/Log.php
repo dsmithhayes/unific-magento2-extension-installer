@@ -21,10 +21,11 @@ class Log extends \Magento\Framework\App\Helper\AbstractHelper
      * Log constructor.
      *
      * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Unific\Extension\Helper\Guid $guidHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        Guid $guidHelper)
+        \Unific\Extension\Helper\Guid $guidHelper)
     {
         parent::__construct($context);
 
