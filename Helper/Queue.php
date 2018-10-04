@@ -62,6 +62,8 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
             // Remove it from the database for now
             $collection->walk('delete');
+        } else {
+            $this->logger->info('nothing to send');
         }
     }
 }
