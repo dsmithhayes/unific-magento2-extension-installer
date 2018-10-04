@@ -1,6 +1,6 @@
 <?php
 
-namespace Unific\Extension\Model\Message;
+namespace Unific\Extension\Model;
 
 use Magento\Framework\Model\AbstractModel;
 use Unific\Extension\Api\Data\QueueInterface;
@@ -13,7 +13,7 @@ class Queue extends AbstractModel implements QueueInterface
      */
     protected function _construct()
     {
-        $this->_init('Unific\Extension\Model\ResourceModel\Message\Queue');
+        $this->_init(ResourceModel\Queue::class);
     }
 
     /**

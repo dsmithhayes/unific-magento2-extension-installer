@@ -10,7 +10,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
     const QUEUE_MODE_LIVE = 'live';
     const QUEUE_MODE_BURST = 'burst';
 
-    public $queueMode = \Unific\Extension\Helper\Message\Queue::QUEUE_MODE_LIVE;
+    public $queueMode = \Unific\Extension\Helper\Queue::QUEUE_MODE_LIVE;
 
     protected $logger;
 
@@ -20,12 +20,24 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $requestHelper;
 
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
     protected $scopeConfig;
 
+    /**
+     * @var \Unific\Extension\Helper\Guid
+     */
     protected $guidHelper;
 
+    /**
+     * @var \Unific\Extension\Model\QueueFactory
+     */
     protected $queueFactory;
 
+    /**
+     * @var \Unific\Extension\Api\QueueRepositoryInterface
+     */
     protected $queueRepository;
 
     /**
@@ -35,7 +47,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Unific\Extension\Helper\Request $requestHelper
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Unific\Extension\Helper\Guid $guidHelper
-     * @param \Unific\Extension\Model\Message\QueueFactory $queueFactory
+     * @param \Unific\Extension\Model\QueueFactory $queueFactory
      * @param \Unific\Extension\Api\QueueRepositoryInterface $queueRepository
      */
     public function __construct(
@@ -44,7 +56,7 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
         \Unific\Extension\Helper\Request $requestHelper,
         \Unific\Extension\Logger\Logger $logger,
         \Unific\Extension\Helper\Guid $guidHelper,
-        \Unific\Extension\Model\Message\QueueFactory $queueFactory,
+        \Unific\Extension\Model\QueueFactory $queueFactory,
         \Unific\Extension\Api\QueueRepositoryInterface $queueRepository)
     {
         parent::__construct($context);
@@ -114,11 +126,11 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param \Unific\Extension\Model\Message\Queue $message
+     * @param \Unific\Extension\Model\Queue $message
      *
      * Requeue a message if sending failed
      */
-    public function requeue(\Unific\Extension\Model\Message\Queue $message)
+    public function requeue(\Unific\Extension\Model\Queue $message)
     {
         if ($message->getRetryAmount() < $message->getMaxRetryAmount()) {
             $message->setRetryAmount($message->getRetryAmount() + 1);
@@ -130,12 +142,12 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param \Unific\Extension\Model\Message\Queue $message
+     * @param \Unific\Extension\Model\Queue $message
      * @param int $errorType
      *
      * The message failed to send and is written to the audit log
      */
-    public function logMessage(\Unific\Extension\Model\Message\Queue $message, $errorType = Log::LOG_SUCCESS)
+    public function logMessage(\Unific\Extension\Model\Queue $message, $errorType = Log::LOG_SUCCESS)
     {
         $this->auditLog->log(
             $message->getMessage(),

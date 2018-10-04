@@ -1,6 +1,6 @@
 <?php
 
-namespace Unific\Extension\Model\Message;
+namespace Unific\Extension\Model;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Unific\Extension\Api\Data\QueueInterface;
@@ -19,6 +19,10 @@ class QueueRepository implements QueueRepositoryInterface
         $this->queueFactory = $queueFactory;
     }
 
+    /**
+     * @param $id
+     * @return QueueInterface
+     */
     public function getById($id)
     {
         $queue = $this->hamburgerFactory->create();
@@ -29,17 +33,28 @@ class QueueRepository implements QueueRepositoryInterface
         return $queue;
     }
 
+    /**
+     * @param QueueInterface $queue
+     * @return QueueInterface
+     */
     public function save(QueueInterface $queue)
     {
         $queue->getResource()->save($queue);
         return $queue;
     }
 
+    /**
+     * @param QueueInterface $queue
+     */
     public function delete(QueueInterface $queue)
     {
         $queue->getResource()->delete($queue);
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function deleteById($id)
     {
         $queue = $this->hamburgerFactory->create();

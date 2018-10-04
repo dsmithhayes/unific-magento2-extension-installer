@@ -1,6 +1,6 @@
 <?php
 
-namespace Unific\Extension\Model\ResourceModel\Audit\Log;
+namespace Unific\Extension\Model\ResourceModel\Queue;
 
 class CollectionFactory
 {
@@ -34,7 +34,7 @@ class CollectionFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Unific\Extension\Model\ResourceModel\Message\Queue\Collection
+     * @return \Unific\Extension\Model\ResourceModel\Queue\Collection
      */
     public function create(array $data = array())
     {

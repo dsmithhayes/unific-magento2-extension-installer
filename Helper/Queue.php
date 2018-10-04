@@ -15,13 +15,13 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      * OrderPlugin constructor.
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Unific\Extension\Logger\Logger $logger
-     * @param \Unific\Extension\Model\ResourceModel\Message\Queue\CollectionFactory $queueCollectionFactory
+     * @param \Unific\Extension\Model\ResourceModel\Queue\CollectionFactory $queueCollectionFactory
      * @param \Unific\Extension\Connection\Rest\Connection $restConnection
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Unific\Extension\Logger\Logger $logger,
-        \Unific\Extension\Model\ResourceModel\Message\Queue\CollectionFactory $queueCollectionFactory,
+        \Unific\Extension\Model\ResourceModel\Queue\CollectionFactory $queueCollectionFactory,
         \Unific\Extension\Connection\Rest\Connection $restConnection
     )
     {

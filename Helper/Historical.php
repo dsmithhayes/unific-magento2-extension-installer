@@ -26,13 +26,13 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
      * Request constructor.
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Unific\Extension\Model\Message\Queue $queueCollection
+     * @param \Unific\Extension\Model\Queue $queueCollection
      * @param \Unific\Extension\Logger\Logger $logger
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Unific\Extension\Model\Message\Queue $queueCollection,
+        \Unific\Extension\Model\Queue $queueCollection,
         \Unific\Extension\Logger\Logger $logger,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,

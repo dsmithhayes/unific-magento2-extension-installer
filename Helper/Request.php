@@ -62,12 +62,12 @@ class Request extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * This sends the actual message via a REST request to Unific
      *
-     * @param \Unific\Extension\Model\Message\Queue $messageModel
+     * @param \Unific\Extension\Model\Queue $messageModel
      * @param $url
      * @param string $requestType
      * @return string Result message
      */
-    public function sendMessage(\Unific\Extension\Model\Message\Queue $messageModel, $url, $requestType = \Zend\Http\Request::METHOD_POST)
+    public function sendMessage(\Unific\Extension\Model\Queue $messageModel, $url, $requestType = \Zend\Http\Request::METHOD_POST)
     {
         $this->httpRequest->setHeaders($this->httpHeaders);
         $this->httpRequest->setUri($url);

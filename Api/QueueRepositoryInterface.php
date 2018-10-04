@@ -6,18 +6,25 @@ interface QueueRepositoryInterface
 {
     /**
      * Create or update a data
+     * @param Data\QueueInterface $queue
      */
-    public function save(\Unific\Extension\Api\Data\QueueInterface $queue);
+    public function save(Data\QueueInterface $queue);
 
+    /**
+     * @param $queueGuid
+     * @return Data\QueueInterface $queue
+     */
     public function getById($queueGuid);
 
     /**
      * Delete test.
+     * @param Data\QueueInterface $queue
      */
-    public function delete(\Unific\Extension\Api\Data\QueueInterface $queue);
+    public function delete(Data\QueueInterface $queue);
 
     /**
      * Delete test by ID.
+     * @return bool
      */
     public function deleteById($queueGuid);
 }

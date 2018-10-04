@@ -1,6 +1,6 @@
 <?php
 
-namespace Unific\Extension\Model\ResourceModel\Message\Queue;
+namespace Unific\Extension\Model\ResourceModel\Queue;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
@@ -17,7 +17,7 @@ class Collection extends AbstractCollection
      */
     protected function _construct()
     {
-        $this->_init('Unific\Extension\Model\Message\Queue',
-            'Unific\Extension\Model\ResourceModel\Message\Queue');
+        $this->_init('Unific\Extension\Model\Queue',
+            'Unific\Extension\Model\ResourceModel\Queue');
     }
 }

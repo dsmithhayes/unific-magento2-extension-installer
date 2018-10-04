@@ -38,13 +38,13 @@ class Connection implements ConnectionInterface
      *
      * @param \Unific\Extension\Helper\Hmac $hmacHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Unific\Extension\Model\Message\QueueFactory $queueFactory
+     * @param \Unific\Extension\Model\QueueFactory $queueFactory
      * @param \Unific\Extension\Helper\Message\Queue $queueHelper
      */
     public function __construct(
             \Unific\Extension\Helper\Hmac $hmacHelper,
             \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-            \Unific\Extension\Model\Message\QueueFactory $queueFactory,
+            \Unific\Extension\Model\QueueFactory $queueFactory,
             \Unific\Extension\Helper\Message\Queue $queueHelper
     ) {
         $this->hmacHelper = $hmacHelper;
