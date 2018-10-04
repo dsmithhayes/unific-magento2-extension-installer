@@ -46,22 +46,35 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function sendDataFromQueue($isHistorical = false, $size = 100)
     {
-        $this->logger->info('Getting ready to send queue');
-
         $collection = $this->queueCollectionFactory->create();
         $collection->addFieldToFilter('historical', array('eq', (int) $isHistorical));
 
         if($collection->getSize() > 0)
         {
-            $this->logger->info('Items in queue: ' . $collection->getSize());
-
             $collection->setPageSize($size);
             $collection->setCurPage(1);
 
             foreach($collection as $queueItem)
             {
                 $this->logger->info('trying to send: ' . $queueItem->getGuid());
-                $this->restConnection->sendData($queueItem->getUrl(), json_decode($queueItem->getMessage(), true), json_decode($queueItem->getHeaders()), strtoupper($queueItem->getRequestType()));
+
+                switch($queueItem->getRequestType())
+                {
+                    case 'post':
+                        $type = \Zend_Http_Client::POST;
+                        break;
+                    case 'put':
+                        $type = \Zend_Http_Client::PUT;
+                        break;
+                    case 'delete':
+                        $type = \Zend_Http_Client::DELETE;
+                        break;
+                    default:
+                        $type = \Zend_Http_Client::GET;
+                        break;
+                }
+
+                $this->restConnection->sendData($queueItem->getUrl(), json_decode($queueItem->getMessage(), true), json_decode($queueItem->getHeaders()), $type);
             }
 
             // Remove it from the database for now
