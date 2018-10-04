@@ -27,14 +27,12 @@ class ModeManagement implements ModeManagementInterface
      *
      * @api
      * @param string $mode burst or live
-     * @param int $intervalInSeconds when in burst mode
      *
      * @return bool true on success
      */
-    public function setMode($mode, $intervalInSeconds = 0)
+    public function setMode($mode)
     {
         $this->scopeConfig->setValue('unific/extension/mode', $mode, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        $this->scopeConfig->setValue('unific/extension/interval', $intervalInSeconds, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
         return true;
     }

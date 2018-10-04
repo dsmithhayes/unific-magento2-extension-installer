@@ -9,11 +9,10 @@ interface ModeManagementInterface
      *
      * @api
      * @param string $mode burst or live
-     * @param int $intervalInSeconds when in burst mode
      *
      * @return bool true on success
      */
-    public function setMode($mode, $intervalInSeconds = 0);
+    public function setMode($mode);
 
     /**
      * Returns the mode
