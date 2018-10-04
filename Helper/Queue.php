@@ -32,10 +32,13 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function process()
     {
-        // Every time this triggers, process 100 entities from the message queue
-        // Then send 10 historical entries too, which have 10 entities in them
-        $this->sendDataFromQueue(false, 100);
-        $this->sendDataFromQueue(true, 10);
+        $collection = $this->queueCollectionFactory->create();
+        if($collection->getSize() > 0) {
+            // Every time this triggers, process 100 entities from the message queue
+            // Then send 10 historical entries too, which have 10 entities in them
+            $this->sendDataFromQueue(false, 100);
+            $this->sendDataFromQueue(true, 10);
+        }
 
         return true;
     }
