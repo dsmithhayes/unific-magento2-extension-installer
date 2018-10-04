@@ -34,29 +34,20 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
     {
         // Every time this triggers, process 100 entities from the message queue
         // Then send 10 historical entries too, which have 10 entities in them
-        $queueData = $this->popDataFromQueue(false, 100);
-        $queueData = array_merge($queueData, $this->popDataFromQueue(true, 10));
+        $this->sendDataFromQueue(false, 100);
+        $this->sendDataFromQueue(true, 10);
 
-        if(count($queueData) > 0)
-        {
-            foreach($queueData as $queueItem)
-            {
-                $this->restConnection->sendData($queueItem['url'], json_decode($queueItem['message'], true), json_decode($queueItem['headers'], $queueItem['request_type']));
-            }
-        }
+        return true;
     }
 
     /**
      * @param bool $isHistorical
      * @param int $size
-     * @return mixed
      */
-    protected function popDataFromQueue($isHistorical = false, $size = 100)
+    protected function getDataFromQueue($isHistorical = false, $size = 100)
     {
         $collection = $this->queueCollectionFactory->create();
         $collection->addFieldToFilter('historical', array('eq', (int) $isHistorical));
-
-        $returnData = array();
 
         if($collection->getSize() > 0)
         {
@@ -64,13 +55,13 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
             $collection->setCurPage(1);
             $collection->load();
 
-            $returnData = $collection->getData();
+            foreach($collection->getAllItems() as $queueItem)
+            {
+                $this->restConnection->sendData($queueItem->getUrl(), json_decode($queueItem->getMessage(), true), json_decode($queueItem->getHeaders()), strtoupper($queueItem->getRequestType()));
+            }
 
             // Remove it from the database for now
             $collection->walk('delete');
         }
-
-
-        return $returnData;
     }
 }
