@@ -102,7 +102,13 @@ class AbstractPlugin
                         )
                     );
 
-                    $this->logger->info($response->getBody());
+                    if(is_string($response))
+                    {
+                        $this->logger->info('Message queued for sending: ' . $response);
+                    } else {
+                        $this->logger->info($response->getBody());
+                    }
+
                 } catch(\Exception $e)
                 {
                     $this->logger->error('Exception ' . $e->getCode() . ': ' . $e->getMessage());
