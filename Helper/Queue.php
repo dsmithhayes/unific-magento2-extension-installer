@@ -57,9 +57,8 @@ class Queue extends \Magento\Framework\App\Helper\AbstractHelper
 
             $collection->setPageSize($size);
             $collection->setCurPage(1);
-            $collection->load();
 
-            foreach($collection->getAllItems() as $queueItem)
+            foreach($collection as $queueItem)
             {
                 $this->logger->info('trying to send: ' . $queueItem->getGuid());
                 $this->restConnection->sendData($queueItem->getUrl(), json_decode($queueItem->getMessage(), true), json_decode($queueItem->getHeaders()), strtoupper($queueItem->getRequestType()));
