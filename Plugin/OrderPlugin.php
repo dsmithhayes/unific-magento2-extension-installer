@@ -23,16 +23,11 @@ class OrderPlugin extends AbstractPlugin
             $this->quote = $this->quoteFactory->create()->load($this->order->getQuoteId());
         }
 
-        foreach ($this->getRequestCollection('before') as $request)
-        {
-            $this->handleConditions($request->getId(), $request);
-        }
-
         $this->order = $proceed($order);
 
         if($this->order->getCustomerId() != null)
         {
-            $this->customer = $this->customerRegistry->retrieve($this->order->getCustomerId());
+            $this->customer = $this->customerFactory->create()->load($this->order->getCustomerId());
         }
 
         foreach ($this->getRequestCollection() as $request)

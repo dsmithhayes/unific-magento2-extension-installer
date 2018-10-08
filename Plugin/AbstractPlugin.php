@@ -196,7 +196,12 @@ class AbstractPlugin
         if($this->customer == null) {
             if($this->order != null)
             {
-                $returnData = $this->customerFactory->create()->load($this->order->getCustomerId())->getData();
+                if($this->order->getCustomerId() == null)
+                {
+                    $returnData['customer_is_guest'] = 1;
+                } else {
+                    $returnData = $this->customerFactory->create()->load($this->order->getCustomerId())->getData();
+                }
                 $returnData['email'] = $this->order->getCustomerEmail();
                 $returnData['addresses'] = array();
                 $returnData['addresses']['billing'] = $this->order->getBillingAddress()->getData();
@@ -204,7 +209,7 @@ class AbstractPlugin
                 $returnData['payment'] = $this->order->getPayment()->getData();
             }
         } else {
-            $returnData = $this->customer->getData();
+            $returnData = $this->customerFactory->create()->load($this->order->getCustomerId())->getData();
 
             $returnData['addresses'] = array();
             foreach($this->customer->getAddresses() as $address)
