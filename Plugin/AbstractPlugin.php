@@ -261,15 +261,12 @@ class AbstractPlugin
         {
             $itemData = $item->getData();
 
-            for($i=0;$i<count($itemData);$i++)
+            if(isset($itemData['free_shipping']))
             {
-                if(isset($itemData[$i]) && isset($itemData[$i]['free_shipping']))
-                {
-                    $itemData[$i]['free_shipping'] = ($itemData[$i]['free_shipping'] == true) ? 1 : 0;
-                }
+                $itemData['free_shipping'] = ($itemData['free_shipping'] == true) ? 1 : 0;
             }
 
-            $returnData['order_items'][] = $item->getData();
+            $returnData['order_items'][] = $itemData;
         }
 
         $returnData['addresses'] = array();
