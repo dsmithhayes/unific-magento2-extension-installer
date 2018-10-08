@@ -269,7 +269,7 @@ class AbstractPlugin
                 }
             }
 
-            $returnData['items'][] = $item->getData();
+            $returnData['order_items'][] = $item->getData();
         }
 
         $returnData['addresses'] = array();
