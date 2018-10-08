@@ -193,6 +193,7 @@ class AbstractPlugin
         if($this->customer == null) {
             if($this->order != null)
             {
+                $returnData = $this->customerRegistry->retrieve($this->order->getCustomerId())->getData();
                 $returnData['email'] = $this->order->getCustomerEmail();
                 $returnData['addresses'] = array();
                 $returnData['addresses']['billing'] = $this->order->getBillingAddress()->getData();
