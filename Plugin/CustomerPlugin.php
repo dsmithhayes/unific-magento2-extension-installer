@@ -17,24 +17,24 @@ class CustomerPlugin extends AbstractPlugin
     public function aroundSave($subject, callable $proceed, $customer, $passwordHash = null)
     {
         $this->setSubject($customer);
+        $this->customer = $customer;
 
         foreach ($this->getRequestCollection('before') as $request)
         {
             if($customer && $customer->getId() != null)
             {
-                $this->customer = $this->customerRegistry->retrieve($customer->getId());
                 $this->handleConditions($request->getId(), $request);
             }
 
         }
 
         $result = $proceed($customer, $passwordHash);
-        $this->customer = $customer;
 
         foreach ($this->getRequestCollection() as $request)
         {
             if($customer && $customer->getId() != null)
             {
+                $this->customer = $this->customerRegistry->retrieve($customer->getId());
                 $this->handleConditions($request->getId(), $request);
             }
 
