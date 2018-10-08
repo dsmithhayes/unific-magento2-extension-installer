@@ -29,12 +29,12 @@ class CustomerPlugin extends AbstractPlugin
         }
 
         $result = $proceed($customer, $passwordHash);
+        $this->customer = $customer;
 
         foreach ($this->getRequestCollection() as $request)
         {
             if($customer && $customer->getId() != null)
             {
-                $this->customer = $this->customerRegistry->retrieve($customer->getId());
                 $this->handleConditions($request->getId(), $request);
             }
 
