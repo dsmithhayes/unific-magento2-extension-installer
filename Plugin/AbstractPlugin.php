@@ -17,6 +17,7 @@ class AbstractPlugin
 
     protected $orderRepository;
     protected $customerRegistry;
+    protected $customerFactory;
     protected $dataObjectFactory;
     protected $quoteFactory;
 
@@ -48,6 +49,7 @@ class AbstractPlugin
         \Unific\Extension\Model\RequestFactory $requestFactory,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Framework\DataObjectFactory $dataObjectFactory,
         \Magento\Quote\Model\QuoteFactory $quoteFactory
     )
@@ -60,6 +62,7 @@ class AbstractPlugin
 
         $this->orderRepository = $orderRepository;
         $this->customerRegistry = $customerRegistry;
+        $this->customerFactory = $customerFactory;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->quoteFactory = $quoteFactory;
     }
@@ -193,7 +196,7 @@ class AbstractPlugin
         if($this->customer == null) {
             if($this->order != null)
             {
-                $returnData = $this->customerRegistry->retrieve($this->order->getCustomerId())->getData();
+                $returnData = $this->customerFactory->create()->load($this->order->getCustomerId())->getData();
                 $returnData['email'] = $this->order->getCustomerEmail();
                 $returnData['addresses'] = array();
                 $returnData['addresses']['billing'] = $this->order->getBillingAddress()->getData();
