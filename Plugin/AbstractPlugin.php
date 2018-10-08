@@ -259,6 +259,16 @@ class AbstractPlugin
         $returnData['items'] = array();
         foreach($this->order->getAllItems() as $item)
         {
+            $itemData = $item->getData();
+
+            foreach($itemData as $key => $item)
+            {
+                if(isset($itemData[$key]['free_shipping']))
+                {
+                    $itemData[$key]['free_shipping'] = ($itemData[$key]['free_shipping'] == true) ? 1 : 0;
+                }
+            }
+
             $returnData['items'][] = $item->getData();
         }
 
