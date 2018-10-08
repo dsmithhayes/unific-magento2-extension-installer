@@ -209,7 +209,7 @@ class AbstractPlugin
                 $returnData['payment'] = $this->order->getPayment()->getData();
             }
         } else {
-            $returnData = $this->customerFactory->create()->load($this->customer->getId())->getData();
+            $returnData = $this->customer->getData();
 
             $returnData['addresses'] = array();
             foreach($this->customer->getAddresses() as $address)
