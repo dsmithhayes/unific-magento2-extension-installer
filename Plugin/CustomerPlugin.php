@@ -19,22 +19,23 @@ class CustomerPlugin extends AbstractPlugin
         $this->setSubject($customer);
         $this->customer = $customer;
 
+        $result = $proceed($customer, $passwordHash);
+
         foreach ($this->getRequestCollection('before') as $request)
         {
             if($customer && $customer->getId() != null)
             {
+                $this->customer = $this->customerFactory->create()->load($customer->getId())->getData();
                 $this->handleConditions($request->getId(), $request);
             }
 
         }
 
-        $result = $proceed($customer, $passwordHash);
-
         foreach ($this->getRequestCollection() as $request)
         {
             if($customer && $customer->getId() != null)
             {
-                $this->customer = $this->customerRegistry->retrieve($customer->getId());
+                $this->customer = $this->customerFactory->create()->load($customer->getId())->getData();
                 $this->handleConditions($request->getId(), $request);
             }
 
