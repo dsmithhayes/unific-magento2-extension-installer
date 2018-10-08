@@ -261,11 +261,11 @@ class AbstractPlugin
         {
             $itemData = $item->getData();
 
-            foreach($itemData as $key => $item)
+            for($i=0;$i<count($itemData);$i++)
             {
-                if(isset($itemData[$key]['free_shipping']))
+                if(isset($itemData[$i]) && isset($itemData[$i]['free_shipping']))
                 {
-                    $itemData[$key]['free_shipping'] = ($itemData[$key]['free_shipping'] == true) ? 1 : 0;
+                    $itemData[$i]['free_shipping'] = ($itemData[$i]['free_shipping'] == true) ? 1 : 0;
                 }
             }
 
