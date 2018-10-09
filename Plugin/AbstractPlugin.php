@@ -203,6 +203,8 @@ class AbstractPlugin
                     $returnData = $this->customerFactory->create()->load($this->order->getCustomerId())->getData();
                 }
                 $returnData['email'] = $this->order->getCustomerEmail();
+                $returnData['created_at'] = $this->order->getCreatedAt();
+                $returnData['updated_at'] = $this->order->getUpdatedAt();
                 $returnData['addresses'] = array();
                 $returnData['addresses']['billing'] = $this->order->getBillingAddress()->getData();
                 $returnData['addresses']['shipping'] = $this->order->getShippingAddress()->getData();
