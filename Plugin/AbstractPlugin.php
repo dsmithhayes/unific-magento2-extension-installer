@@ -210,6 +210,9 @@ class AbstractPlugin
             }
         } else {
             $returnData = $this->customer->getData();
+            $returnData['customer_is_guest'] = ($this->customer->getId() == null) ? 1 : 0;
+            $returnData['created_at'] = $this->customer->getCreatedAt();
+            $returnData['updated_at'] = $this->customer->getUpdatedAt();
 
             $returnData['addresses'] = array();
             foreach($this->customer->getAddresses() as $address)
