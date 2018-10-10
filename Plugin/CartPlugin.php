@@ -27,6 +27,11 @@ class CartPlugin extends AbstractPlugin
 
         $data = $address->getData();
 
+        $this->quote->setCustomerFirstname($data['firstname']);
+        $this->quote->setCustomerMiddlename(isset($data['middlename']) ? $data['middlename'] : '');
+        $this->quote->setCustomerLastname($data['lastname']);
+        $this->quote->setCustomerEmail($data['email']);
+
         if(isset($data['street']) && $data['street'] != null)
         {
             $addressData = array();

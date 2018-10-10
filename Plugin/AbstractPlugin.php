@@ -198,6 +198,7 @@ class AbstractPlugin
             {
                 if($this->order->getCustomerId() == null)
                 {
+                    $returnData['entity_id'] = 0;
                     $returnData['customer_is_guest'] = 1;
                 } else {
                     $returnData = $this->customerFactory->create()->load($this->order->getCustomerId())->getData();
@@ -270,16 +271,11 @@ class AbstractPlugin
 
         $returnData = $this->order->getData();
 
-        $returnData['items'] = array();
+        $returnData['order_items'] = array();
         foreach($this->order->getAllItems() as $item)
         {
             $itemData = $item->getData();
-
-            if(isset($itemData['free_shipping']))
-            {
-                $itemData['free_shipping'] = ($itemData['free_shipping'] == true) ? 1 : 0;
-            }
-
+            $itemData['free_shipping'] = (isset($itemData['free_shipping']) && $itemData['free_shipping'] == true) ? 1 : 0;
             $returnData['order_items'][] = $itemData;
         }
 
