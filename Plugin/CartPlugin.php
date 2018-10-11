@@ -42,14 +42,10 @@ class CartPlugin extends AbstractPlugin
 
         $returnValue = $proceed($cartId, $address);
 
-        $data = $address->getData();
-
-        $this->quote->setCustomerFirstname(isset($data['firstname']) ? $data['firstname'] : '');
-        $this->quote->setCustomerMiddlename(isset($data['middlename']) ? $data['middlename'] : '');
-        $this->quote->setCustomerLastname(isset($data['lastname']) ? $data['lastname'] : '');
-
-
-        $this->quote->setCustomerEmail(isset($data['email']) ? $data['email'] : '');
+        $this->quote->setCustomerFirstname($address->getFirstname());
+        $this->quote->setCustomerMiddlename($address->getMiddlename());
+        $this->quote->setCustomerLastname($address->getLastname());
+        $this->quote->setCustomerEmail($address->getEmail());
 
         if($address->getStreet())
         {
