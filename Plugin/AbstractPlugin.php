@@ -200,14 +200,25 @@ class AbstractPlugin
         $returnData = array();
 
         if($this->customer != null) {
-            $returnData = $this->customer->getData();
-
             if($this->customer->getId() == null) {
                 $returnData['entity_id'] = 0;
                 $returnData['customer_is_guest'] = 1;
-                $returnData['created_at'] = $this->customer->getCreatedAt();
-                $returnData['updated_at'] = $this->customer->getUpdatedAt();
+            } else {
+                $returnData['entity_id'] = $this->customer->getId();
+                $returnData['customer_is_guest'] = 0;
             }
+
+            $returnData['email'] = $this->customer->getEmail();
+            $returnData['prefix'] = $this->customer->getPrefix();
+            $returnData['firstname'] = $this->customer->getFirstname();
+            $returnData['middlename'] = $this->customer->getMiddlename();
+            $returnData['lastname'] = $this->customer->getLastname();
+            $returnData['suffix'] = $this->customer->getSuffix();
+            $returnData['dob'] = $this->customer->getDob();
+            $returnData['gender'] = $this->customer->getGender();
+
+            $returnData['created_at'] = $this->customer->getCreatedAt();
+            $returnData['updated_at'] = $this->customer->getUpdatedAt();
 
             $returnData['addresses'] = array();
             foreach($this->customer->getAddresses() as $address)
