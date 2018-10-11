@@ -50,7 +50,7 @@ class AbstractPlugin
         \Unific\Extension\Model\RequestFactory $requestFactory,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
-        \Magento\Customer\Model\Data\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Framework\DataObjectFactory $dataObjectFactory,
         \Magento\Quote\Model\QuoteFactory $quoteFactory
     )
