@@ -17,6 +17,7 @@ class OrderPlugin extends AbstractPlugin
     {
         $this->setSubject($order);
         $this->order = $order;
+        $this->customer = $this->customerFactory->create();
 
         if($this->order->getQuoteId() != null)
         {
@@ -27,7 +28,7 @@ class OrderPlugin extends AbstractPlugin
 
         if($this->order->getCustomerId() != null)
         {
-            $this->customer = $this->customerFactory->create()->load($this->order->getCustomerId());
+            $this->customer->load($this->order->getCustomerId());
         }
 
         foreach ($this->getRequestCollection() as $request)

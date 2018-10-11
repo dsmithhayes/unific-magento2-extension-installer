@@ -193,34 +193,31 @@ class AbstractPlugin
     {
         $returnData = array();
 
-        if($this->customer == null) {
-            if($this->order != null)
-            {
-                if($this->order->getCustomerId() == null)
-                {
-                    $returnData['entity_id'] = 0;
-                    $returnData['customer_is_guest'] = 1;
-                } else {
-                    $returnData = $this->customerFactory->create()->load($this->order->getCustomerId())->getData();
-                }
-                $returnData['email'] = $this->order->getCustomerEmail();
-                $returnData['created_at'] = $this->order->getCreatedAt();
-                $returnData['updated_at'] = $this->order->getUpdatedAt();
-                $returnData['addresses'] = array();
-                $returnData['addresses']['billing'] = $this->order->getBillingAddress()->getData();
-                $returnData['addresses']['shipping'] = $this->order->getShippingAddress()->getData();
-                $returnData['payment'] = $this->order->getPayment()->getData();
-            }
-        } else {
+        if($this->customer != null) {
             $returnData = $this->customer->getData();
-            $returnData['customer_is_guest'] = ($this->customer->getId() == null) ? 1 : 0;
-            $returnData['created_at'] = $this->customer->getCreatedAt();
-            $returnData['updated_at'] = $this->customer->getUpdatedAt();
 
-            $returnData['addresses'] = array();
-            foreach($this->customer->getAddresses() as $address)
+            if($this->customer->getId() == null)
             {
-                $returnData['addresses'][] = $address->getData();
+                $returnData['entity_id'] = 0;
+                $returnData['customer_is_guest'] = 1;
+                $returnData['created_at'] = $this->customer->getCreatedAt();
+                $returnData['updated_at'] = $this->customer->getUpdatedAt();
+
+                $returnData['addresses'] = array();
+                foreach($this->customer->getAddresses() as $address)
+                {
+                    $returnData['addresses'][] = $address->getData();
+                }
+
+                if(isset($returnData['rp_token']))
+                {
+                    unset($returnData['rp_token']);
+                }
+
+                if(isset($returnData['rp_token_created_at']))
+                {
+                    unset($returnData['rp_token_created_at']);
+                }
             }
         }
 
