@@ -220,6 +220,16 @@ class AbstractPlugin
             $returnData['created_at'] = $this->customer->getCreatedAt();
             $returnData['updated_at'] = $this->customer->getUpdatedAt();
 
+            if($returnData['created_at'] == null)
+            {
+                $returnData['created_at'] = date('d-m-Y H:i:s');
+            }
+
+            if($returnData['updated_at'] == null)
+            {
+                $returnData['updated_at'] = date('d-m-Y H:i:s');
+            }
+
             $returnData['addresses'] = array();
             foreach($this->customer->getAddresses() as $address)
             {
