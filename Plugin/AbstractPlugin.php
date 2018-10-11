@@ -75,6 +75,7 @@ class AbstractPlugin
         $this->dataObjectFactory = $dataObjectFactory;
         $this->quoteFactory = $quoteFactory;
         $this->addressFactory = $addressFactory;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
