@@ -205,11 +205,11 @@ class AbstractPlugin
         $returnData = array();
 
         if($this->customer != null) {
-            if($this->customer->getId() == null) {
+            if($this->customer->getEntityId() == null) {
                 $returnData['entity_id'] = 0;
                 $returnData['customer_is_guest'] = 1;
             } else {
-                $returnData['entity_id'] = $this->customer->getId();
+                $returnData['entity_id'] = $this->customer->getEntityId();
                 $returnData['customer_is_guest'] = 0;
             }
 
