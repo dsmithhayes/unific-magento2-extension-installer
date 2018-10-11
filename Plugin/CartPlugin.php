@@ -33,6 +33,7 @@ class CartPlugin extends AbstractPlugin
         $this->address->setCompany($address->getCompany());
         $this->address->setTelephone($address->getTelephone());
         $this->address->setPostcode($address->getPostcode());
+        $this->address->setRegion($address->getRegion());
         $this->address->setCountryId($address->getCountryId());
         $this->customer->setAddresses(array($this->address));
 
