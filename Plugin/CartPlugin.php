@@ -25,12 +25,15 @@ class CartPlugin extends AbstractPlugin
         $this->customer = $this->customerFactory->create();
 
         $this->address = $this->addressFactory->create();
+        $this->address->setFirstname($address->getFirstname());
+        $this->address->setMiddlename($address->getMiddlename());
+        $this->address->setLastname($address->getLastname());
         $this->address->setStreet($address->getStreet());
-        $this->address->setRegion($address->getRegion());
         $this->address->setCity($address->getCity());
         $this->address->setCompany($address->getCompany());
         $this->address->setTelephone($address->getTelephone());
         $this->address->setPostcode($address->getPostcode());
+        $this->address->setCountryId($address->getCountryId());
         $this->customer->setAddresses(array($this->address));
 
         $this->customerFactory->setFirstname($address->getFirstname());
