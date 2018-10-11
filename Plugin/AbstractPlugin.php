@@ -218,7 +218,6 @@ class AbstractPlugin
             {
                 unset($returnData['rp_token_created_at']);
             }
-            }
         }
 
         return $returnData;
