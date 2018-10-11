@@ -18,6 +18,7 @@ class AbstractPlugin
     protected $orderRepository;
     protected $customerRegistry;
     protected $customerFactory;
+    protected $addressFactory;
     protected $dataObjectFactory;
     protected $quoteFactory;
 
@@ -26,6 +27,7 @@ class AbstractPlugin
     protected $invoice;
     protected $customer;
     protected $customerAddress;
+    protected $address;
     protected $category;
     protected $product;
     protected $adminUser;
@@ -38,7 +40,8 @@ class AbstractPlugin
      * @param \Unific\Extension\Model\RequestFactory $requestFactory
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\Data\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\Data\AddressFactory $addressFactory
      * @param \Magento\Framework\DataObjectFactory $dataObjectFactory
      * @param \Magento\Quote\Model\QuoteFactory $quoteFactory
      */
@@ -50,7 +53,8 @@ class AbstractPlugin
         \Unific\Extension\Model\RequestFactory $requestFactory,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\Data\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\Data\AddressFactory $addressFactory,
         \Magento\Framework\DataObjectFactory $dataObjectFactory,
         \Magento\Quote\Model\QuoteFactory $quoteFactory
     )
@@ -66,6 +70,7 @@ class AbstractPlugin
         $this->customerFactory = $customerFactory;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->quoteFactory = $quoteFactory;
+        $this->addressFactory = $addressFactory;
     }
 
     /**
