@@ -239,7 +239,6 @@ class AbstractPlugin
                     'lastname' => $address->getLastname(),
                     'street' => explode('\n', $address->getStreet()),
                     'postcode' => $address->getPostcode(),
-                    'region' => $address->getRegion(),
                     'city' => $address->getCompany(),
                     'country' => $address->getCountryId(),
                     'telephone' => $address->getTelephone(),
