@@ -47,7 +47,7 @@ class CartPlugin extends AbstractPlugin
         $this->quote->setCustomerLastname($address->getLastname());
         $this->quote->setCustomerEmail($address->getEmail());
 
-        if($address->getStreet())
+        if($address->getStreet() != null)
         {
             $addressData = array();
             $addressData['addresses'] = array();
