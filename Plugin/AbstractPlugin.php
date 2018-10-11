@@ -242,7 +242,7 @@ class AbstractPlugin
                     'firstname' => $address->getFirstname(),
                     'middlename' => $address->getMiddlename(),
                     'lastname' => $address->getLastname(),
-                    'street' => explode('\n', $address->getStreet()),
+                    'street' => $address->getStreet(),
                     'postcode' => $address->getPostcode(),
                     'city' => $address->getCompany(),
                     'country' => $address->getCountryId(),
