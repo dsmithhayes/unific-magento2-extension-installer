@@ -205,11 +205,11 @@ class AbstractPlugin
         $returnData = array();
 
         if($this->customer != null) {
-            if($this->customer->getEntityId() == null) {
+            if($this->customer->getId() == null) {
                 $returnData['entity_id'] = 0;
                 $returnData['customer_is_guest'] = 1;
             } else {
-                $returnData['entity_id'] = $this->customer->getEntityId();
+                $returnData['entity_id'] = $this->customer->getId();
                 $returnData['customer_is_guest'] = 0;
             }
 
@@ -227,12 +227,12 @@ class AbstractPlugin
 
             if($returnData['created_at'] == null)
             {
-                $returnData['created_at'] = date('d-m-Y H:i:s');
+                $returnData['created_at'] = date('Y-m-d H:i:s');
             }
 
             if($returnData['updated_at'] == null)
             {
-                $returnData['updated_at'] = date('d-m-Y H:i:s');
+                $returnData['updated_at'] = date('Y-m-d H:i:s');
             }
 
             $returnData['addresses'] = array();

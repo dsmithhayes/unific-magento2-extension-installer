@@ -25,7 +25,6 @@ class CustomerPlugin extends AbstractPlugin
         {
             if($customer && $customer->getId() != null)
             {
-                $this->customer = $this->customerRepository->getById($customer->getId());
                 $this->handleConditions($request->getId(), $request);
             }
 
@@ -35,7 +34,6 @@ class CustomerPlugin extends AbstractPlugin
         {
             if($customer && $customer->getId() != null)
             {
-                $this->customer = $this->customerRepository->getById($customer->getId());
                 $this->handleConditions($request->getId(), $request);
             }
 
