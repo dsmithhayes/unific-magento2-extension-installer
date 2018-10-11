@@ -223,17 +223,17 @@ class AbstractPlugin
             $returnData['addresses'] = array();
             foreach($this->customer->getAddresses() as $address)
             {
-                $returnData['addresses'][] = $address->getData();
-            }
-
-            if(isset($returnData['rp_token']))
-            {
-                unset($returnData['rp_token']);
-            }
-
-            if(isset($returnData['rp_token_created_at']))
-            {
-                unset($returnData['rp_token_created_at']);
+                $returnData['addresses'][] = array(
+                    'firstname' => $address->getFirstname(),
+                    'middlename' => $address->getMiddlename(),
+                    'lastname' => $address->getLastname(),
+                    'street' => $address->getStreet(),
+                    'postcode' => $address->getPostcode(),
+                    'city' => $address->getCompany(),
+                    'country' => $address->getCountryId(),
+                    'telephone' => $address->getTelephone(),
+                    'company' => $address->getCompany()
+                    );
             }
         }
 
