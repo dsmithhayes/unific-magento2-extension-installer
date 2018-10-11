@@ -196,28 +196,28 @@ class AbstractPlugin
         if($this->customer != null) {
             $returnData = $this->customer->getData();
 
-            if($this->customer->getId() == null)
-            {
+            if($this->customer->getId() == null) {
                 $returnData['entity_id'] = 0;
                 $returnData['customer_is_guest'] = 1;
                 $returnData['created_at'] = $this->customer->getCreatedAt();
                 $returnData['updated_at'] = $this->customer->getUpdatedAt();
+            }
 
-                $returnData['addresses'] = array();
-                foreach($this->customer->getAddresses() as $address)
-                {
-                    $returnData['addresses'][] = $address->getData();
-                }
+            $returnData['addresses'] = array();
+            foreach($this->customer->getAddresses() as $address)
+            {
+                $returnData['addresses'][] = $address->getData();
+            }
 
-                if(isset($returnData['rp_token']))
-                {
-                    unset($returnData['rp_token']);
-                }
+            if(isset($returnData['rp_token']))
+            {
+                unset($returnData['rp_token']);
+            }
 
-                if(isset($returnData['rp_token_created_at']))
-                {
-                    unset($returnData['rp_token_created_at']);
-                }
+            if(isset($returnData['rp_token_created_at']))
+            {
+                unset($returnData['rp_token_created_at']);
+            }
             }
         }
 
