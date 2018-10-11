@@ -17,6 +17,8 @@ class AbstractPlugin
 
     protected $orderRepository;
     protected $customerRegistry;
+    protected $customerRepository;
+
     protected $customerFactory;
     protected $addressFactory;
     protected $dataObjectFactory;
@@ -41,6 +43,7 @@ class AbstractPlugin
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      * @param \Magento\Customer\Model\Data\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository
      * @param \Magento\Customer\Model\Data\AddressFactory $addressFactory
      * @param \Magento\Framework\DataObjectFactory $dataObjectFactory
      * @param \Magento\Quote\Model\QuoteFactory $quoteFactory
@@ -54,6 +57,7 @@ class AbstractPlugin
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
         \Magento\Customer\Model\Data\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
         \Magento\Customer\Model\Data\AddressFactory $addressFactory,
         \Magento\Framework\DataObjectFactory $dataObjectFactory,
         \Magento\Quote\Model\QuoteFactory $quoteFactory
