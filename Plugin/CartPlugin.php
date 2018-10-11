@@ -36,9 +36,9 @@ class CartPlugin extends AbstractPlugin
         $this->address->setCountryId($address->getCountryId());
         $this->customer->setAddresses(array($this->address));
 
-        $this->customerFactory->setFirstname($address->getFirstname());
-        $this->customerFactory->setMiddlename($address->getMiddlename());
-        $this->customerFactory->setLastname($address->getLastname());
+        $this->customer->setFirstname($address->getFirstname());
+        $this->customer->setMiddlename($address->getMiddlename());
+        $this->customer->setLastname($address->getLastname());
 
         $returnValue = $proceed($cartId, $address);
 
