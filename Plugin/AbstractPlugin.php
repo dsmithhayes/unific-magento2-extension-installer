@@ -38,6 +38,7 @@ class AbstractPlugin
      * @param \Unific\Extension\Model\RequestFactory $requestFactory
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
+     * @param \Magento\Customer\Model\Data\CustomerFactory $customerFactory
      * @param \Magento\Framework\DataObjectFactory $dataObjectFactory
      * @param \Magento\Quote\Model\QuoteFactory $quoteFactory
      */
@@ -49,7 +50,7 @@ class AbstractPlugin
         \Unific\Extension\Model\RequestFactory $requestFactory,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\Data\CustomerFactory $customerFactory,
         \Magento\Framework\DataObjectFactory $dataObjectFactory,
         \Magento\Quote\Model\QuoteFactory $quoteFactory
     )
