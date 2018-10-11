@@ -23,7 +23,8 @@ class CartPlugin extends AbstractPlugin
 
         $this->quote = $this->quoteFactory->create()->load($cartId);
         $this->customer = $this->customerFactory->create();
-        $this->customer->setAddresses(array($address));
+        $this->customer->setBillingAddress($address);
+        $this->customer->setShippingAddress($address);
 
         $returnValue = $proceed($cartId, $address);
 
