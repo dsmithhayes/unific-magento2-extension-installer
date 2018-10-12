@@ -305,7 +305,11 @@ class AbstractPlugin
         {
             $itemData = $item->getData();
             $itemData['free_shipping'] = (isset($itemData['free_shipping']) && $itemData['free_shipping'] == true) ? 1 : 0;
-            $itemData['is_qty_decimal'] = (int)$itemData['is_qty_decimal'];
+
+            if(isset($itemData['is_qty_decimal']))
+            {
+                $itemData['is_qty_decimal'] = (int)$itemData['is_qty_decimal'];
+            }
 
             if(isset($itemData['qty_ordered']))
             {
@@ -332,8 +336,6 @@ class AbstractPlugin
                 $itemData['qty_shipped'] = (int)$itemData['qty_shipped'];
 
             }
-
-
 
             $returnData['order_items'][] = $itemData;
         }
