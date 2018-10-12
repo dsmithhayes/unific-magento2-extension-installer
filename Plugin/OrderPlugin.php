@@ -28,7 +28,7 @@ class OrderPlugin extends AbstractPlugin
 
         if($this->order->getCustomerId() != null)
         {
-            $this->customer->load($this->order->getCustomerId());
+            $this->customer = $this->customerRepository->getById($this->order->getCustomerId());
         }
 
         foreach ($this->getRequestCollection() as $request)
