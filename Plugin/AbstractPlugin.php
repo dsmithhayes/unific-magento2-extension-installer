@@ -204,53 +204,59 @@ class AbstractPlugin
     {
         $returnData = array();
 
-        if($this->customer != null) {
-            if($this->customer->getId() == null) {
-                $returnData['entity_id'] = 0;
-                $returnData['customer_is_guest'] = 1;
-            } else {
-                $returnData['entity_id'] = $this->customer->getId();
-                $returnData['customer_is_guest'] = 0;
-            }
+        try {
+            if($this->customer != null) {
+                if($this->customer->getId() == null) {
+                    $returnData['entity_id'] = 0;
+                    $returnData['customer_is_guest'] = 1;
+                } else {
+                    $returnData['entity_id'] = $this->customer->getId();
+                    $returnData['customer_is_guest'] = 0;
+                }
 
-            $returnData['email'] = $this->customer->getEmail();
-            $returnData['prefix'] = $this->customer->getPrefix();
-            $returnData['firstname'] = $this->customer->getFirstname();
-            $returnData['middlename'] = $this->customer->getMiddlename();
-            $returnData['lastname'] = $this->customer->getLastname();
-            $returnData['suffix'] = $this->customer->getSuffix();
-            $returnData['dob'] = $this->customer->getDob();
-            $returnData['gender'] = $this->customer->getGender();
+                $returnData['email'] = $this->customer->getEmail();
+                $returnData['prefix'] = $this->customer->getPrefix();
+                $returnData['firstname'] = $this->customer->getFirstname();
+                $returnData['middlename'] = $this->customer->getMiddlename();
+                $returnData['lastname'] = $this->customer->getLastname();
+                $returnData['suffix'] = $this->customer->getSuffix();
+                $returnData['dob'] = $this->customer->getDob();
+                $returnData['gender'] = $this->customer->getGender();
 
-            $returnData['created_at'] = $this->customer->getCreatedAt();
-            $returnData['updated_at'] = $this->customer->getUpdatedAt();
+                $returnData['created_at'] = $this->customer->getCreatedAt();
+                $returnData['updated_at'] = $this->customer->getUpdatedAt();
 
-            if($returnData['created_at'] == null)
-            {
-                $returnData['created_at'] = date('Y-m-d H:i:s');
-            }
+                if($returnData['created_at'] == null)
+                {
+                    $returnData['created_at'] = date('Y-m-d H:i:s');
+                }
 
-            if($returnData['updated_at'] == null)
-            {
-                $returnData['updated_at'] = date('Y-m-d H:i:s');
-            }
+                if($returnData['updated_at'] == null)
+                {
+                    $returnData['updated_at'] = date('Y-m-d H:i:s');
+                }
 
-            $returnData['addresses'] = array();
-            foreach($this->customer->getAddresses() as $address)
-            {
-                $returnData['addresses'][] = array(
-                    'firstname' => $address->getFirstname(),
-                    'middlename' => $address->getMiddlename(),
-                    'lastname' => $address->getLastname(),
-                    'street' => (is_string($address->getStreet()) ? explode('\n', $address->getStreet()) : $address->getStreet()),
-                    'postcode' => $address->getPostcode(),
-                    'city' => $address->getCompany(),
-                    'country' => $address->getCountryId(),
-                    'telephone' => $address->getTelephone(),
-                    'company' => $address->getCompany()
+                $returnData['addresses'] = array();
+                foreach($this->customer->getAddresses() as $address)
+                {
+                    $returnData['addresses'][] = array(
+                        'firstname' => $address->getFirstname(),
+                        'middlename' => $address->getMiddlename(),
+                        'lastname' => $address->getLastname(),
+                        'street' => (is_string($address->getStreet()) ? explode('\n', $address->getStreet()) : $address->getStreet()),
+                        'postcode' => $address->getPostcode(),
+                        'city' => $address->getCompany(),
+                        'country' => $address->getCountryId(),
+                        'telephone' => $address->getTelephone(),
+                        'company' => $address->getCompany()
                     );
+                }
             }
+        } catch(\Exception $e)
+        {
+            $this->logger->log('Could not set customer info: ' . $e->getMessage());
         }
+
 
         return $returnData;
     }
@@ -264,15 +270,20 @@ class AbstractPlugin
 
         $returnData = $this->quote->getData();
 
-        if($this->order != null)
-        {
-            $returnData['customer_email'] = $this->order->getCustomerEmail();
-        }
+        try {
+            if($this->order != null)
+            {
+                $returnData['customer_email'] = $this->order->getCustomerEmail();
+            }
 
-        $returnData['items'] = array();
-        foreach($this->quote->getAllItems() as $item)
+            $returnData['items'] = array();
+            foreach($this->quote->getAllItems() as $item)
+            {
+                $returnData['items'][] = $item->getData();
+            }
+        } catch(\Exception $e)
         {
-            $returnData['items'][] = $item->getData();
+            $this->logger->log('Could not set cart info: ' . $e->getMessage());
         }
 
         return $returnData;
@@ -298,52 +309,59 @@ class AbstractPlugin
         if($this->order == null) return array();
 
         $returnData = $this->order->getData();
-        $returnData['customer_is_guest'] = (int) $returnData['customer_is_guest'];
 
-        $returnData['order_items'] = array();
-        foreach($this->order->getAllItems() as $item)
+        try {
+            $returnData['customer_is_guest'] = (int) $returnData['customer_is_guest'];
+
+            $returnData['order_items'] = array();
+            foreach($this->order->getAllItems() as $item)
+            {
+                $itemData = $item->getData();
+                $itemData['free_shipping'] = (isset($itemData['free_shipping']) && $itemData['free_shipping'] == true) ? 1 : 0;
+
+                if(isset($itemData['is_qty_decimal']))
+                {
+                    $itemData['is_qty_decimal'] = (int)$itemData['is_qty_decimal'];
+                }
+
+                if(isset($itemData['qty_ordered']))
+                {
+                    $itemData['qty_ordered'] = (int)$itemData['qty_ordered'];
+                }
+
+                if(isset($itemData['qty_canceled']))
+                {
+                    $itemData['qty_canceled'] = (int)$itemData['qty_canceled'];
+                }
+
+                if(isset($itemData['qty_invoiced']))
+                {
+                    $itemData['qty_invoiced'] = (int)$itemData['qty_invoiced'];
+                }
+
+                if(isset($itemData['qty_refunded']))
+                {
+                    $itemData['qty_refunded'] = (int)$itemData['qty_refunded'];
+                }
+
+                if(isset($itemData['qty_shipped']))
+                {
+                    $itemData['qty_shipped'] = (int)$itemData['qty_shipped'];
+
+                }
+
+                $returnData['order_items'][] = $itemData;
+            }
+
+            $returnData['addresses'] = array();
+            $returnData['addresses']['billing'] = $this->order->getBillingAddress()->getData();
+            $returnData['addresses']['shipping'] = $this->order->getShippingAddress()->getData();
+            $returnData['payment'] = $this->order->getPayment()->getData();
+        } catch (\Exception $e)
         {
-            $itemData = $item->getData();
-            $itemData['free_shipping'] = (isset($itemData['free_shipping']) && $itemData['free_shipping'] == true) ? 1 : 0;
-
-            if(isset($itemData['is_qty_decimal']))
-            {
-                $itemData['is_qty_decimal'] = (int)$itemData['is_qty_decimal'];
-            }
-
-            if(isset($itemData['qty_ordered']))
-            {
-                $itemData['qty_ordered'] = (int)$itemData['qty_ordered'];
-            }
-
-            if(isset($itemData['qty_canceled']))
-            {
-                $itemData['qty_canceled'] = (int)$itemData['qty_canceled'];
-            }
-
-            if(isset($itemData['qty_invoiced']))
-            {
-                $itemData['qty_invoiced'] = (int)$itemData['qty_invoiced'];
-            }
-
-            if(isset($itemData['qty_refunded']))
-            {
-                $itemData['qty_refunded'] = (int)$itemData['qty_refunded'];
-            }
-
-            if(isset($itemData['qty_shipped']))
-            {
-                $itemData['qty_shipped'] = (int)$itemData['qty_shipped'];
-
-            }
-
-            $returnData['order_items'][] = $itemData;
+            $this->logger->log('Could not set order info: ' . $e->getMessage());
         }
 
-        $returnData['addresses'] = array();
-        $returnData['addresses']['billing'] = $this->order->getBillingAddress()->getData();
-        $returnData['addresses']['shipping'] = $this->order->getShippingAddress()->getData();
-        $returnData['payment'] = $this->order->getPayment()->getData();
 
         return $returnData;
     }
