@@ -306,11 +306,34 @@ class AbstractPlugin
             $itemData = $item->getData();
             $itemData['free_shipping'] = (isset($itemData['free_shipping']) && $itemData['free_shipping'] == true) ? 1 : 0;
             $itemData['is_qty_decimal'] = (int)$itemData['is_qty_decimal'];
-            $itemData['qty_ordered'] = (int)$itemData['qty_ordered'];
-            $itemData['qty_canceled'] = (int)$itemData['qty_canceled'];
-            $itemData['qty_invoiced'] = (int)$itemData['qty_invoiced'];
-            $itemData['qty_refunded'] = (int)$itemData['qty_refunded'];
-            $itemData['qty_shipped'] = (int)$itemData['qty_shipped'];
+
+            if(isset($itemData['qty_ordered']))
+            {
+                $itemData['qty_ordered'] = (int)$itemData['qty_ordered'];
+            }
+
+            if(isset($itemData['qty_canceled']))
+            {
+                $itemData['qty_canceled'] = (int)$itemData['qty_canceled'];
+            }
+
+            if(isset($itemData['qty_invoiced']))
+            {
+                $itemData['qty_invoiced'] = (int)$itemData['qty_invoiced'];
+            }
+
+            if(isset($itemData['qty_refunded']))
+            {
+                $itemData['qty_refunded'] = (int)$itemData['qty_refunded'];
+            }
+
+            if(isset($itemData['qty_shipped']))
+            {
+                $itemData['qty_shipped'] = (int)$itemData['qty_shipped'];
+
+            }
+
+
 
             $returnData['order_items'][] = $itemData;
         }
