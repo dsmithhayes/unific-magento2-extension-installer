@@ -15,7 +15,7 @@ class InvoicePlugin extends AbstractPlugin
     public function aroundRegister($subject, callable $proceed)
     {
         $this->order = $this->orderRepository->get($subject->getOrder()->getId());
-
+        
         foreach ($this->getRequestCollection('before') as $request)
         {
             $this->handleConditions($request->getId(), $request);
