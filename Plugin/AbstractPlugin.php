@@ -308,9 +308,11 @@ class AbstractPlugin
     {
         if($this->order == null) return array();
 
-        $returnData = $this->order->getData();
+        $returnData = array();
 
         try {
+            $returnData = $this->order->getData();
+
             $returnData['customer_is_guest'] = (int) $returnData['customer_is_guest'];
 
             $returnData['order_items'] = array();
@@ -361,7 +363,6 @@ class AbstractPlugin
         {
             $this->logger->log('Could not set order info: ' . $e->getMessage());
         }
-
 
         return $returnData;
     }
