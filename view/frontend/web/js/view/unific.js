@@ -4,7 +4,7 @@ define(['underscore', "jquery"], function(_, $) {
         console.log('Unific JS Loaded');
         $('div[name="shippingAddress.firstname"]').before('<input type="hidden" name="shippingAddress.email" />');
 
-        $('input#customer-email').onkeyup(function() {
+        $('input#customer-email').keyup(function() {
             $('input[name="shippingAddress.email"]').val($('input#customer-email').val());
         });
     }
