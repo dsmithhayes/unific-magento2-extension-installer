@@ -2,10 +2,10 @@
 define(['underscore', "jquery"], function(_, $) {
     return function(config, element) {
         console.log('Unific JS Loaded');
-        $('div[name="shippingAddress.firstname"]').before('<input type="hidden" name="shippingAddress.email" />');
+        $('#co-shipping-form').prepend('<input type="hidden" name="shippingAddress.email" id="shipping-email" />');
 
-        $('input#customer-email').keyup(function() {
-            $('input[name="shippingAddress.email"]').val($('input#customer-email').val());
+        $('#customer-email').keyup(function() {
+            $('#shipping-email').val($('#customer-email').val());
         });
     }
 });
