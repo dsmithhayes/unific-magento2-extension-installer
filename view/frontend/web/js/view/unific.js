@@ -8,9 +8,8 @@ define(
 
         return Component.extend({
             defaults: {
-                template: 'Mageplaza_HelloWorld/newsletter'
+                template: 'Unific_Extension/copyemail'
             },
-            isRegisterNewsletter: true
         });
     }
 );
