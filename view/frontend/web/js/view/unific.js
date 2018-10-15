@@ -1,15 +1,6 @@
-define(
-    [
-        'ko',
-        'uiComponent'
-    ],
-    function (ko, Component) {
-        "use strict";
-
-        return Component.extend({
-            defaults: {
-                template: 'Unific_Extension/copyemail'
-            },
-        });
+// if no dependencies, the first argument is not required
+define(['underscore'], function(_) {
+    return function(config, element) {
+        console.log('Unific JS Loaded');
     }
-);
+});
