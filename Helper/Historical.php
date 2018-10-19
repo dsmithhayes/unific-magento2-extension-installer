@@ -36,7 +36,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Sales\Model\OrderRepository $orderRepository
      * @param \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository
-     * @param \Magento\Catalog\Model\CategoryRepository $categoryRepository
+     * @param \Magento\Catalog\Model\CategoryList $categoryRepository
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      */
     public function __construct(
@@ -48,7 +48,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Sales\Model\OrderRepository $orderRepository,
         \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
-        \Magento\Catalog\Model\CategoryRepository $categoryRepository,
+        \Magento\Catalog\Model\CategoryList $categoryRepository,
         \Magento\Catalog\Model\ProductRepository $productRepository
     )
     {
