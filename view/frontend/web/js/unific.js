@@ -15,12 +15,12 @@ define([
            console.log('Unific JS Loaded');
            var checkoutData = customerData.get('checkout-data');
 
-           customerData.get('checkout-data').subscribe(function(newValue)
-           {
-               if(checkoutData.inputFieldEmailValue) {
-                   console.log('email configured to: ' + checkoutData.inputFieldEmailValue);
-               }
+           if(checkoutData.inputFieldEmailValue) {
+               console.log('email configured to: ' + checkoutData.inputFieldEmailValue);
+           }
 
+           customerData.get('cart').subscribe(function(newValue)
+           {
                console.log('Cart changed');
                console.log(newValue);
            });
