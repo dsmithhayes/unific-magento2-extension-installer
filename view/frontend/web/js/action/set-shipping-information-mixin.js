@@ -11,10 +11,7 @@ define([
 
         return wrapper.wrap(setShippingInformationAction, function (originalAction) {
             var shippingAddress = quote.shippingAddress();
-
-            if (shippingAddress['email'] === undefined || shippingAddress['email'] === '') {
-                shippingAddress['email'] = $('#customer-email').val();
-            }
+            shippingAddress['email'] = $('#customer-email').val();
 
             return originalAction();
         });
