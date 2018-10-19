@@ -14,8 +14,8 @@ define([
            console.log('Unific JS Loaded');
 
            var checkoutData = customerData.get('checkout-data')();
-
-           customerData.get('cart').watch('p', function (id, oldval, newval) {
+           var cartData = customerData.get('cart');
+           cartData.watch('p', function (id, oldval, newval) {
               console.log('Cart changed');
               console.log(oldval);
               console.log(newval);
