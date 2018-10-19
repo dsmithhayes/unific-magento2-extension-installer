@@ -313,7 +313,7 @@ class AbstractPlugin
                             'lastname' => $address->getLastname(),
                             'street' => (is_string($address->getStreet()) ? explode('\n', $address->getStreet()) : $address->getStreet()),
                             'postcode' => $address->getPostcode(),
-                            'city' => $address->getCompany(),
+                            'city' => $address->getCity(),
                             'country' => $address->getCountryId(),
                             'telephone' => $address->getTelephone(),
                             'company' => $address->getCompany()
