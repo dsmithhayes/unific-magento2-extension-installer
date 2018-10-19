@@ -12,15 +12,16 @@ define([
     $.widget('unific.js', {
        _create: function() {
            console.log('Unific JS Loaded');
+           var checkoutData = customerData.get('checkout-data');
 
            if(checkoutData.inputFieldEmailValue) {
                console.log('email configured to: ' + checkoutData.inputFieldEmailValue);
            }
 
-           if(customerData.get('unific-cart') != customerData.get('checkout-data'))
+           if(customerData.get('unific-cart') != checkoutData)
            {
-               customerData.set('unific-cart', customerData.get('checkout-data'));
                console.log('Cart changed');
+               customerData.set('unific-cart', checkoutData);
                console.log(customerData.get('unific-cart'));
            }
        }
