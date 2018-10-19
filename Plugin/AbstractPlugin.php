@@ -222,6 +222,8 @@ class AbstractPlugin
     {
         $returnData = array();
 
+        $this->logger->log('Setting Customer Data');
+
         try {
             if($this->customer != null) {
                 if($this->customer->getId() == null) {
@@ -275,6 +277,7 @@ class AbstractPlugin
             $this->logger->log('Could not set customer info: ' . $e->getMessage());
         }
 
+        $this->logger->log('Done Setting Customer Data');
 
         return $returnData;
     }
@@ -285,6 +288,8 @@ class AbstractPlugin
     protected function getCartInfo()
     {
         if($this->quote == null) return array();
+
+        $this->logger->log('Setting Quote Data');
 
         $returnData = $this->quote->getData();
 
@@ -303,6 +308,8 @@ class AbstractPlugin
         {
             $this->logger->log('Could not set cart info: ' . $e->getMessage());
         }
+
+        $this->logger->log('Done Setting Quote Data');
 
         return $returnData;
     }

@@ -18,7 +18,6 @@ define([
            customerData.get('checkout-data').subscribe(function(newValue)
            {
                if(newValue.inputFieldEmailValue && $widget.isEmail(newValue.inputFieldEmailValue)) {
-                   console.log('email configured to: ' + newValue.inputFieldEmailValue);
                }
            });
 
@@ -26,10 +25,8 @@ define([
            customerData.get('cart').subscribe(function(newValue)
            {
                var checkoutData = customerData.get('checkout-data');
-               console.log(newValue);
 
                if(checkoutData.inputFieldEmailValue) {
-                   console.log('Sending cart update for: ' + checkoutData.inputFieldEmailValue);
                }
            });
        },
