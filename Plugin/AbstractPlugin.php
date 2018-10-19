@@ -161,6 +161,8 @@ class AbstractPlugin
             case 'customer':
                 // Only send a customer which has an email set
                 return (isset($data['email']) && data['email'] != null);
+            case 'checkout':
+                return (isset($data['customer_email']) && $data['customer_email'] != null);
             default:
                 return true;
         }
