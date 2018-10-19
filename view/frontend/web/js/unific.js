@@ -20,4 +20,6 @@ define([
            }
        }
     });
+
+    return $.mage.unific;
 });
