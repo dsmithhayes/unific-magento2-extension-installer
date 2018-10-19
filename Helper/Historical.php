@@ -19,7 +19,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
     protected $searchCriteriaBuilder;
 
     protected $orderRepository;
-    protected $customerFactory;
+    protected $customerRepository;
 
     protected $categoryRepository;
     protected $productRepository;
@@ -35,7 +35,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Unific\Extension\Logger\Logger $logger
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Sales\Model\OrderRepository $orderRepository
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository
      * @param \Magento\Catalog\Model\CategoryList $categoryRepository
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      */
@@ -47,7 +47,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         \Unific\Extension\Logger\Logger $logger,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Sales\Model\OrderRepository $orderRepository,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
         \Magento\Catalog\Model\CategoryList $categoryRepository,
         \Magento\Catalog\Model\ProductRepository $productRepository
     )
@@ -60,7 +60,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         $this->hmacHelper = $hmacHelper;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->orderRepository = $orderRepository;
-        $this->customerFactory = $customerFactory;
+        $this->customerRepository = $customerRepository;
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
 
@@ -72,6 +72,26 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
     public function queueAllHistoricalData()
     {
         $this->hmacKey = $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        // Queue Orders
+        $this->subject = 'historical/orders';
+        foreach ($this->orderRepository->getList($this->searchCriteriaBuilder->create()) as $order) {
+            $this->writeBuffer[] = $this->getOrderInfo($order);
+            $this->processWriteBuffer();
+        }
+
+        // Force a flush to not get mixed subjects in one historical buffered queue
+        $this->processWriteBuffer(true);
+
+        // Queue Customers
+        $this->subject = 'historical/customers';
+        foreach ($this->customerRepository->getList($this->searchCriteriaBuilder->create()) as $customer) {
+            $this->writeBuffer[] = $this->getCustomerInfo($customer);
+            $this->processWriteBuffer();
+        }
+
+        // Force a flush to not get mixed subjects in one historical buffered queue
+        $this->processWriteBuffer(true);
 
         // Queue Categories
         $this->subject = 'historical/categories';
@@ -87,38 +107,6 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         $this->subject = 'historical/products';
         foreach ($this->productRepository->getList($this->searchCriteriaBuilder->create()) as $product) {
             $this->writeBuffer[] = $product->getData();
-            $this->processWriteBuffer();
-        }
-
-        // Force a flush to not get mixed subjects in one historical buffered queue
-        $this->processWriteBuffer(true);
-
-        // Queue Customers
-        $this->subject = 'historical/customers';
-        // Needed to enable filtering on name as a whole
-        $customerCollection = $this->customerFactory->create()->getCollection();
-        $customerCollection->addNameToSelect();
-        // Needed to enable filtering based on billing address attributes
-        $customerCollection->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing', null, 'left')
-            ->joinAttribute('billing_city', 'customer_address/city', 'default_billing', null, 'left')
-            ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
-            ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
-            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left')
-            ->joinAttribute('company', 'customer_address/company', 'default_billing', null, 'left');
-
-
-        foreach ($customerCollection as $customer) {
-            $this->writeBuffer[] = $this->getCustomerInfo($customer->getDataModel());
-            $this->processWriteBuffer();
-        }
-
-        // Force a flush to not get mixed subjects in one historical buffered queue
-        $this->processWriteBuffer(true);
-
-        // Queue Orders
-        $this->subject = 'historical/orders';
-        foreach ($this->orderRepository->getList($this->searchCriteriaBuilder->create()) as $order) {
-            $this->writeBuffer[] = $this->getOrderInfo($order);
             $this->processWriteBuffer();
         }
 
