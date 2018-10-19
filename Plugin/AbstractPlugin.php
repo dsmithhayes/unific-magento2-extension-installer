@@ -234,46 +234,50 @@ class AbstractPlugin
 
                 if($this->customer->getEmail() == null)
                 {
+                    $subentity = (isset($this->order)) ? $this->order : $this->quote;
+
                     // Using the billing address because the item might not need shipping
-                    if(isset($this->order) && $this->order->getBillingAddress() != null)
+                    if(isset($$subEntity) && $subentity->getBillingAddress() != null)
                     {
-                        $returnData['email'] = $this->order->getBillingAddress()->getEmail();
-                        $returnData['prefix'] = $this->order->getBillingAddress()->getPrefix();
-                        $returnData['firstname'] = $this->order->getBillingAddress()->getFirstname();
-                        $returnData['middlename'] = $this->order->getBillingAddress()->getMiddlename();
-                        $returnData['lastname'] = $this->order->getBillingAddress()->getLastname();
-                        $returnData['suffix'] = $this->order->getBillingAddress()->getSuffix();
-                        $returnData['dob'] = $this->order->getBillingAddress()->getDob();
-                        $returnData['gender'] = $this->order->getBillingAddress()->getGender();
+                        $returnData['email'] = $subentity->getBillingAddress()->getEmail();
+                        $returnData['prefix'] = $subentity->getBillingAddress()->getPrefix();
+                        $returnData['firstname'] = $subentity->getBillingAddress()->getFirstname();
+                        $returnData['middlename'] = $subentity->getBillingAddress()->getMiddlename();
+                        $returnData['lastname'] = $subentity->getBillingAddress()->getLastname();
+                        $returnData['suffix'] = $subentity->getBillingAddress()->getSuffix();
+                        $returnData['dob'] = $subentity->getBillingAddress()->getDob();
+                        $returnData['gender'] = $subentity->getBillingAddress()->getGender();
                         $returnData['created_at'] = date('Y-m-d H:i:s');
                         $returnData['updated_at'] = date('Y-m-d H:i:s');
 
                         $returnData['addresses'] = array();
 
                         $returnData['addresses'][] = array(
-                            'firstname' => $this->order->getBillingAddress()->getFirstname(),
-                            'middlename' => $this->order->getBillingAddress()->getMiddlename(),
-                            'lastname' => $this->order->getBillingAddress()->getLastname(),
-                            'street' => (is_string($this->order->getBillingAddress()->getStreet()) ? explode('\n', $this->order->getBillingAddress()->getStreet()) : $this->order->getBillingAddress()->getStreet()),
-                            'postcode' => $this->order->getBillingAddress()->getPostcode(),
-                            'city' => $this->order->getBillingAddress()->getCompany(),
-                            'country' => $this->order->getBillingAddress()->getCountryId(),
-                            'telephone' => $this->order->getBillingAddress()->getTelephone(),
-                            'company' => $this->order->getBillingAddress()->getCompany()
+                            'firstname' => $subentity->getBillingAddress()->getFirstname(),
+                            'middlename' => $subentity->getBillingAddress()->getMiddlename(),
+                            'lastname' => $subentity->getBillingAddress()->getLastname(),
+                            'street' => (is_string($subentity->getBillingAddress()->getStreet()) ? explode('\n', $subentity->getBillingAddress()->getStreet()) : $subentity->getBillingAddress()->getStreet()),
+                            'postcode' => $subentity->getBillingAddress()->getPostcode(),
+                            'state' => $subentity->getBillingAddress()->getState(),
+                            'city' => $subentity->getBillingAddress()->getCity(),
+                            'country' => $subentity->getBillingAddress()->getCountryId(),
+                            'telephone' => $subentity->getBillingAddress()->getTelephone(),
+                            'company' => $subentity->getBillingAddress()->getCompany()
                         );
 
-                        if($this->order->getShippingAddress())
+                        if($subentity->getShippingAddress())
                         {
                             $returnData['addresses'][] = array(
-                                'firstname' => $this->order->getShippingAddress()->getFirstname(),
-                                'middlename' => $this->order->getShippingAddress()->getMiddlename(),
-                                'lastname' => $this->order->getShippingAddress()->getLastname(),
-                                'street' => (is_string($this->order->getShippingAddress()->getStreet()) ? explode('\n', $this->order->getBillingAddress()->getStreet()) : $this->order->getBillingAddress()->getStreet()),
-                                'postcode' => $this->order->getShippingAddress()->getPostcode(),
-                                'city' => $this->order->getShippingAddress()->getCompany(),
-                                'country' => $this->order->getShippingAddress()->getCountryId(),
-                                'telephone' => $this->order->getShippingAddress()->getTelephone(),
-                                'company' => $this->order->getShippingAddress()->getCompany()
+                                'firstname' => $subentity->getShippingAddress()->getFirstname(),
+                                'middlename' => $subentity->getShippingAddress()->getMiddlename(),
+                                'lastname' => $subentity->getShippingAddress()->getLastname(),
+                                'street' => (is_string($subentity->getShippingAddress()->getStreet()) ? explode('\n', $subentity->getBillingAddress()->getStreet()) : $subentity->getBillingAddress()->getStreet()),
+                                'postcode' => $subentity->getShippingAddress()->getPostcode(),
+                                'state' => $subentity->getShippingAddress()->getState(),
+                                'city' => $subentity->getShippingAddress()->getCity(),
+                                'country' => $subentity->getShippingAddress()->getCountryId(),
+                                'telephone' => $subentity->getShippingAddress()->getTelephone(),
+                                'company' => $subentity->getShippingAddress()->getCompany()
                             );
                         }
                     }
