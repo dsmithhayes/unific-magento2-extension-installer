@@ -247,6 +247,37 @@ class AbstractPlugin
                         $returnData['suffix'] = $this->order->getBillingAddress()->getSuffix();
                         $returnData['dob'] = $this->order->getBillingAddress()->getDob();
                         $returnData['gender'] = $this->order->getBillingAddress()->getGender();
+                        $returnData['created_at'] = date('Y-m-d H:i:s');
+                        $returnData['updated_at'] = date('Y-m-d H:i:s');
+
+                        $returnData['addresses'] = array();
+
+                        $returnData['addresses']['billing'] = array(
+                            'firstname' => $this->order->getBillingAddress()->getFirstname(),
+                            'middlename' => $this->order->getBillingAddress()->getMiddlename(),
+                            'lastname' => $this->order->getBillingAddress()->getLastname(),
+                            'street' => (is_string($this->order->getBillingAddress()->getStreet()) ? explode('\n', $this->order->getBillingAddress()->getStreet()) : $this->order->getBillingAddress()->getStreet()),
+                            'postcode' => $this->order->getBillingAddress()->getPostcode(),
+                            'city' => $this->order->getBillingAddress()->getCompany(),
+                            'country' => $this->order->getBillingAddress()->getCountryId(),
+                            'telephone' => $this->order->getBillingAddress()->getTelephone(),
+                            'company' => $this->order->getBillingAddress()->getCompany()
+                        );
+
+                        if($this->order->getShippingAddress())
+                        {
+                            $returnData['addresses']['shipping'] = array(
+                                'firstname' => $this->order->getShippingAddress()->getFirstname(),
+                                'middlename' => $this->order->getShippingAddress()->getMiddlename(),
+                                'lastname' => $this->order->getShippingAddress()->getLastname(),
+                                'street' => (is_string($this->order->getShippingAddress()->getStreet()) ? explode('\n', $this->order->getBillingAddress()->getStreet()) : $this->order->getBillingAddress()->getStreet()),
+                                'postcode' => $this->order->getShippingAddress()->getPostcode(),
+                                'city' => $this->order->getShippingAddress()->getCompany(),
+                                'country' => $this->order->getShippingAddress()->getCountryId(),
+                                'telephone' => $this->order->getShippingAddress()->getTelephone(),
+                                'company' => $this->order->getShippingAddress()->getCompany()
+                            );
+                        }
                     }
                 } else{
                     $returnData['email'] = $this->customer->getEmail();
@@ -260,29 +291,20 @@ class AbstractPlugin
 
                     $returnData['created_at'] = $this->customer->getCreatedAt();
                     $returnData['updated_at'] = $this->customer->getUpdatedAt();
-                }
 
+                    if($returnData['created_at'] == null)
+                    {
+                        $returnData['created_at'] = date('Y-m-d H:i:s');
+                    }
 
-                if($returnData['created_at'] == null)
-                {
-                    $returnData['created_at'] = date('Y-m-d H:i:s');
-                }
+                    if($returnData['updated_at'] == null)
+                    {
+                        $returnData['updated_at'] = date('Y-m-d H:i:s');
+                    }
 
-                if($returnData['updated_at'] == null)
-                {
-                    $returnData['updated_at'] = date('Y-m-d H:i:s');
-                }
+                    $returnData['addresses'] = array();
+                    $addresses = $this->customer->getAddresses();
 
-                $returnData['addresses'] = array();
-
-                // Make sure we fetch the available addresses
-                $addresses = $this->customer->getAddresses();
-                if($addresses == null  && isset($this->order) && $this->order->getAddresses() != null) {
-                    $addresses = $this->order->getAddresses();
-                }
-
-                if($addresses != null)
-                {
                     foreach($addresses as $address)
                     {
                         $returnData['addresses'][] = array(
