@@ -125,7 +125,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
     public function processWriteBuffer($forceFlush = false)
     {
         // If we have data and its either a full buffer or we forced a flush
-        if (count($this->writeBuffer > 0) && (count($this->writeBuffer) >= 10 || $forceFlush)) {
+        if (count($this->writeBuffer > 0) && (count($this->writeBuffer) >= 2 || $forceFlush)) {
             $extraHeaders = array();
 
             $extraHeaders['X-SUBJECT'] = $this->subject;
