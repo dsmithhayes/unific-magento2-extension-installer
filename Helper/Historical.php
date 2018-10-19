@@ -85,7 +85,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 
         // Queue Customers
         $this->subject = 'historical/customers';
-        foreach ($this->customerRepository->getList($this->searchCriteriaBuilder->create()) as $customer) {
+        foreach ($this->customerRepository->getList($this->searchCriteriaBuilder->create())->getItems() as $customer) {
             $this->writeBuffer[] = $this->getCustomerInfo($customer);
             $this->processWriteBuffer();
         }
@@ -95,7 +95,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 
         // Queue Categories
         $this->subject = 'historical/categories';
-        foreach ($this->categoryRepository->getList($this->searchCriteriaBuilder->create()) as $category) {
+        foreach ($this->categoryRepository->getList($this->searchCriteriaBuilder->create())->getItems() as $category) {
             $this->writeBuffer[] = $category->getData();
             $this->processWriteBuffer();
         }
@@ -105,7 +105,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 
         // Queue Products
         $this->subject = 'historical/products';
-        foreach ($this->productRepository->getList($this->searchCriteriaBuilder->create()) as $product) {
+        foreach ($this->productRepository->getList($this->searchCriteriaBuilder->create())->getItems() as $product) {
             $this->writeBuffer[] = $product->getData();
             $this->processWriteBuffer();
         }
