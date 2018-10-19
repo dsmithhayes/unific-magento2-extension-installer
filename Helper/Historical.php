@@ -36,8 +36,8 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Sales\Model\OrderRepository $orderRepository
      * @param \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository
-     * @param \Magento\Catalog\Model\ResourceModel\CategoryFactory $categoryFactory
-     * @param \Magento\Catalog\Model\ResourceModel\ProductFactory $productFactory
+     * @param Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryFactory
+     * @param Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -48,8 +48,8 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Sales\Model\OrderRepository $orderRepository,
         \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
-        \Magento\Catalog\Model\ResourceModel\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Model\ResourceModel\ProductFactory $productFactory
+        Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryFactory,
+        Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productFactory
     )
     {
         parent::__construct($context);
@@ -95,7 +95,8 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 
         // Queue Categories
         $this->subject = 'historical/categories';
-        foreach ($this->categoryFactory->create()->getCollection() as $category) {
+        $categories = $this->categoryFactory->create()->addAttributeToSelect('*');
+        foreach ($categories as $category) {
             $this->writeBuffer[] = $category->getData();
             $this->processWriteBuffer();
         }
@@ -105,7 +106,8 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 
         // Queue Products
         $this->subject = 'historical/products';
-        foreach ($this->productFactory->create()->getCollection() as $product) {
+        $products = $this->productFactory->create()->addAttributeToSelect('*');
+        foreach ($products as $product) {
             $this->writeBuffer[] = $product->getData();
             $this->processWriteBuffer();
         }
