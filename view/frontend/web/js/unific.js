@@ -17,7 +17,7 @@ define([
            // If the email is set, we need to send the cart data
            customerData.get('checkout-data').subscribe(function(newValue)
            {
-               if(newValue.inputFieldEmailValue) {
+               if(newValue.inputFieldEmailValue && this.isEmail(newValue.inputFieldEmailValue)) {
                    console.log('email configured to: ' + newValue.inputFieldEmailValue);
                }
            });
@@ -32,9 +32,12 @@ define([
                    console.log('Sending cart update for: ' + checkoutData.inputFieldEmailValue);
                }
            });
+       },
 
-
-       }
+        isEmail: function(email) {
+            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            return regex.test(email);
+        }
     });
 
     return $.unific.js;
