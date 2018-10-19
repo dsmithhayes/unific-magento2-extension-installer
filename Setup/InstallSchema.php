@@ -23,7 +23,7 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn('guid', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
                 'nullable' => true,
             ), 'A unique GUID identifier')
-            ->addColumn('message', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
+            ->addColumn('message', \Magento\Framework\DB\Ddl\Table::TYPE_LONGTEXT, 0, array(
                 'nullable' => true,
             ), 'Message')
             ->addColumn('request_type', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 0, array(
