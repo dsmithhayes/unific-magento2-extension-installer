@@ -63,10 +63,10 @@
         </resources>
     </route>
 
-    <route url="/V1/unific/historical" method="POST">
-        <service class="Unific\Extension\Api\WebhookManagementInterface" method="createWebhook"/>
+    <route url="/V1/unific/historical" method="GET">
+        <service class="Unific\Extension\Api\HistoricalManagementInterface" method="triggerHistorical"/>
         <resources>
-            <resource ref="Unific_Extension::webhook"/>
+            <resource ref="Unific_Extension::historical"/>
         </resources>
     </route>
 </routes>

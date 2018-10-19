@@ -11,5 +11,5 @@ interface HistoricalManagementInterface
      *
      * @return bool true on success
      */
-    public function setTrigger();
+    public function triggerHistorical();
 }

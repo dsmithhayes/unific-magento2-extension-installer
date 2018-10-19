@@ -34,7 +34,7 @@ class HistoricalManagement implements HistoricalManagementInterface
      *
      * @return bool true on success
      */
-    public function setTrigger()
+    public function triggerHistorical()
     {
         return $this->historicalHelper->queueAllHistoricalData();
     }
