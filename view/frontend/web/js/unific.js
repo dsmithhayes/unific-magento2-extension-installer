@@ -9,7 +9,7 @@ define([
 ], function ($, storage, customerData) {
     'use strict';
 
-    $.widget('mage.unificjs', {
+    $.widget('unific.js', {
        _create: function() {
            console.log('Unific JS Loaded');
 
@@ -21,5 +21,5 @@ define([
        }
     });
 
-    return $.mage.unificjs;
+    return $.unific.js;
 });
