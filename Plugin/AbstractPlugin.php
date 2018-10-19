@@ -236,16 +236,17 @@ class AbstractPlugin
 
                 if($this->customer->getEmail() == null)
                 {
-                    if(isset($this->order) && $this->order->getShippingAddress() != null)
+                    // Using the billing address because the item might not need shipping
+                    if(isset($this->order) && $this->order->getBillingAddress() != null)
                     {
-                        $returnData['email'] = $this->order->getShippingAddress()->getEmail();
-                        $returnData['prefix'] = $this->order->getShippingAddress()->getPrefix();
-                        $returnData['firstname'] = $this->order->getShippingAddress()->getFirstname();
-                        $returnData['middlename'] = $this->order->getShippingAddress()->getMiddlename();
-                        $returnData['lastname'] = $this->order->getShippingAddress()->getLastname();
-                        $returnData['suffix'] = $this->order->getShippingAddress()->getSuffix();
-                        $returnData['dob'] = $this->order->getShippingAddress()->getDob();
-                        $returnData['gender'] = $this->order->getShippingAddress()->getGender();
+                        $returnData['email'] = $this->order->getBillingAddress()->getEmail();
+                        $returnData['prefix'] = $this->order->getBillingAddress()->getPrefix();
+                        $returnData['firstname'] = $this->order->getBillingAddress()->getFirstname();
+                        $returnData['middlename'] = $this->order->getBillingAddress()->getMiddlename();
+                        $returnData['lastname'] = $this->order->getBillingAddress()->getLastname();
+                        $returnData['suffix'] = $this->order->getBillingAddress()->getSuffix();
+                        $returnData['dob'] = $this->order->getBillingAddress()->getDob();
+                        $returnData['gender'] = $this->order->getBillingAddress()->getGender();
                     }
                 } else{
                     $returnData['email'] = $this->customer->getEmail();
