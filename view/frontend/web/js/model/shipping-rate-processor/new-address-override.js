@@ -9,8 +9,8 @@ define([
     'Magento_Checkout/js/model/shipping-service',
     'Magento_Checkout/js/model/shipping-rate-registry',
     'Magento_Checkout/js/model/error-processor',
-    'jquery'
-], function (resourceUrlManager, quote, storage, shippingService, rateRegistry, errorProcessor, $) {
+    'Magento_Customer/js/customer-data'
+], function (resourceUrlManager, quote, storage, shippingService, rateRegistry, errorProcessor, customerData) {
     'use strict';
 
     return {
@@ -19,7 +19,8 @@ define([
          * @param {Object} address
          */
         getRates: function (address) {
-            address.email = $('#customer-email').val();
+            var checkoutData = customerData.get('checkout-data')();
+            address.email = checkoutData.inputFieldEmailValue;
 
             var cache, serviceUrl, payload;
 
@@ -50,9 +51,6 @@ define([
                     }
                 }
             );
-
-            console.log('Payload for Unific');
-            console.log(payload);
 
             if (cache) {
                 shippingService.setShippingRates(cache);
