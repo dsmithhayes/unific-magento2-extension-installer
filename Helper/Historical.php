@@ -147,17 +147,17 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         $returnData = array();
 
         try {
-            $returnData['email'] = $this->customer->getEmail();
-            $returnData['prefix'] = $this->customer->getPrefix();
-            $returnData['firstname'] = $this->customer->getFirstname();
-            $returnData['middlename'] = $this->customer->getMiddlename();
-            $returnData['lastname'] = $this->customer->getLastname();
-            $returnData['suffix'] = $this->customer->getSuffix();
-            $returnData['dob'] = $this->customer->getDob();
-            $returnData['gender'] = $this->customer->getGender();
+            $returnData['email'] = $customer->getEmail();
+            $returnData['prefix'] = $customer->getPrefix();
+            $returnData['firstname'] = $customer->getFirstname();
+            $returnData['middlename'] = $customer->getMiddlename();
+            $returnData['lastname'] = $customer->getLastname();
+            $returnData['suffix'] = $customer->getSuffix();
+            $returnData['dob'] = $customer->getDob();
+            $returnData['gender'] = $customer->getGender();
 
-            $returnData['created_at'] = $this->customer->getCreatedAt();
-            $returnData['updated_at'] = $this->customer->getUpdatedAt();
+            $returnData['created_at'] = $customer->getCreatedAt();
+            $returnData['updated_at'] = $customer->getUpdatedAt();
 
             if($returnData['created_at'] == null)
             {
@@ -170,7 +170,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             $returnData['addresses'] = array();
-            $addresses = $this->customer->getAddresses();
+            $addresses = $customer->getAddresses();
 
             foreach($addresses as $address)
             {
