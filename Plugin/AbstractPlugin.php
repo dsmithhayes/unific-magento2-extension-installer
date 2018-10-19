@@ -160,7 +160,7 @@ class AbstractPlugin
         {
             case 'customer':
                 // Only send a customer which has an email set
-                return isset($data['email']) && data['email'] != null;
+                return (isset($data['email']) && data['email'] != null);
             default:
                 return true;
         }

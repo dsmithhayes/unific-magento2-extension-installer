@@ -3,10 +3,11 @@
  * See COPYING.txt for license details.
  */
 define([
+    'ko',
     'jquery',
     'mage/storage',
     'Magento_Customer/js/customer-data'
-], function ($, storage, customerData) {
+], function (ko, $, storage, customerData) {
     'use strict';
 
     $.widget('unific.js', {
@@ -14,16 +15,15 @@ define([
            console.log('Unific JS Loaded');
            var checkoutData = customerData.get('checkout-data');
 
-           if(checkoutData.inputFieldEmailValue) {
-               console.log('email configured to: ' + checkoutData.inputFieldEmailValue);
-           }
-
-           if(customerData.get('unific-cart') != checkoutData)
+           customerData.get('checkout-data').subscribe(function(newValue)
            {
+               if(checkoutData.inputFieldEmailValue) {
+                   console.log('email configured to: ' + checkoutData.inputFieldEmailValue);
+               }
+
                console.log('Cart changed');
-               customerData.set('unific-cart', checkoutData);
-               console.log(customerData.get('unific-cart'));
-           }
+               console.log(newValue);
+           });
        }
     });
 
