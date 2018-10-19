@@ -237,7 +237,7 @@ class AbstractPlugin
                     $subentity = (isset($this->order)) ? $this->order : $this->quote;
 
                     // Using the billing address because the item might not need shipping
-                    if(isset($$subEntity) && $subentity->getBillingAddress() != null)
+                    if(isset($$subentity) && $subentity->getBillingAddress() != null)
                     {
                         $returnData['email'] = $subentity->getBillingAddress()->getEmail();
                         $returnData['prefix'] = $subentity->getBillingAddress()->getPrefix();
