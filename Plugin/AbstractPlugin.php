@@ -257,19 +257,29 @@ class AbstractPlugin
                 }
 
                 $returnData['addresses'] = array();
-                foreach($this->customer->getAddresses() as $address)
+
+                // Make sure we fetch the available addresses
+                $addresses = $this->customer->getAddresses();
+                if($addresses == null  && isset($this->order) && $this->order->getAddresses() != null) {
+                    $addresses = $this->order->getAddresses();
+                }
+
+                if($addresses != null)
                 {
-                    $returnData['addresses'][] = array(
-                        'firstname' => $address->getFirstname(),
-                        'middlename' => $address->getMiddlename(),
-                        'lastname' => $address->getLastname(),
-                        'street' => (is_string($address->getStreet()) ? explode('\n', $address->getStreet()) : $address->getStreet()),
-                        'postcode' => $address->getPostcode(),
-                        'city' => $address->getCompany(),
-                        'country' => $address->getCountryId(),
-                        'telephone' => $address->getTelephone(),
-                        'company' => $address->getCompany()
-                    );
+                    foreach($addresses as $address)
+                    {
+                        $returnData['addresses'][] = array(
+                            'firstname' => $address->getFirstname(),
+                            'middlename' => $address->getMiddlename(),
+                            'lastname' => $address->getLastname(),
+                            'street' => (is_string($address->getStreet()) ? explode('\n', $address->getStreet()) : $address->getStreet()),
+                            'postcode' => $address->getPostcode(),
+                            'city' => $address->getCompany(),
+                            'country' => $address->getCountryId(),
+                            'telephone' => $address->getTelephone(),
+                            'company' => $address->getCompany()
+                        );
+                    }
                 }
             }
         } catch(\Exception $e)
@@ -297,6 +307,9 @@ class AbstractPlugin
             if($this->order != null)
             {
                 $returnData['customer_email'] = $this->order->getCustomerEmail();
+                $returnData['customer_firstname'] = $this->order->getCustomerFirstname();
+                $returnData['customer_middlename'] = $this->order->getCustomerMiddlename();
+                $returnData['customer_lastname'] = $this->order->getCustomerLastname();
             }
 
             $returnData['items'] = array();
