@@ -108,21 +108,25 @@ class AbstractPlugin
                 $actionData = json_decode($condition['condition_action_params'], true);
 
                 try {
-                    $response = $this->restConnection->{$actionData['method']}(
-                        $actionData['request_url'],
-                        $this->getWebhookData($actionData['webhook'], $extraData),
-                        array(
-                            'X-SUBJECT' => $this->getWebhookSubject($actionData)
-                        )
-                    );
+                    $dataToSend = $this->getWebhookData($actionData['webhook'], $extraData);
 
-                    if(is_string($response))
+                    if($this->isWebhookComplete($actionData['webhook'], $dataToSend))
                     {
-                        $this->logger->info('Message queued for sending: ' . $response);
-                    } else {
-                        $this->logger->info($response->getBody());
-                    }
+                        $response = $this->restConnection->{$actionData['method']}(
+                            $actionData['request_url'],
+                            $dataToSend,
+                            array(
+                                'X-SUBJECT' => $this->getWebhookSubject($actionData)
+                            )
+                        );
 
+                        if(is_string($response))
+                        {
+                            $this->logger->info('Message queued for sending: ' . $response);
+                        } else {
+                            $this->logger->info($response->getBody());
+                        }
+                    }
                 } catch(\Exception $e)
                 {
                     $this->logger->error('Exception ' . $e->getCode() . ': ' . $e->getMessage());
@@ -148,6 +152,18 @@ class AbstractPlugin
     protected function isEventEntity(array $actionData)
     {
         return $actionData['webhook'] == $this->entity;
+    }
+
+    protected function isWebhookComplete($type = 'order', $data = array())
+    {
+        switch($type)
+        {
+            case 'customer':
+                // Only send a customer which has an email set
+                return isset($data['email']) && data['email'] != null;
+            default:
+                return true;
+        }
     }
 
     /**
