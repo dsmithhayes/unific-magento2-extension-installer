@@ -51,6 +51,9 @@ define([
                 }
             );
 
+            console.log('Payload for Unific');
+            console.log(payload);
+
             if (cache) {
                 shippingService.setShippingRates(cache);
                 shippingService.isLoading(false);
