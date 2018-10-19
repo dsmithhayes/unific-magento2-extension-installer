@@ -252,7 +252,7 @@ class AbstractPlugin
 
                         $returnData['addresses'] = array();
 
-                        $returnData['addresses']['billing'] = array(
+                        $returnData['addresses'][] = array(
                             'firstname' => $this->order->getBillingAddress()->getFirstname(),
                             'middlename' => $this->order->getBillingAddress()->getMiddlename(),
                             'lastname' => $this->order->getBillingAddress()->getLastname(),
@@ -266,7 +266,7 @@ class AbstractPlugin
 
                         if($this->order->getShippingAddress())
                         {
-                            $returnData['addresses']['shipping'] = array(
+                            $returnData['addresses'][] = array(
                                 'firstname' => $this->order->getShippingAddress()->getFirstname(),
                                 'middlename' => $this->order->getShippingAddress()->getMiddlename(),
                                 'lastname' => $this->order->getShippingAddress()->getLastname(),
