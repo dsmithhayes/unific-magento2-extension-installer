@@ -234,17 +234,33 @@ class AbstractPlugin
                     $returnData['customer_is_guest'] = 0;
                 }
 
-                $returnData['email'] = $this->customer->getEmail();
-                $returnData['prefix'] = $this->customer->getPrefix();
-                $returnData['firstname'] = $this->customer->getFirstname();
-                $returnData['middlename'] = $this->customer->getMiddlename();
-                $returnData['lastname'] = $this->customer->getLastname();
-                $returnData['suffix'] = $this->customer->getSuffix();
-                $returnData['dob'] = $this->customer->getDob();
-                $returnData['gender'] = $this->customer->getGender();
+                if($this->customer->getEmail() == null)
+                {
+                    if(isset($this->order) && $this->order->getShippingAddress() != null)
+                    {
+                        $returnData['email'] = $this->order->getShippingAddress()->getEmail();
+                        $returnData['prefix'] = $this->order->getShippingAddress()->getPrefix();
+                        $returnData['firstname'] = $this->order->getShippingAddress()->getFirstname();
+                        $returnData['middlename'] = $this->order->getShippingAddress()->getMiddlename();
+                        $returnData['lastname'] = $this->order->getShippingAddress()->getLastname();
+                        $returnData['suffix'] = $this->order->getShippingAddress()->getSuffix();
+                        $returnData['dob'] = $this->order->getShippingAddress()->getDob();
+                        $returnData['gender'] = $this->order->getShippingAddress()->getGender();
+                    }
+                } else{
+                    $returnData['email'] = $this->customer->getEmail();
+                    $returnData['prefix'] = $this->customer->getPrefix();
+                    $returnData['firstname'] = $this->customer->getFirstname();
+                    $returnData['middlename'] = $this->customer->getMiddlename();
+                    $returnData['lastname'] = $this->customer->getLastname();
+                    $returnData['suffix'] = $this->customer->getSuffix();
+                    $returnData['dob'] = $this->customer->getDob();
+                    $returnData['gender'] = $this->customer->getGender();
 
-                $returnData['created_at'] = $this->customer->getCreatedAt();
-                $returnData['updated_at'] = $this->customer->getUpdatedAt();
+                    $returnData['created_at'] = $this->customer->getCreatedAt();
+                    $returnData['updated_at'] = $this->customer->getUpdatedAt();
+                }
+
 
                 if($returnData['created_at'] == null)
                 {
