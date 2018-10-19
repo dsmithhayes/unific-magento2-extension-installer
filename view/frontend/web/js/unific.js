@@ -12,12 +12,12 @@ define([
 
     $.widget('unific.js', {
        _create: function() {
-           console.log('Unific JS Loaded');
+           var $widget = this;
 
            // If the email is set, we need to send the cart data
            customerData.get('checkout-data').subscribe(function(newValue)
            {
-               if(newValue.inputFieldEmailValue && this.isEmail(newValue.inputFieldEmailValue)) {
+               if(newValue.inputFieldEmailValue && $widget.isEmail(newValue.inputFieldEmailValue)) {
                    console.log('email configured to: ' + newValue.inputFieldEmailValue);
                }
            });
