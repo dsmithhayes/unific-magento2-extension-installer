@@ -16,7 +16,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
     protected $hmacHelper;
     protected $scopeConfig;
 
-    protected $searchCriteriaFactory;
+    protected $searchCriteriaBuilder;
 
     protected $orderRepository;
     protected $customerRepository;
@@ -33,7 +33,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Message\Queue $queueHelper
      * @param Hmac $hmacHelper
      * @param \Unific\Extension\Logger\Logger $logger
-     * @param \Magento\Framework\Api\SearchCriteriaFactory $searchCriteriaFactory
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Sales\Model\OrderRepository $orderRepository
      * @param \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository
      * @param \Magento\Catalog\Model\CategoryRepository $categoryRepository
@@ -45,7 +45,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         \Unific\Extension\Helper\Message\Queue $queueHelper,
         \Unific\Extension\Helper\Hmac $hmacHelper,
         \Unific\Extension\Logger\Logger $logger,
-        \Magento\Framework\Api\SearchCriteriaFactory $searchCriteriaFactory,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Sales\Model\OrderRepository $orderRepository,
         \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
         \Magento\Catalog\Model\CategoryRepository $categoryRepository,
@@ -58,7 +58,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         $this->logger = $logger;
         $this->queueHelper = $queueHelper;
         $this->hmacHelper = $hmacHelper;
-        $this->searchCriteriaFactory = $searchCriteriaFactory;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->orderRepository = $orderRepository;
         $this->customerRepository = $customerRepository;
         $this->productRepository = $productRepository;
@@ -75,7 +75,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 
         // Queue Categories
         $this->subject = 'historical/categories';
-        foreach ($this->categoryRepository->getList($this->searchCriteriaFactory->create()) as $category) {
+        foreach ($this->categoryRepository->getList($this->searchCriteriaBuilder->create()) as $category) {
             $this->writeBuffer[] = $category->getData();
             $this->processWriteBuffer();
         }
@@ -85,7 +85,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 
         // Queue Products
         $this->subject = 'historical/products';
-        foreach ($this->productRepository->getList($this->searchCriteriaFactory->create()) as $product) {
+        foreach ($this->productRepository->getList($this->searchCriteriaBuilder->create()) as $product) {
             $this->writeBuffer[] = $product->getData();
             $this->processWriteBuffer();
         }
@@ -95,7 +95,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 
         // Queue Customers
         $this->subject = 'historical/customers';
-        foreach ($this->customerRepository->getList($this->searchCriteriaFactory->create()) as $customer) {
+        foreach ($this->customerRepository->getList($this->searchCriteriaBuilder->create()) as $customer) {
             $this->writeBuffer[] = $customer->getData();
             $this->processWriteBuffer();
         }
@@ -105,7 +105,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 
         // Queue Orders
         $this->subject = 'historical/orders';
-        foreach ($this->orderRepository->getList($this->searchCriteriaFactory->create()) as $order) {
+        foreach ($this->orderRepository->getList($this->searchCriteriaBuilder->create()) as $order) {
             $this->writeBuffer[] = $order->getData();
             $this->processWriteBuffer();
         }
