@@ -7,7 +7,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 
 class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    protected $historicalItemsInBuffer = 5;
+    protected $historicalItemsInBuffer = 4;
 
     protected $hmacKey = '';
 
