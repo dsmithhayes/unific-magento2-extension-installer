@@ -222,7 +222,7 @@ class AbstractPlugin
     {
         $returnData = array();
 
-        $this->logger->log('Setting Customer Data');
+        $this->logger->info('Setting Customer Data');
 
         try {
             if($this->customer != null) {
@@ -274,10 +274,10 @@ class AbstractPlugin
             }
         } catch(\Exception $e)
         {
-            $this->logger->log('Could not set customer info: ' . $e->getMessage());
+            $this->logger->error('Could not set customer info: ' . $e->getMessage());
         }
 
-        $this->logger->log('Done Setting Customer Data');
+        $this->logger->info('Done Setting Customer Data');
 
         return $returnData;
     }
@@ -289,7 +289,7 @@ class AbstractPlugin
     {
         if($this->quote == null) return array();
 
-        $this->logger->log('Setting Quote Data');
+        $this->logger->info('Setting Quote Data');
 
         $returnData = $this->quote->getData();
 
@@ -306,10 +306,10 @@ class AbstractPlugin
             }
         } catch(\Exception $e)
         {
-            $this->logger->log('Could not set cart info: ' . $e->getMessage());
+            $this->logger->error('Could not set cart info: ' . $e->getMessage());
         }
 
-        $this->logger->log('Done Setting Quote Data');
+        $this->logger->info('Done Setting Quote Data');
 
         return $returnData;
     }
@@ -386,7 +386,7 @@ class AbstractPlugin
             $returnData['payment'] = $this->order->getPayment()->getData();
         } catch (\Exception $e)
         {
-            $this->logger->log('Could not set order info: ' . $e->getMessage());
+            $this->logger->info('Could not set order info: ' . $e->getMessage());
         }
 
         return $returnData;
