@@ -36,8 +36,8 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Sales\Model\OrderRepository $orderRepository
      * @param \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository
-     * @param Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryFactory
-     * @param Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productFactory
+     * @param \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryFactory
+     * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -48,8 +48,8 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Sales\Model\OrderRepository $orderRepository,
         \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
-        Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryFactory,
-        Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productFactory
+        \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryFactory,
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productFactory
     )
     {
         parent::__construct($context);
