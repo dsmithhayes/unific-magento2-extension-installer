@@ -1,8 +1,11 @@
 var config = {
     config: {
-        mixins: {
-            'Magento_Checkout/js/action/set-shipping-information': {
-                'Unific_Extension/js/action/set-shipping-information-mixin': true
+        map: {
+            '*': {
+                "Magento_Checkout/js/model/shipping-rate-processor/new-address" :
+                    "Unific_Extension/js/shipping-rate-processor/new-address-override",
+                "Magento_Checkout/js/model/shipping-rate-processor/customer-address" :
+                    "Unific_Extension/js/shipping-rate-processor/customer-address-override"
             }
         }
     }
