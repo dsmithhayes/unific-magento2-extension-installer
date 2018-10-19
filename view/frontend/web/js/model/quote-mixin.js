@@ -7,8 +7,9 @@
  */
 define([
     'ko',
-    'underscore'
-], function (ko, _) {
+    'underscore',
+    'jquery'
+], function (ko, _, $) {
     'use strict';
 
     return function (quote) {
