@@ -15,8 +15,16 @@ define([
 
            var checkoutData = customerData.get('checkout-data')();
 
+           customerData.get('cart').watch('p', function (id, oldval, newval) {
+              console.log('Cart changed');
+              console.log(oldval);
+              console.log(newval);
+           });
+
            if(checkoutData.inputFieldEmailValue) {
                console.log('email configured to: ' + checkoutData.inputFieldEmailValue);
+
+
            }
        }
     });
