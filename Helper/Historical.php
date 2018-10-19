@@ -203,8 +203,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 
         try {
             $returnData = $order->getData();
-
-            $returnData['customer_is_guest'] = (int) $returnData['customer_is_guest'];
+            $returnData['customer_is_guest'] = (isset($returnData['customer_is_guest'])) ? (int) $returnData['customer_is_guest'] : 0;
 
             $returnData['order_items'] = array();
             foreach($order->getAllItems() as $item)
