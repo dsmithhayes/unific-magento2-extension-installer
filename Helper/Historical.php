@@ -123,8 +123,11 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
     public function processWriteBuffer($forceFlush = false)
     {
         // If we have data and its either a full buffer or we forced a flush
-        if (count($this->writeBuffer > 0) && (($this->writeBuffer) >= 10 || $forceFlush)) {
+        if (count($this->writeBuffer > 0) && ((count($this->writeBuffer) >= 10 || $forceFlush)) {
             $extraHeaders = array();
+
+            $extraHeaders['X-SUBJECT'] = $this->subject;
+
             if ($this->scopeConfig->getValue('unific/hmac/hmacEnable', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
                 $extraHeaders[$this->hmacKey] = $this->hmacHelper->generateHmac($this->writeBuffer);
             }
