@@ -48,3 +48,4 @@ class Hmac extends \Magento\Framework\App\Helper\AbstractHelper
         return md5(uniqid(rand(), true));
     }
 }
+

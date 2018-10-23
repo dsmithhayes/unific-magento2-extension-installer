@@ -252,15 +252,13 @@ class AbstractPlugin
 
                         $returnData['addresses'] = array();
 
-                        $region = ($subentity->getBillingAddress()->getRegion()) ? $subentity->getBillingAddress()->getRegion()->getRegionCode() : $subentity->getBillingAddress()->getRegionId();
-
                         $returnData['addresses'][] = array(
                             'firstname' => $subentity->getBillingAddress()->getFirstname(),
                             'middlename' => $subentity->getBillingAddress()->getMiddlename(),
                             'lastname' => $subentity->getBillingAddress()->getLastname(),
                             'street' => (is_string($subentity->getBillingAddress()->getStreet()) ? explode('\n', $subentity->getBillingAddress()->getStreet()) : $subentity->getBillingAddress()->getStreet()),
                             'postcode' => $subentity->getBillingAddress()->getPostcode(),
-                            'state' => $region,
+                            'state' => $subentity->getBillingAddress()->getRegion()->getRegionCode(),
                             'city' => $subentity->getBillingAddress()->getCity(),
                             'country' => $subentity->getBillingAddress()->getCountryId(),
                             'telephone' => $subentity->getBillingAddress()->getTelephone(),
@@ -269,15 +267,13 @@ class AbstractPlugin
 
                         if($subentity->getShippingAddress())
                         {
-                            $region = ($subentity->getShippingAddress()->getRegion()) ? $subentity->getShippingAddress()->getRegion()->getRegionCode() : $subentity->getShippingAddress()->getRegionId();
-
                             $returnData['addresses'][] = array(
                                 'firstname' => $subentity->getShippingAddress()->getFirstname(),
                                 'middlename' => $subentity->getShippingAddress()->getMiddlename(),
                                 'lastname' => $subentity->getShippingAddress()->getLastname(),
                                 'street' => (is_string($subentity->getShippingAddress()->getStreet()) ? explode('\n', $subentity->getBillingAddress()->getStreet()) : $subentity->getBillingAddress()->getStreet()),
                                 'postcode' => $subentity->getShippingAddress()->getPostcode(),
-                                'state' => $region,
+                                'state' => $subentity->getShippingAddress()->getRegion()->getRegionCode(),
                                 'city' => $subentity->getShippingAddress()->getCity(),
                                 'country' => $subentity->getShippingAddress()->getCountryId(),
                                 'telephone' => $subentity->getShippingAddress()->getTelephone(),
@@ -313,15 +309,13 @@ class AbstractPlugin
 
                     foreach($addresses as $address)
                     {
-                        $region = ($address->getRegion()) ? $address->getRegion()->getRegionCode() : $address->getRegionId();
-
                         $returnData['addresses'][] = array(
                             'firstname' => $address->getFirstname(),
                             'middlename' => $address->getMiddlename(),
                             'lastname' => $address->getLastname(),
                             'street' => (is_string($address->getStreet()) ? explode('\n', $address->getStreet()) : $address->getStreet()),
                             'postcode' => $address->getPostcode(),
-                            'state' => $address->getRegion()->getRegionCode(),
+                            'state' => $address->getRegion(),
                             'city' => $address->getCity(),
                             'country' => $address->getCountryId(),
                             'telephone' => $address->getTelephone(),

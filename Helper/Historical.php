@@ -76,7 +76,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         $this->hmacKey = $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
         // Queue Orders
-        $this->subject = 'historical/orders';
+        $this->subject = 'order/historical';
         foreach ($this->orderRepository->getList($this->searchCriteriaBuilder->create()) as $order) {
             $this->writeBuffer[] = $this->getOrderInfo($order);
             $this->processWriteBuffer();
@@ -86,7 +86,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         $this->processWriteBuffer(true);
 
         // Queue Customers
-        $this->subject = 'historical/customers';
+        $this->subject = 'customer/historical';
         foreach ($this->customerRepository->getList($this->searchCriteriaBuilder->create())->getItems() as $customer) {
             $this->writeBuffer[] = $this->getCustomerInfo($customer);
             $this->processWriteBuffer();
@@ -96,7 +96,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         $this->processWriteBuffer(true);
 
         // Queue Categories
-        $this->subject = 'historical/categories';
+        $this->subject = 'category/historical';
         $categories = $this->categoryFactory->create()->addAttributeToSelect('*');
         foreach ($categories as $category) {
             $this->writeBuffer[] = $category->getData();
@@ -107,7 +107,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         $this->processWriteBuffer(true);
 
         // Queue Products
-        $this->subject = 'historical/products';
+        $this->subject = 'product/historical';
         $products = $this->productFactory->create()->addAttributeToSelect('*');
         foreach ($products as $product) {
             $this->writeBuffer[] = $product->getData();
