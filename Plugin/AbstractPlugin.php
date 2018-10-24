@@ -252,13 +252,17 @@ class AbstractPlugin
 
                         $returnData['addresses'] = array();
 
+                        $billingState = ($subentity->getBillingAddress()->getRegion() != null) ?
+                            $subentity->getBillingAddress()->getRegion()->getCode() :
+                            $subentity->getBillingAddress()->getRegionId();
+
                         $returnData['addresses'][] = array(
                             'firstname' => $subentity->getBillingAddress()->getFirstname(),
                             'middlename' => $subentity->getBillingAddress()->getMiddlename(),
                             'lastname' => $subentity->getBillingAddress()->getLastname(),
                             'street' => (is_string($subentity->getBillingAddress()->getStreet()) ? explode('\n', $subentity->getBillingAddress()->getStreet()) : $subentity->getBillingAddress()->getStreet()),
                             'postcode' => $subentity->getBillingAddress()->getPostcode(),
-                            'state' => $subentity->getBillingAddress()->getRegionId(),
+                            'state' => $billingState,
                             'city' => $subentity->getBillingAddress()->getCity(),
                             'country' => $subentity->getBillingAddress()->getCountryId(),
                             'telephone' => $subentity->getBillingAddress()->getTelephone(),
@@ -267,13 +271,17 @@ class AbstractPlugin
 
                         if($subentity->getShippingAddress())
                         {
+                            $shippingState = ($subentity->getShippingAddress()->getRegion() != null) ?
+                                $subentity->getShippingAddress()->getRegion()->getCode() :
+                                $subentity->getShippingAddress()->getRegionId();
+
                             $returnData['addresses'][] = array(
                                 'firstname' => $subentity->getShippingAddress()->getFirstname(),
                                 'middlename' => $subentity->getShippingAddress()->getMiddlename(),
                                 'lastname' => $subentity->getShippingAddress()->getLastname(),
                                 'street' => (is_string($subentity->getShippingAddress()->getStreet()) ? explode('\n', $subentity->getBillingAddress()->getStreet()) : $subentity->getBillingAddress()->getStreet()),
                                 'postcode' => $subentity->getShippingAddress()->getPostcode(),
-                                'state' => $subentity->getShippingAddress()->getRegionId(),
+                                'state' => $shippingState,
                                 'city' => $subentity->getShippingAddress()->getCity(),
                                 'country' => $subentity->getShippingAddress()->getCountryId(),
                                 'telephone' => $subentity->getShippingAddress()->getTelephone(),
