@@ -18,6 +18,8 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
     protected $hmacHelper;
     protected $scopeConfig;
 
+    protected $queueCollection;
+
     protected $searchCriteriaBuilder;
 
     protected $orderRepository;
@@ -32,6 +34,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
      * ModeManagement constructor.
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Unific\Extension\Model\ResourceModel\Queue\Collection $queueCollection
      * @param Message\Queue $queueHelper
      * @param Hmac $hmacHelper
      * @param \Unific\Extension\Logger\Logger $logger
@@ -44,6 +47,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Unific\Extension\Model\ResourceModel\Queue\Collection $queueCollection,
         \Unific\Extension\Helper\Message\Queue $queueHelper,
         \Unific\Extension\Helper\Hmac $hmacHelper,
         \Unific\Extension\Logger\Logger $logger,
@@ -65,7 +69,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
         $this->customerRepository = $customerRepository;
         $this->productFactory = $productFactory;
         $this->categoryFactory = $categoryFactory;
-
+        $this->queueCollection = $queueCollection;
     }
 
     /**
@@ -75,47 +79,54 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $this->hmacKey = $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        // Queue Orders
-        $this->subject = 'order/historical';
-        foreach ($this->orderRepository->getList($this->searchCriteriaBuilder->create()) as $order) {
-            $this->writeBuffer[] = $this->getOrderInfo($order);
-            $this->processWriteBuffer();
+        if($this->queueCollection->addFieldToFilter('message', array('like' => '%/historical%'))->getSize() == 0)
+        {
+            // Queue Orders
+            $this->subject = 'order/historical';
+            foreach ($this->orderRepository->getList($this->searchCriteriaBuilder->create()) as $order) {
+                $this->writeBuffer[] = $this->getOrderInfo($order);
+                $this->processWriteBuffer();
+            }
+
+            // Force a flush to not get mixed subjects in one historical buffered queue
+            $this->processWriteBuffer(true);
+
+            // Queue Customers
+            $this->subject = 'customer/historical';
+            foreach ($this->customerRepository->getList($this->searchCriteriaBuilder->create())->getItems() as $customer) {
+                $this->writeBuffer[] = $this->getCustomerInfo($customer);
+                $this->processWriteBuffer();
+            }
+
+            // Force a flush to not get mixed subjects in one historical buffered queue
+            $this->processWriteBuffer(true);
+
+            // Queue Categories
+            $this->subject = 'category/historical';
+            $categories = $this->categoryFactory->create()->addAttributeToSelect('*');
+            foreach ($categories as $category) {
+                $this->writeBuffer[] = $category->getData();
+                $this->processWriteBuffer();
+            }
+
+            // Force a flush to not get mixed subjects in one historical buffered queue
+            $this->processWriteBuffer(true);
+
+            // Queue Products
+            $this->subject = 'product/historical';
+            $products = $this->productFactory->create()->addAttributeToSelect('*');
+            foreach ($products as $product) {
+                $this->writeBuffer[] = $product->getData();
+                $this->processWriteBuffer();
+            }
+
+            // Force a flush to not get mixed subjects in one historical buffered queue
+            $this->processWriteBuffer(true);
+
+            return array('message' => 'Historical data queued');
+        } else {
+            return array('message' => 'Historical data not queued, already processing historical data');
         }
-
-        // Force a flush to not get mixed subjects in one historical buffered queue
-        $this->processWriteBuffer(true);
-
-        // Queue Customers
-        $this->subject = 'customer/historical';
-        foreach ($this->customerRepository->getList($this->searchCriteriaBuilder->create())->getItems() as $customer) {
-            $this->writeBuffer[] = $this->getCustomerInfo($customer);
-            $this->processWriteBuffer();
-        }
-
-        // Force a flush to not get mixed subjects in one historical buffered queue
-        $this->processWriteBuffer(true);
-
-        // Queue Categories
-        $this->subject = 'category/historical';
-        $categories = $this->categoryFactory->create()->addAttributeToSelect('*');
-        foreach ($categories as $category) {
-            $this->writeBuffer[] = $category->getData();
-            $this->processWriteBuffer();
-        }
-
-        // Force a flush to not get mixed subjects in one historical buffered queue
-        $this->processWriteBuffer(true);
-
-        // Queue Products
-        $this->subject = 'product/historical';
-        $products = $this->productFactory->create()->addAttributeToSelect('*');
-        foreach ($products as $product) {
-            $this->writeBuffer[] = $product->getData();
-            $this->processWriteBuffer();
-        }
-
-        // Force a flush to not get mixed subjects in one historical buffered queue
-        $this->processWriteBuffer(true);
     }
 
     /**
