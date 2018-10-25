@@ -79,7 +79,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $this->hmacKey = $this->scopeConfig->getValue('unific/hmac/hmacHeader', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        if($this->queueCollection->addFieldToFilter('message', array('like' => '%/historical%'))->getSize() == 0)
+        if($this->queueCollection->addFieldToFilter('headers', array('like' => '%/historical%'))->getSize() == 0)
         {
             // Queue Orders
             $this->subject = 'order/historical';
