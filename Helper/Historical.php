@@ -11,7 +11,7 @@ class Historical extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected $hmacKey = '';
 
-    protected $subject = 'historical/order';
+    protected $subject = 'order/historical';
 
     protected $logger;
     protected $queueHelper;
