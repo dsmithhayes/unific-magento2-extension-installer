@@ -30,13 +30,13 @@ interface QueueRepositoryInterface
 
     /**
      * Truncate the historical queue
-     * @return boolean
+     * @return bool
      */
     public function truncateHistorical();
 
     /**
      * Truncate the queue
-     * @return boolean
+     * @return bool
      */
     public function truncateQueue();
 }
