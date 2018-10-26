@@ -69,4 +69,18 @@
             <resource ref="Unific_Extension::historical"/>
         </resources>
     </route>
+
+    <route url="/V1/unific/queue/historical" method="DELETE">
+        <service class="Unific\Extension\Api\QueueRepositoryInterface" method="truncateHistorical"/>
+        <resources>
+            <resource ref="Unific_Extension::webhook"/>
+        </resources>
+    </route>
+
+    <route url="/V1/unific/queue/all" method="DELETE">
+        <service class="Unific\Extension\Api\QueueRepositoryInterface" method="truncateQueue"/>
+        <resources>
+            <resource ref="Unific_Extension::webhook"/>
+        </resources>
+    </route>
 </routes>

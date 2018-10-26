@@ -27,4 +27,16 @@ interface QueueRepositoryInterface
      * @return bool
      */
     public function deleteById($queueGuid);
+
+    /**
+     * Truncate the historical queue
+     * @return boolean
+     */
+    public function truncateHistorical();
+
+    /**
+     * Truncate the queue
+     * @return boolean
+     */
+    public function truncateQueue();
 }

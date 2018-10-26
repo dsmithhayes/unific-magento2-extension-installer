@@ -13,10 +13,19 @@ class QueueRepository implements QueueRepositoryInterface
      */
     private $queueFactory;
 
+    private $queueCollectionFactory;
+
+    /**
+     * QueueRepository constructor.
+     * @param QueueFactory $queueFactory
+     * @param ResourceModel\Queue\CollectionFactory $queueCollectionFactory
+     */
     public function __construct(
-        QueueFactory $queueFactory
+        QueueFactory $queueFactory,
+        ResourceModel\Queue\CollectionFactory $queueCollectionFactory
     ) {
         $this->queueFactory = $queueFactory;
+        $this->queueCollectionFactory = $queueCollectionFactory;
     }
 
     /**
@@ -66,5 +75,25 @@ class QueueRepository implements QueueRepositoryInterface
         }
 
         return $queue;
+    }
+
+    /**
+     * @return bool
+     */
+    public function truncateQueue()
+    {
+        $this->queueCollectionFactory->create()->walk('delete');
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function truncateHistorical()
+    {
+        $this->queueCollectionFactory->create()->addFieldToFilter('headers', array('like' => '%/historical%'))->walk('delete');
+
+        return true;
     }
 }
