@@ -20,6 +20,7 @@ interface QueueRepositoryInterface
     /**
      * Delete test.
      * @param Data\QueueInterface $queue
+     * @return bool
      */
     public function delete(Data\QueueInterface $queue);
 
