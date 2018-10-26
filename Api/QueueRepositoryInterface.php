@@ -7,6 +7,7 @@ interface QueueRepositoryInterface
     /**
      * Create or update a data
      * @param Data\QueueInterface $queue
+     * @return void
      */
     public function save(Data\QueueInterface $queue);
 
